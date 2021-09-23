@@ -267,9 +267,6 @@ func Sync(configuration *config.Configuration) error {
 		subsets := font.Subsets
 		variants := font.Variants
 		name := font.Family
-		if name != "Roboto" {
-			continue
-		}
 		for _, subset := range subsets {
 			for _, variant := range variants {
 				fontChannel <- fontDownloadJob{
