@@ -4,6 +4,9 @@ import (
 	"flag"
 	"jinya-fonts/config"
 	"jinya-fonts/fontsync"
+	http2 "jinya-fonts/http"
+	"log"
+	"net/http"
 	"os"
 )
 
@@ -28,6 +31,15 @@ func main() {
 
 	if ContainsString(os.Args, "sync") {
 		err = fontsync.Sync(configuration)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	if ContainsString(os.Args, "serve") {
+		http.HandleFunc("/fonts/", http2.GetFont)
+		log.Println("Serving at localhost:8090...")
+		err = http.ListenAndServe(":8090", nil)
 		if err != nil {
 			panic(err)
 		}

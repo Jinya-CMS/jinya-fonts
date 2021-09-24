@@ -10,6 +10,8 @@ type Configuration struct {
 	FontFileFolder string `yaml:"font_file_folder"`
 }
 
+var LoadedConfiguration *Configuration
+
 func LoadConfiguration(path string) (*Configuration, error) {
 	file, err := os.Open(path)
 	if err != nil {
@@ -20,6 +22,8 @@ func LoadConfiguration(path string) (*Configuration, error) {
 
 	decoder := yaml.NewDecoder(file)
 	err = decoder.Decode(config)
+
+	LoadedConfiguration = config
 
 	return config, err
 }
