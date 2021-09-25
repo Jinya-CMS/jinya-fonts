@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"jinya-fonts/config"
 	"jinya-fonts/meta"
+	"jinya-fonts/utils"
 	"log"
 	"net/http"
 	"net/url"
@@ -325,6 +326,9 @@ func Sync(configuration *config.Configuration) error {
 	}
 
 	for _, font := range fonts {
+		if !utils.ContainsStringLower(configuration.FilterByName, font.Family) {
+			continue
+		}
 		variants := font.Variants
 		name := font.Family
 		category := font.Category

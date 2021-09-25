@@ -6,8 +6,9 @@ import (
 )
 
 type Configuration struct {
-	ApiKey         string `yaml:"api_key"`
-	FontFileFolder string `yaml:"font_file_folder"`
+	ApiKey         string   `yaml:"api_key"`
+	FontFileFolder string   `yaml:"font_file_folder"`
+	FilterByName   []string `yaml:"filter_by_name"`
 }
 
 var LoadedConfiguration *Configuration
