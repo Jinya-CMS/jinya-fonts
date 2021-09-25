@@ -326,7 +326,7 @@ func Sync(configuration *config.Configuration) error {
 	}
 
 	for _, font := range fonts {
-		if !utils.ContainsStringLower(configuration.FilterByName, font.Family) {
+		if len(configuration.FilterByName) > 0 && !utils.ContainsStringLower(configuration.FilterByName, font.Family) {
 			continue
 		}
 		variants := font.Variants
