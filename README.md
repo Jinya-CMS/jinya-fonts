@@ -61,6 +61,17 @@ You also need to provide a configuration file in the data directory. Here is an 
         style: normal
         category: sans-serif
 
+## Run with Docker
+The most convenient way to run Jinya Fonts is with our prebuilt docker images. Simple run the following command:
+
+For serving the Jinya Fonts endpoints:
+
+    docker run -d -p 8090:8090 --name jinya-fonts -v /your/jinya/fonts/dir:/data jinyacms/jinya-fonts /app/jinya-fonts -config-file=/data/config.yaml serve
+
+For syncing from Google Fonts:
+
+    docker run -d --name jinya-fonts-sync -v /your/jinya/fonts/dir:/data jinyacms/jinya-fonts /app/jinya-fonts -config-file=/data/config.yaml sync
+
 ## Why should I use Jinya Fonts?
 Jinya Fonts doesn't track your users and therefore you don't need to mention it in your data protection page. We also set no cookies or similar.
 
