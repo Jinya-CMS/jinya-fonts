@@ -17,7 +17,9 @@ var tmpl = `
     font-style: {{.Style}};
     font-weight: {{.Weight}};
     src: url('{{.Url}}') format('woff2');
+	{{if ne .UnicodeRange ""}}
     unicode-range: {{.UnicodeRange}};
+	{{end}}
     font-display: swap;
 }
 `
