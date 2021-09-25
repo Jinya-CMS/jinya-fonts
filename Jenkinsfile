@@ -33,7 +33,7 @@ spec:
                     sh "docker tag quay.imanuel.dev/jinya/jinya-fonts:v1.$BUILD_NUMBER quay.imanuel.dev/jinya/jinya-fonts:latest"
 
                     sh "docker tag quay.imanuel.dev/jinya/jinya-fonts:v1.$BUILD_NUMBER jinyacms/jinya-fonts:v1.$BUILD_NUMBER"
-                    sh "docker tag quay.imanuel.dev/jinya/jinya-fonts:$BUILD_NUMBER jinyacms/jinya-fonts:latest"
+                    sh "docker tag quay.imanuel.dev/jinya/jinya-fonts:v1.$BUILD_NUMBER jinyacms/jinya-fonts:latest"
 
                     withDockerRegistry(credentialsId: 'quay.imanuel.dev', url: 'https://quay.imanuel.dev') {
                         sh "docker push quay.imanuel.dev/jinya/jinya-fonts:v1$BUILD_NUMBER"
