@@ -2,6 +2,7 @@ package meta
 
 import (
 	"gopkg.in/yaml.v3"
+	"jinya-fonts/config"
 	"log"
 	"os"
 	"sync"
@@ -14,18 +15,18 @@ type FontFileMeta struct {
 	UnicodeRange string `yaml:"unicode_range"`
 	Weight       string `yaml:"weight"`
 	Style        string `yaml:"style"`
-	Type         string `yaml:"type"`
+	Category     string `yaml:"category"`
 	FontName     string `yaml:"-"`
 }
 
 type FontFile struct {
-	Name  string          `yaml:"name"`
-	Fonts []*FontFileMeta `yaml:"fonts"`
+	Name  string         `yaml:"name"`
+	Fonts []FontFileMeta `yaml:"fonts"`
 }
 
 var fontWriteMetadataMutex = sync.Mutex{}
 
-func SaveFontFileMetadata(name string, dataDir string, metaData []*FontFileMeta) error {
+func SaveFontFileMetadata(name string, dataDir string, metaData []FontFileMeta) error {
 	file := FontFile{
 		Name:  name,
 		Fonts: metaData,
@@ -46,4 +47,21 @@ func SaveFontFileMetadata(name string, dataDir string, metaData []*FontFileMeta)
 	fontWriteMetadataMutex.Unlock()
 
 	return err
+}
+
+func LoadFontFileCache(name string) (*FontFile, error) {
+	configuration := config.LoadedConfiguration
+	fontPath := configuration.FontFileFolder + "/" + name + ".yaml"
+	file, err := os.Open(fontPath)
+	if err != nil {
+		return nil, err
+	}
+
+	fontFile := new(FontFile)
+	decoder := yaml.NewDecoder(file)
+	err = decoder.Decode(fontFile)
+	if err != nil {
+		return nil, err
+	}
+	return fontFile, nil
 }
