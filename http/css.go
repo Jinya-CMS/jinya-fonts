@@ -111,6 +111,7 @@ func GetCss2(w http.ResponseWriter, r *http.Request) {
 		css += data
 	}
 
+	w.Header().Add("Content-Type", "text/css")
 	w.Write([]byte(css))
 }
 
