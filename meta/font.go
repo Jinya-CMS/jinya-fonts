@@ -19,31 +19,37 @@ type FontFileMeta struct {
 	FontName     string `yaml:"-"`
 }
 
+type FontDesigner struct {
+	Name string `yaml:"name"`
+	Bio  string `yaml:"bio"`
+}
+
 type FontFile struct {
-	Name  string         `yaml:"name"`
-	Fonts []FontFileMeta `yaml:"fonts"`
+	Name        string         `yaml:"name"`
+	Fonts       []FontFileMeta `yaml:"fonts"`
+	Description string         `yaml:"description,omitempty"`
+	Designers   []FontDesigner `yaml:"designers,omitempty"`
+	License     string         `yaml:"license,omitempty"`
+	Category    string         `yaml:"category,omitempty"`
 }
 
 var fontWriteMetadataMutex = sync.Mutex{}
 
-func SaveFontFileMetadata(name string, dataDir string, metaData []FontFileMeta) error {
-	file := FontFile{
-		Name:  name,
-		Fonts: metaData,
-	}
+func SaveFontFileMetadata(file FontFile) error {
+	configuration := config.LoadedConfiguration
 	data, err := yaml.Marshal(file)
 	if err != nil {
-		log.Printf("Failed to marshal font meta data %s", name)
+		log.Printf("Failed to marshal font meta data %s", file.Name)
 		return err
 	}
 
-	log.Printf("Lock fontWriteMetadataMutex for font %s", name)
+	log.Printf("Lock fontWriteMetadataMutex for font %s", file.Name)
 	fontWriteMetadataMutex.Lock()
-	err = os.WriteFile(dataDir+"/"+name+".yaml", data, 0775)
+	err = os.WriteFile(configuration.FontFileFolder+"/"+file.Name+".yaml", data, 0775)
 	if err != nil {
-		log.Printf("Failed to save font meta data %s", name)
+		log.Printf("Failed to save font meta data %s", file.Name)
 	}
-	log.Printf("Unlock fontWriteMetadataMutex for font %s", name)
+	log.Printf("Unlock fontWriteMetadataMutex for font %s", file.Name)
 	fontWriteMetadataMutex.Unlock()
 
 	return err

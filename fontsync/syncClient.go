@@ -34,6 +34,18 @@ type WebFontList struct {
 	Kind  string    `json:"kind"`
 }
 
+type WebFontMetadataDesigner struct {
+	Name string `json:"name"`
+	Bio  string `json:"bio"`
+}
+
+type WebFontMetadata struct {
+	License     string                    `json:"license"`
+	Designers   []WebFontMetadataDesigner `json:"designers"`
+	Description string                    `json:"description"`
+	Category    string                    `json:"category"`
+}
+
 const (
 	FontTypeWoff2 = "Mozilla/5.0 (Windows NT 6.3; rv:39.0) Gecko/20100101 Firefox/44.0"
 )
@@ -104,7 +116,29 @@ func saveFontFile(configuration *config.Configuration, channel chan []FontDownlo
 			}
 			name = job.Name
 		}
-		err := meta.SaveFontFileMetadata(name, configuration.FontFileFolder, fontData)
+		metadata, err := fetchFontMetadata(idx, name)
+		if err != nil {
+			metadata = &WebFontMetadata{}
+		}
+
+		var designers []meta.FontDesigner
+		for _, designer := range metadata.Designers {
+			designers = append(designers, meta.FontDesigner{
+				Name: designer.Name,
+				Bio:  designer.Bio,
+			})
+		}
+
+		fontFile := meta.FontFile{
+			Name:        name,
+			Fonts:       fontData,
+			Description: metadata.Description,
+			Designers:   designers,
+			License:     metadata.License,
+			Category:    metadata.Category,
+		}
+
+		err = meta.SaveFontFileMetadata(fontFile)
 		if err != nil {
 			log.Printf("CPU %d: %s", idx, err.Error())
 		}
@@ -348,4 +382,32 @@ func Sync(configuration *config.Configuration) error {
 	wg.Wait()
 
 	return nil
+}
+
+func fetchFontMetadata(idx int, family string) (*WebFontMetadata, error) {
+	log.Printf("CPU %d: Download font metadata for font %s", idx, family)
+	res, err := http.Get(fmt.Sprintf("https://fonts.google.com/metadata/fonts/%s", family))
+	if err != nil {
+		log.Printf("CPU %d: Failed to download font metadata for font %s", idx, family)
+		return nil, err
+	}
+
+	if res.StatusCode != http.StatusOK {
+		log.Printf("CPU %d: Failed to download font metadata for font %s", idx, family)
+		return nil, fmt.Errorf("failed to get metadata")
+	}
+
+	bodyBytes, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		log.Printf("CPU %d: Failed to read response body for font %s", idx, family)
+		return nil, err
+	}
+
+	bodyString := string(bodyBytes)
+	bodyString = strings.TrimPrefix(bodyString, ")]}'")
+
+	var metadata WebFontMetadata
+	err = json.Unmarshal([]byte(bodyString), &metadata)
+
+	return &metadata, err
 }
