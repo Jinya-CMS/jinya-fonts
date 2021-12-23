@@ -30,6 +30,10 @@ func main() {
 	if utils.ContainsString(os.Args, "serve") {
 		http.HandleFunc("/fonts/", http2.GetFont)
 		http.HandleFunc("/css2", http2.GetCss2)
+		if configuration.ServeWebsite {
+			http.HandleFunc("/api/fonts", http2.GetFontList)
+		}
+
 		log.Println("Serving at localhost:8090...")
 		err = http.ListenAndServe(":8090", nil)
 		if err != nil {

@@ -1,2 +1,2 @@
-    api_key: <api token>
-    font_file_folder: ./data
+api_key: <api token>
+font_file_folder: ./data

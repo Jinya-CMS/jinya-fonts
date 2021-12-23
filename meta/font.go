@@ -9,28 +9,28 @@ import (
 )
 
 type FontFileMeta struct {
-	Path         string `yaml:"path"`
-	Subset       string `yaml:"subset"`
-	Variant      string `yaml:"variant"`
-	UnicodeRange string `yaml:"unicode_range"`
-	Weight       string `yaml:"weight"`
-	Style        string `yaml:"style"`
-	Category     string `yaml:"category"`
-	FontName     string `yaml:"-"`
+	Path         string `yaml:"path" json:"path"`
+	Subset       string `yaml:"subset" json:"subset"`
+	Variant      string `yaml:"variant" json:"variant"`
+	UnicodeRange string `yaml:"unicode_range" json:"unicodeRange"`
+	Weight       string `yaml:"weight" json:"weight"`
+	Style        string `yaml:"style" json:"style"`
+	Category     string `yaml:"category" json:"category"`
+	FontName     string `yaml:"-" json:"-"`
 }
 
 type FontDesigner struct {
-	Name string `yaml:"name"`
-	Bio  string `yaml:"bio"`
+	Name string `yaml:"name" json:"name"`
+	Bio  string `yaml:"bio" json:"bio"`
 }
 
 type FontFile struct {
-	Name        string         `yaml:"name"`
-	Fonts       []FontFileMeta `yaml:"fonts"`
-	Description string         `yaml:"description,omitempty"`
-	Designers   []FontDesigner `yaml:"designers,omitempty"`
-	License     string         `yaml:"license,omitempty"`
-	Category    string         `yaml:"category,omitempty"`
+	Name        string         `yaml:"name" json:"name"`
+	Fonts       []FontFileMeta `yaml:"fonts" json:"fonts"`
+	Description string         `yaml:"description,omitempty" json:"description"`
+	Designers   []FontDesigner `yaml:"designers,omitempty" json:"designers"`
+	License     string         `yaml:"license,omitempty" json:"license"`
+	Category    string         `yaml:"category,omitempty" json:"category"`
 }
 
 var fontWriteMetadataMutex = sync.Mutex{}
