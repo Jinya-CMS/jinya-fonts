@@ -31,7 +31,7 @@ func main() {
 		http.HandleFunc("/fonts/", http2.GetFont)
 		http.HandleFunc("/css2", http2.GetCss2)
 		if configuration.ServeWebsite {
-			http.HandleFunc("/api/font", http2.GetFontList)
+			http.HandleFunc("/api/font", http2.GetFontMeta)
 			http.HandleFunc("/", http2.GetWebApp)
 		}
 
