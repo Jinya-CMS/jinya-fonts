@@ -45,7 +45,7 @@ function populate(initial) {
 
     for (; idx < target; idx++) {
         const item = items[idx];
-        const designers = item.designers.map(designer => designer.name).join(', ');
+        const designers = item.designers?.map(designer => designer.name).join(', ') ?? '';
         html += template.replaceAll('#= fontname #', item.name)
             .replaceAll('#= title #', item.name)
             .replaceAll('#= subtitle #', designers);
