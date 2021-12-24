@@ -20,7 +20,7 @@ var tmpl = `
 	{{if ne .UnicodeRange ""}}
     unicode-range: {{.UnicodeRange}};
 	{{end}}
-    font-display: swap;
+    font-display: {{.FontDisplay}};
 }
 `
 
@@ -31,6 +31,7 @@ type templateData struct {
 	Url          string
 	UnicodeRange string
 	Weight       string
+	FontDisplay  string
 }
 
 type family struct {
@@ -39,7 +40,7 @@ type family struct {
 	Weight string
 }
 
-func convertFamilyToTemplateData(fam family) []templateData {
+func convertFamilyToTemplateData(fam family, display string) []templateData {
 	fontFile, err := meta.LoadFontFileCache(fam.Name)
 	if err != nil {
 		return []templateData{}
@@ -58,6 +59,7 @@ func convertFamilyToTemplateData(fam family) []templateData {
 				Url:          "/fonts/" + fam.Name + "/" + fontFamily.Path,
 				UnicodeRange: fontFamily.UnicodeRange,
 				Weight:       fam.Weight,
+				FontDisplay:  display,
 			})
 		}
 	}
@@ -73,6 +75,7 @@ func GetCss2(w http.ResponseWriter, r *http.Request) {
 	querySplitIntoFamilies := strings.Split(unescapedQuery, "&")
 
 	var families []family
+	display := "swap"
 
 	for _, query := range querySplitIntoFamilies {
 		if strings.HasPrefix(query, "family=") {
@@ -92,12 +95,14 @@ func GetCss2(w http.ResponseWriter, r *http.Request) {
 
 				families = append(families, getFamiliesFromModifiers(allModifiers, splitFamily[0])...)
 			}
+		} else if strings.HasPrefix(query, "display=") {
+			display = strings.TrimPrefix(query, "display=")
 		}
 	}
 
 	var data []templateData
 	for _, fam := range families {
-		data = append(data, convertFamilyToTemplateData(fam)...)
+		data = append(data, convertFamilyToTemplateData(fam, display)...)
 	}
 
 	css := ""

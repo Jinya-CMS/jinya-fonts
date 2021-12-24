@@ -31,7 +31,8 @@ func main() {
 		http.HandleFunc("/fonts/", http2.GetFont)
 		http.HandleFunc("/css2", http2.GetCss2)
 		if configuration.ServeWebsite {
-			http.HandleFunc("/api/fonts", http2.GetFontList)
+			http.HandleFunc("/api/font", http2.GetFontList)
+			http.HandleFunc("/", http2.GetWebApp)
 		}
 
 		log.Println("Serving at localhost:8090...")
