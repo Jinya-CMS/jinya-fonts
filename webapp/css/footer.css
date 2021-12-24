@@ -1,7 +1,5 @@
 .jinya-footer {
     border-top: 1px solid var(--primary-color);
-    position: sticky;
-    bottom: 0;
     padding-top: 0.5rem;
     background: #fff;
 }
@@ -9,4 +7,11 @@
 .jinya-footer p {
     padding-bottom: 0.5rem;
     margin: 0;
+}
+
+@media screen and (min-width: 786px) {
+    .jinya-footer {
+        position: sticky;
+        bottom: 0;
+    }
 }

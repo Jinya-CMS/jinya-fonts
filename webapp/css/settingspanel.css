@@ -1,9 +1,6 @@
 .jinya-settings-panel {
-    display: grid;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    grid-template-columns: 1fr auto 1fr auto 1fr;
-    align-items: center;
 }
 
 .jinya-preview__size {
@@ -109,14 +106,42 @@
     background: #fff;
     height: 3rem;
     box-sizing: border-box;
+    width: 100%;
 }
 
+.jinya-preview__type,
+.jinya-preview__text,
+.jinya-preview__size,
 .jinya-preview__size-text {
-    padding: 0 1rem;
-    align-items: center;
-    display: flex;
+    display: none;
 }
 
 .jinya-font-type-panel {
-    padding-bottom: 1rem;
+    display: none;
+}
+
+@media screen and (min-width: 786px) {
+    .jinya-font-type-panel {
+        padding-bottom: 1rem;
+        display: block;
+    }
+
+    .jinya-preview__size-text {
+        padding: 0 1rem;
+        align-items: center;
+        display: flex;
+    }
+
+    .jinya-preview__type,
+    .jinya-preview__text,
+    .jinya-preview__size,
+    .jinya-preview__size-text {
+        display: flex;
+    }
+
+    .jinya-settings-panel {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto 1fr;
+        align-items: center;
+    }
 }

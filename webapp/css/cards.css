@@ -12,14 +12,19 @@
 }
 
 .jinya-card {
-    flex: 0 0 25%;
-    flex-basis: calc(25% - 3rem / 4);
+    flex: 0 0 100%;
     border: 1px solid var(--primary-color);
     box-sizing: border-box;
     padding: 1rem;
     border-radius: 5px;
     color: var(--text-color);
     text-decoration: none;
+}
+
+@media screen and (min-width: 786px) {
+    .jinya-card {
+        flex-basis: calc(25% - 3rem / 4);
+    }
 }
 
 .jinya-card__title {
