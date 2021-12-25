@@ -1,6 +1,9 @@
 .jinya-settings-panel {
     padding-top: 1rem;
     padding-bottom: 1rem;
+    position: sticky;
+    top: 0;
+    background: #ffffff;
 }
 
 .jinya-preview__size {
@@ -120,6 +123,10 @@
     display: none;
 }
 
+.jinya-settings-panel--details {
+    display: none;
+}
+
 @media screen and (min-width: 786px) {
     .jinya-font-type-panel {
         padding-bottom: 1rem;
@@ -142,6 +149,12 @@
     .jinya-settings-panel {
         display: grid;
         grid-template-columns: 1fr auto 1fr auto 1fr;
+        align-items: center;
+    }
+
+    .jinya-settings-panel--details {
+        display: grid;
+        grid-template-columns: auto 1fr auto 1fr;
         align-items: center;
     }
 }
