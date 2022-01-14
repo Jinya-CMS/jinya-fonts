@@ -29,19 +29,19 @@ spec:
         stage('Push') {
             steps {
                 container('docker') {
-                    sh "docker build -t quay.imanuel.dev/jinya/jinya-fonts:v1.$BUILD_NUMBER -f ./Dockerfile ."
-                    sh "docker tag quay.imanuel.dev/jinya/jinya-fonts:v1.$BUILD_NUMBER quay.imanuel.dev/jinya/jinya-fonts:latest"
+                    sh "docker build -t quay.imanuel.dev/jinya/jinya-fonts:v2.$BUILD_NUMBER -f ./Dockerfile ."
+                    sh "docker tag quay.imanuel.dev/jinya/jinya-fonts:v2.$BUILD_NUMBER quay.imanuel.dev/jinya/jinya-fonts:latest"
 
-                    sh "docker tag quay.imanuel.dev/jinya/jinya-fonts:v1.$BUILD_NUMBER jinyacms/jinya-fonts:v1.$BUILD_NUMBER"
-                    sh "docker tag quay.imanuel.dev/jinya/jinya-fonts:v1.$BUILD_NUMBER jinyacms/jinya-fonts:latest"
+                    sh "docker tag quay.imanuel.dev/jinya/jinya-fonts:v2.$BUILD_NUMBER jinyacms/jinya-fonts:v2.$BUILD_NUMBER"
+                    sh "docker tag quay.imanuel.dev/jinya/jinya-fonts:v2.$BUILD_NUMBER jinyacms/jinya-fonts:latest"
 
                     withDockerRegistry(credentialsId: 'quay.imanuel.dev', url: 'https://quay.imanuel.dev') {
-                        sh "docker push quay.imanuel.dev/jinya/jinya-fonts:v1.$BUILD_NUMBER"
+                        sh "docker push quay.imanuel.dev/jinya/jinya-fonts:v2.$BUILD_NUMBER"
                         sh "docker push quay.imanuel.dev/jinya/jinya-fonts:latest"
                     }
 
                     withDockerRegistry(credentialsId: 'hub.docker.com', url: '') {
-                        sh "docker push jinyacms/jinya-fonts:v1.$BUILD_NUMBER"
+                        sh "docker push jinyacms/jinya-fonts:v2.$BUILD_NUMBER"
                         sh "docker push jinyacms/jinya-fonts:latest"
                     }
                 }
