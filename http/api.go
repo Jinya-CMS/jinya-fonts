@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"jinya-fonts/config"
 	"jinya-fonts/meta"
+	"jinya-fonts/utils"
 	"net/http"
 )
 
@@ -29,7 +30,7 @@ func GetFontMeta(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(data)
 	} else {
-		availableFonts, err := loadFonts()
+		availableFonts, err := utils.LoadFonts()
 		if err != nil {
 			http.NotFound(w, r)
 			return
@@ -44,34 +45,4 @@ func GetFontMeta(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(data)
 	}
-}
-
-func loadFonts() ([]meta.FontFile, error) {
-	files, err := ioutil.ReadDir(config.LoadedConfiguration.FontFileFolder)
-	if err != nil {
-		return nil, err
-	}
-
-	var availableFonts []meta.FontFile
-
-	for _, file := range files {
-		if file.IsDir() {
-			continue
-		}
-
-		yamlFileData, err := ioutil.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + file.Name())
-		if err != nil {
-			continue
-		}
-
-		var fontFile meta.FontFile
-		err = yaml.Unmarshal(yamlFileData, &fontFile)
-		if err != nil {
-			continue
-		}
-
-		availableFonts = append(availableFonts, fontFile)
-	}
-
-	return availableFonts, err
 }

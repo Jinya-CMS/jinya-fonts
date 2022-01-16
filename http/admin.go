@@ -2,130 +2,18 @@ package http
 
 import (
 	"gopkg.in/yaml.v3"
-	"html/template"
 	"io"
 	"io/ioutil"
 	"jinya-fonts/config"
 	"jinya-fonts/meta"
 	"net/http"
 	"os"
-	"strings"
-	"time"
 )
 
 func checkAuthCookie(r *http.Request) bool {
 	authCookie, err := r.Cookie("auth")
 
 	return err != nil || authCookie.Value != config.LoadedConfiguration.AdminPassword
-}
-
-func AdminLogin(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
-		path := strings.TrimPrefix(r.URL.Path, "/login")
-		if path == "/" || path == "" {
-			path = "login.html"
-		}
-
-		data, err := ioutil.ReadFile("./admin/" + path)
-		if err != nil {
-			path = "login.html"
-			data, err = ioutil.ReadFile("./admin/" + path)
-
-			if err != nil {
-				http.NotFound(w, r)
-				return
-			}
-		}
-
-		if strings.HasSuffix(path, "css") {
-			w.Header().Set("Content-Type", "text/css")
-		} else if strings.HasSuffix(path, "html") {
-			w.Header().Set("Content-Type", "text/html")
-		} else if strings.HasSuffix(path, "js") {
-			w.Header().Set("Content-Type", "application/javascript")
-		}
-
-		w.Write(data)
-	} else if r.Method == http.MethodPost {
-		err := r.ParseForm()
-		if err != nil {
-			http.Redirect(w, r, "/login", http.StatusFound)
-			return
-		}
-
-		password := r.FormValue("password")
-		if password == config.LoadedConfiguration.AdminPassword {
-			cookie := &http.Cookie{
-				Name:     "auth",
-				Value:    password,
-				Path:     "/",
-				Expires:  time.Now().Add(time.Hour * 24),
-				HttpOnly: true,
-				SameSite: http.SameSiteStrictMode,
-			}
-
-			remember := r.FormValue("remember") == "on"
-			if remember {
-				cookie.Expires = time.Date(9999, 12, 31, 23, 59, 59, 0, time.UTC)
-			}
-			http.SetCookie(w, cookie)
-			http.Redirect(w, r, "/admin", http.StatusFound)
-		}
-	} else {
-		w.WriteHeader(http.StatusMethodNotAllowed)
-	}
-}
-
-func AdminIndex(w http.ResponseWriter, r *http.Request) {
-	if checkAuthCookie(r) {
-		http.Redirect(w, r, "/login", http.StatusFound)
-		return
-	}
-
-	if r.Method != http.MethodGet {
-		w.WriteHeader(http.StatusMethodNotAllowed)
-		return
-	}
-
-	type fontData struct {
-		Name         string
-		NumberStyles int
-		License      string
-		Category     string
-		Author       string
-		GoogleFont   bool
-	}
-
-	tmpl, err := template.ParseFiles("./admin/index.gohtml")
-	if err != nil {
-		http.NotFound(w, r)
-		return
-	}
-
-	fonts, err := loadFonts()
-	if err != nil {
-		http.NotFound(w, r)
-		return
-	}
-
-	var data []fontData
-	for _, font := range fonts {
-		var designers []string
-		for _, designer := range font.Designers {
-			designers = append(designers, designer.Name)
-		}
-
-		data = append(data, fontData{
-			Name:         font.Name,
-			NumberStyles: len(font.Fonts),
-			License:      font.License,
-			Category:     font.Category,
-			Author:       strings.Join(designers, ","),
-			GoogleFont:   font.GoogleFont,
-		})
-	}
-
-	tmpl.Execute(w, data)
 }
 
 func AdminFontConfig(w http.ResponseWriter, r *http.Request) {

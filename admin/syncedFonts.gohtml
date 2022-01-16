@@ -1,0 +1,29 @@
+{{define "content"}}
+    <h1>List all fonts</h1>
+    <table role="grid">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Number of styles</th>
+            <th scope="col">License</th>
+            <th scope="col">Category</th>
+            <th scope="col">Author</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range .}}
+            <tr>
+                <td>{{.Name}}</td>
+                <td>{{.NumberStyles}}</td>
+                <td>{{.License}}</td>
+                <td>{{.Category}}</td>
+                <td>{{.Author}}</td>
+                <td>
+                    <a target="_blank" href="/font.html?font={{.Name}}">Details</a>
+                </td>
+            </tr>
+        {{end}}
+        </tbody>
+    </table>
+{{end}}

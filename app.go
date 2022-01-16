@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"jinya-fonts/admin"
 	"jinya-fonts/config"
 	"jinya-fonts/fontsync"
 	http2 "jinya-fonts/http"
@@ -31,9 +32,10 @@ func main() {
 		http.HandleFunc("/fonts/", http2.GetFont)
 		http.HandleFunc("/css2", http2.GetCss2)
 		if configuration.AdminPassword != "" {
-			http.HandleFunc("/login", http2.AdminLogin)
-			http.HandleFunc("/admin", http2.AdminIndex)
-			http.HandleFunc("/admin/", http2.AdminIndex)
+			http.HandleFunc("/login", admin.AdminLogin)
+			http.HandleFunc("/admin", admin.AllFonts)
+			http.HandleFunc("/admin/synced", admin.SyncedFonts)
+			http.HandleFunc("/admin/custom", admin.CustomFonts)
 		}
 		if configuration.ServeWebsite {
 			http.HandleFunc("/api/font", http2.GetFontMeta)
