@@ -21,13 +21,12 @@
                 <td>{{.Author}}</td>
                 <td>
                     <a target="_blank" href="/font.html?font={{.Name}}">Details</a>
-                    {{if eq .GoogleFont true}}
+                    {{if .GoogleFont}}
                         <del>Edit</del>
-                        <del>Delete</del>
                     {{else}}
                         <a href="/admin/edit?name={{.Name}}">Edit</a>
-                        <a href="/admin/delete?name={{.Name}}">Delete</a>
                     {{end}}
+                    <a href="/admin/delete?name={{.Name}}">Delete</a>
                 </td>
             </tr>
         {{end}}

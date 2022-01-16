@@ -21,6 +21,8 @@
                 <td>{{.Author}}</td>
                 <td>
                     <a target="_blank" href="/font.html?font={{.Name}}">Details</a>
+                    <del>Edit</del>
+                    <a href="/admin/delete?name={{.Name}}">Delete</a>
                 </td>
             </tr>
         {{end}}

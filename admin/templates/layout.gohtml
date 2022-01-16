@@ -1,36 +1,89 @@
 {{define "layout"}}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Jinya Fonts – Admin interface</title>
-    <link rel="stylesheet" type="text/css" href="/css/pico.css">
-    <link rel="stylesheet" type="text/css" href="/css/pico.classless.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/img/favicon-512x512.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
-    <link rel="shortcut icon" href="/img/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-<nav class="container-fluid">
-    <ul>
-        <li><strong>Jinya Fonts</strong></li>
-        <li><a href="/admin">List all fonts</a></li>
-        <li><a href="/admin/synced">List synced fonts</a></li>
-        <li><a href="/admin/custom">List custom fonts</a></li>
-        <li><a href="/admin/add">Add font</a></li>
-        <li><a href="/admin/sync">Sync fonts</a></li>
-    </ul>
-    <ul>
-        <li><a href="/logout">Logout</a></li>
-    </ul>
-</nav>
-<div class="container-fluid">
-    {{template "content" .}}
-</div>
-</body>
-</html>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Jinya Fonts – Admin interface</title>
+        <link rel="stylesheet" type="text/css" href="/css/pico.css">
+        <link rel="stylesheet" type="text/css" href="/css/pico.classless.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="512x512" href="/img/favicon-512x512.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+        <link rel="shortcut icon" href="/img/favicon.ico">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            :root {
+                --delete: #d32f2f;
+                --delete-hover: #c62828;
+                --delete-focus: rgba(211, 47, 47, 0.125);
+                --delete-inverse: #fff;
+            }
+
+            .error {
+                color: var(--form-element-invalid-active-border-color);
+                border: calc(var(--border-width) * 2) solid var(--form-element-invalid-border-color);
+                padding: var(--form-element-spacing-vertical) var(--form-element-spacing-horizontal);
+                border-radius: var(--border-radius);
+                box-shadow: 0 0 0 var(--outline-width) var(--form-element-invalid-focus-color);
+            }
+
+            button.delete,
+            input[type=submit].delete,
+            input[type=button].delete,
+            input[type=reset].delete,
+            a[role=button].delete {
+                --background-color: var(--delete);
+                --border-color: var(--delete);
+                --color: var(--delete-inverse);
+                cursor: pointer;
+            }
+
+            button.delete:hover, button.delete:active, button.delete:focus,
+            input[type=submit].delete:hover,
+            input[type=submit].delete:active,
+            input[type=submit].delete:focus,
+            input[type=button].delete:hover,
+            input[type=button].delete:active,
+            input[type=button].delete:focus,
+            input[type=reset].delete:hover,
+            input[type=reset].delete:active,
+            input[type=reset].delete:focus,
+            a[role=button].delete:hover,
+            a[role=button].delete:active,
+            a[role=button].delete:focus {
+                --background-color: var(--delete-hover);
+                --border-color: var(--delete-hover);
+            }
+
+            button.delete:focus,
+            input[type=submit].delete:focus,
+            input[type=button].delete:focus,
+            input[type=reset].delete:focus,
+            a[role=button].delete:focus {
+                --box-shadow: var(--button-hover-box-shadow, 0 0 0 rgba(0, 0, 0, 0)),
+                0 0 0 var(--outline-width) var(--delete-focus);
+            }
+        </style>
+    </head>
+    <body>
+    <nav class="container-fluid">
+        <ul>
+            <li><strong>Jinya Fonts</strong></li>
+            <li><a href="/admin">List all fonts</a></li>
+            <li><a href="/admin/synced">List synced fonts</a></li>
+            <li><a href="/admin/custom">List custom fonts</a></li>
+            <li><a href="/admin/add">Add font</a></li>
+            <li><a href="/admin/sync">Sync fonts</a></li>
+        </ul>
+        <ul>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+    <div class="container-fluid">
+        {{template "content" .}}
+    </div>
+    </body>
+    </html>
 {{end}}
