@@ -37,6 +37,7 @@ func main() {
 			http.HandleFunc("/logout", admin.Logout)
 			http.HandleFunc("/logout/", admin.Logout)
 			http.HandleFunc("/admin", admin.AllFonts)
+			http.HandleFunc("/admin/sync", admin.TriggerSync)
 			http.HandleFunc("/admin/synced", admin.SyncedFonts)
 			http.HandleFunc("/admin/custom", admin.CustomFonts)
 		}
