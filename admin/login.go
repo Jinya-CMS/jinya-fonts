@@ -4,34 +4,15 @@ import (
 	"io/ioutil"
 	"jinya-fonts/config"
 	"net/http"
-	"strings"
 	"time"
 )
 
-func AdminLogin(w http.ResponseWriter, r *http.Request) {
+func Login(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		path := strings.TrimPrefix(r.URL.Path, "/login")
-		if path == "/" || path == "" {
-			path = "login.html"
-		}
-
-		data, err := ioutil.ReadFile("./admin/" + path)
+		data, err := ioutil.ReadFile("./admin/templates/login.gohtml")
 		if err != nil {
-			path = "login.html"
-			data, err = ioutil.ReadFile("./admin/" + path)
-
-			if err != nil {
-				http.NotFound(w, r)
-				return
-			}
-		}
-
-		if strings.HasSuffix(path, "css") {
-			w.Header().Set("Content-Type", "text/css")
-		} else if strings.HasSuffix(path, "html") {
-			w.Header().Set("Content-Type", "text/html")
-		} else if strings.HasSuffix(path, "js") {
-			w.Header().Set("Content-Type", "application/javascript")
+			http.NotFound(w, r)
+			return
 		}
 
 		w.Write(data)
@@ -59,6 +40,8 @@ func AdminLogin(w http.ResponseWriter, r *http.Request) {
 			}
 			http.SetCookie(w, cookie)
 			http.Redirect(w, r, "/admin", http.StatusFound)
+		} else {
+			http.Redirect(w, r, "/login", http.StatusFound)
 		}
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)

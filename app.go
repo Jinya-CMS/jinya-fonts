@@ -32,7 +32,10 @@ func main() {
 		http.HandleFunc("/fonts/", http2.GetFont)
 		http.HandleFunc("/css2", http2.GetCss2)
 		if configuration.AdminPassword != "" {
-			http.HandleFunc("/login", admin.AdminLogin)
+			http.HandleFunc("/login", admin.Login)
+			http.HandleFunc("/login/", admin.Login)
+			http.HandleFunc("/logout", admin.Logout)
+			http.HandleFunc("/logout/", admin.Logout)
 			http.HandleFunc("/admin", admin.AllFonts)
 			http.HandleFunc("/admin/synced", admin.SyncedFonts)
 			http.HandleFunc("/admin/custom", admin.CustomFonts)
