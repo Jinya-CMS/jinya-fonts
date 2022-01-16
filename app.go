@@ -30,6 +30,11 @@ func main() {
 	if utils.ContainsString(os.Args, "serve") {
 		http.HandleFunc("/fonts/", http2.GetFont)
 		http.HandleFunc("/css2", http2.GetCss2)
+		if configuration.AdminPassword != "" {
+			http.HandleFunc("/login", http2.AdminLogin)
+			http.HandleFunc("/admin", http2.AdminIndex)
+			http.HandleFunc("/admin/", http2.AdminIndex)
+		}
 		if configuration.ServeWebsite {
 			http.HandleFunc("/api/font", http2.GetFontMeta)
 			http.HandleFunc("/", http2.GetWebApp)

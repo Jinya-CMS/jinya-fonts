@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jinya Fonts – Admin interface</title>
+    <link rel="stylesheet" type="text/css" href="/css/pico.css">
+    <link rel="stylesheet" type="text/css" href="/css/pico.classless.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/img/favicon-512x512.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<nav class="container-fluid">
+    <ul>
+        <li><strong>Jinya Fonts</strong></li>
+        <li><a href="/admin">List fonts</a></li>
+        <li><a href="/admin/add">Add font</a></li>
+    </ul>
+</nav>
+<div class="container-fluid">
+    <div>
+    </div>
+    <table role="grid">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Number of styles</th>
+            <th scope="col">License</th>
+            <th scope="col">Category</th>
+            <th scope="col">Author</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range .}}
+            <tr>
+                <td>{{.Name}}</td>
+                <td>{{.NumberStyles}}</td>
+                <td>{{.License}}</td>
+                <td>{{.Category}}</td>
+                <td>{{.Author}}</td>
+                <td>
+                    <a target="_blank" href="/font.html?font={{.Name}}">Details</a>
+                    {{if eq .GoogleFont true}}
+                        <del>Edit</del>
+                        <del>Delete</del>
+                    {{else}}
+                        <a href="/admin/edit?name={{.Name}}">Edit</a>
+                        <a href="/admin/delete?name={{.Name}}">Delete</a>
+                    {{end}}
+                </td>
+            </tr>
+        {{end}}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

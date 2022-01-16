@@ -10,6 +10,7 @@ type Configuration struct {
 	FontFileFolder string   `yaml:"font_file_folder"`
 	FilterByName   []string `yaml:"filter_by_name"`
 	ServeWebsite   bool     `yaml:"serve_website,omitempty"`
+	AdminPassword  string   `yaml:"admin_password,omitempty"`
 }
 
 var LoadedConfiguration *Configuration

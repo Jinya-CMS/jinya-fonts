@@ -1,2 +1,9 @@
 api_key: <api token>
 font_file_folder: ./data
+#filter_by_name:
+#  - Lato
+#  - Ubuntu
+#  - Open Sans
+#  - Josefin Sans
+serve_website: true
+admin_password: <secure admin token>

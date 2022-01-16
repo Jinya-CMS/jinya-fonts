@@ -136,6 +136,7 @@ func saveFontFile(configuration *config.Configuration, channel chan []FontDownlo
 			Designers:   designers,
 			License:     metadata.License,
 			Category:    metadata.Category,
+			GoogleFont:  true,
 		}
 
 		err = meta.SaveFontFileMetadata(fontFile)

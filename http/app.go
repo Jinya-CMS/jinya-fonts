@@ -9,12 +9,12 @@ import (
 func GetWebApp(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	if path == "/" || path == "" {
-		path = "index.html"
+		path = "index.gohtml"
 	}
 
 	data, err := ioutil.ReadFile("./webapp/" + path)
 	if err != nil {
-		path = "index.html"
+		path = "index.gohtml"
 		data, err = ioutil.ReadFile("./webapp/" + path)
 
 		if err != nil {
