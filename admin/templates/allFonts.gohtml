@@ -7,7 +7,7 @@
             <th scope="col">Number of styles</th>
             <th scope="col">License</th>
             <th scope="col">Category</th>
-            <th scope="col">Author</th>
+            <th scope="col">Designers</th>
             <th scope="col">Actions</th>
         </tr>
         </thead>
@@ -23,8 +23,12 @@
                     <a target="_blank" href="/font.html?font={{.Name}}">Details</a>
                     {{if .GoogleFont}}
                         <del>Edit</del>
+                        <del>Designers</del>
+                        <del>Font files</del>
                     {{else}}
                         <a href="/admin/edit?name={{.Name}}">Edit</a>
+                        <a href="/admin/designers?font={{.Name}}">Designers</a>
+                        <a href="/admin/files?font={{.Name}}">Font files</a>
                     {{end}}
                     <a href="/admin/delete?name={{.Name}}">Delete</a>
                 </td>

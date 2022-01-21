@@ -1,0 +1,59 @@
+.container-two-column {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2rem;
+}
+
+:root {
+    --delete: #d32f2f;
+    --delete-hover: #c62828;
+    --delete-focus: rgba(211, 47, 47, 0.125);
+    --delete-inverse: #fff;
+    --form-element-spacing-vertical: 0.5rem;
+    --form-element-spacing-horizontal: 0.75rem;
+}
+
+.error {
+    color: var(--form-element-invalid-active-border-color);
+    border: calc(var(--border-width) * 2) solid var(--form-element-invalid-border-color);
+    padding: var(--form-element-spacing-vertical) var(--form-element-spacing-horizontal);
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 0 var(--outline-width) var(--form-element-invalid-focus-color);
+}
+
+button.delete,
+input[type=submit].delete,
+input[type=button].delete,
+input[type=reset].delete,
+a[role=button].delete {
+    --background-color: var(--delete);
+    --border-color: var(--delete);
+    --color: var(--delete-inverse);
+    cursor: pointer;
+}
+
+button.delete:hover, button.delete:active, button.delete:focus,
+input[type=submit].delete:hover,
+input[type=submit].delete:active,
+input[type=submit].delete:focus,
+input[type=button].delete:hover,
+input[type=button].delete:active,
+input[type=button].delete:focus,
+input[type=reset].delete:hover,
+input[type=reset].delete:active,
+input[type=reset].delete:focus,
+a[role=button].delete:hover,
+a[role=button].delete:active,
+a[role=button].delete:focus {
+    --background-color: var(--delete-hover);
+    --border-color: var(--delete-hover);
+}
+
+button.delete:focus,
+input[type=submit].delete:focus,
+input[type=button].delete:focus,
+input[type=reset].delete:focus,
+a[role=button].delete:focus {
+    --box-shadow: var(--button-hover-box-shadow, 0 0 0 rgba(0, 0, 0, 0)),
+    0 0 0 var(--outline-width) var(--delete-focus);
+}
