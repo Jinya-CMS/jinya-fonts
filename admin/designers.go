@@ -140,3 +140,11 @@ func DeleteDesigner(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 }
+
+func AddDesigner(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+
+	} else if r.Method == http.MethodPost {
+
+	}
+}
