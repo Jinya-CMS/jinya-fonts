@@ -13,7 +13,7 @@ import (
 
 func AddFont(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		err := RenderAdmin(w, "addFont", struct {
+		err := RenderAdmin(w, "font/add", struct {
 			Message  string
 			Name     string
 			License  string
@@ -26,7 +26,7 @@ func AddFont(w http.ResponseWriter, r *http.Request) {
 	} else if r.Method == http.MethodPost {
 		err := r.ParseForm()
 		if err != nil {
-			RenderAdmin(w, "addFont", struct {
+			RenderAdmin(w, "font/add", struct {
 				Message  string
 				Name     string
 				License  string
@@ -43,7 +43,7 @@ func AddFont(w http.ResponseWriter, r *http.Request) {
 		referer := r.FormValue("referer")
 
 		if name == "" {
-			RenderAdmin(w, "addFont", struct {
+			RenderAdmin(w, "font/add", struct {
 				Message  string
 				Name     string
 				License  string
@@ -60,7 +60,7 @@ func AddFont(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if _, err := os.Stat(config.LoadedConfiguration.FontFileFolder + "/" + name + ".yaml"); !os.IsNotExist(err) {
-			RenderAdmin(w, "addFont", struct {
+			RenderAdmin(w, "font/add", struct {
 				Message  string
 				Name     string
 				License  string
@@ -82,7 +82,7 @@ func AddFont(w http.ResponseWriter, r *http.Request) {
 
 		data, err := yaml.Marshal(fontFile)
 		if err != nil {
-			RenderAdmin(w, "addFont", struct {
+			RenderAdmin(w, "font/add", struct {
 				Message  string
 				Name     string
 				License  string
@@ -94,7 +94,7 @@ func AddFont(w http.ResponseWriter, r *http.Request) {
 
 		err = ioutil.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+name+".yaml", data, 0775)
 		if err != nil {
-			RenderAdmin(w, "addFont", struct {
+			RenderAdmin(w, "font/add", struct {
 				Message  string
 				Name     string
 				License  string
@@ -113,7 +113,7 @@ func AddFont(w http.ResponseWriter, r *http.Request) {
 func DeleteFont(w http.ResponseWriter, r *http.Request) {
 	fontName := r.URL.Query().Get("name")
 	if r.Method == http.MethodGet {
-		err := RenderAdmin(w, "deleteFont", struct {
+		err := RenderAdmin(w, "font/delete", struct {
 			Name    string
 			Referer string
 			Message string
@@ -137,7 +137,7 @@ func DeleteFont(w http.ResponseWriter, r *http.Request) {
 
 		err = os.RemoveAll(config.LoadedConfiguration.FontFileFolder + "/" + fontName)
 		if err != nil {
-			RenderAdmin(w, "deleteFont", struct {
+			RenderAdmin(w, "font/delete", struct {
 				Name    string
 				Referer string
 				Message string
@@ -145,7 +145,7 @@ func DeleteFont(w http.ResponseWriter, r *http.Request) {
 		}
 		err = os.Remove(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
 		if err != nil {
-			RenderAdmin(w, "deleteFont", struct {
+			RenderAdmin(w, "font/delete", struct {
 				Name    string
 				Referer string
 				Message string
@@ -159,7 +159,7 @@ func DeleteFont(w http.ResponseWriter, r *http.Request) {
 func EditFont(w http.ResponseWriter, r *http.Request) {
 	data, err := ioutil.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + r.URL.Query().Get("name") + ".yaml")
 	if err != nil {
-		RenderAdmin(w, "editFont", struct {
+		RenderAdmin(w, "font/edit", struct {
 			Message  string
 			Name     string
 			License  string
@@ -172,7 +172,7 @@ func EditFont(w http.ResponseWriter, r *http.Request) {
 	var font meta.FontFile
 	err = yaml.Unmarshal(data, &font)
 	if err != nil {
-		RenderAdmin(w, "editFont", struct {
+		RenderAdmin(w, "font/edit", struct {
 			Message  string
 			Name     string
 			License  string
@@ -183,7 +183,7 @@ func EditFont(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method == http.MethodGet {
-		err = RenderAdmin(w, "editFont", struct {
+		err = RenderAdmin(w, "font/edit", struct {
 			Message  string
 			Name     string
 			License  string
@@ -196,7 +196,7 @@ func EditFont(w http.ResponseWriter, r *http.Request) {
 	} else if r.Method == http.MethodPost {
 		err := r.ParseForm()
 		if err != nil {
-			RenderAdmin(w, "editFont", struct {
+			RenderAdmin(w, "font/edit", struct {
 				Message  string
 				Name     string
 				License  string
@@ -213,7 +213,7 @@ func EditFont(w http.ResponseWriter, r *http.Request) {
 		referer := r.FormValue("referer")
 
 		if name == "" {
-			RenderAdmin(w, "editFont", struct {
+			RenderAdmin(w, "font/edit", struct {
 				Message  string
 				Name     string
 				License  string
@@ -236,7 +236,7 @@ func EditFont(w http.ResponseWriter, r *http.Request) {
 
 		data, err := yaml.Marshal(font)
 		if err != nil {
-			RenderAdmin(w, "editFont", struct {
+			RenderAdmin(w, "font/edit", struct {
 				Message  string
 				Name     string
 				License  string
@@ -248,7 +248,7 @@ func EditFont(w http.ResponseWriter, r *http.Request) {
 
 		err = ioutil.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+name+".yaml", data, 0775)
 		if err != nil {
-			RenderAdmin(w, "editFont", struct {
+			RenderAdmin(w, "font/edit", struct {
 				Message  string
 				Name     string
 				License  string
@@ -299,7 +299,7 @@ func AllFonts(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
-	err = RenderAdmin(w, "allFonts", data)
+	err = RenderAdmin(w, "font/all", data)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
@@ -342,7 +342,7 @@ func CustomFonts(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
-	err = RenderAdmin(w, "customFonts", data)
+	err = RenderAdmin(w, "font/custom", data)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
@@ -385,7 +385,7 @@ func SyncedFonts(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
-	err = RenderAdmin(w, "syncedFonts", data)
+	err = RenderAdmin(w, "font/synced", data)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
