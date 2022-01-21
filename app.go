@@ -45,6 +45,7 @@ func main() {
 			http.HandleFunc("/admin/custom", admin.CheckAuthCookie(admin.CustomFonts))
 			http.HandleFunc("/admin/designers", admin.CheckAuthCookie(admin.DesignersIndex))
 			http.HandleFunc("/admin/designers/delete", admin.CheckAuthCookie(admin.DeleteDesigner))
+			http.HandleFunc("/admin/designers/add", admin.CheckAuthCookie(admin.AddDesigner))
 			http.Handle("/admin/static/", http.StripPrefix("/admin/static", http.FileServer(http.Dir("./admin/static"))))
 		}
 		if configuration.ServeWebsite {
