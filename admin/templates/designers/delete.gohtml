@@ -1,0 +1,25 @@
+{{define "content"}}
+    <form method="post">
+        <dialog open>
+            <article>
+                <h3>Remove designer from font?</h3>
+                {{if ne .Message ""}}
+                    <p class="error">
+                        {{.Message}}
+                    </p>
+                {{end}}
+                <p>
+                    Do you really want to remove the designer {{.DesignerName}} from the font {{.FontName}}?
+                </p>
+                <footer>
+                    <a href="/admin/designers?font={{.FontName}}" class="secondary modal-button" role="button">
+                        Keep designer in font
+                    </a>
+                    <button class="delete modal-button" type="submit">
+                        Remove designer
+                    </button>
+                </footer>
+            </article>
+        </dialog>
+    </form>
+{{end}}

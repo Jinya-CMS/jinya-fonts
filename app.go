@@ -44,6 +44,7 @@ func main() {
 			http.HandleFunc("/admin/synced", admin.CheckAuthCookie(admin.SyncedFonts))
 			http.HandleFunc("/admin/custom", admin.CheckAuthCookie(admin.CustomFonts))
 			http.HandleFunc("/admin/designers", admin.CheckAuthCookie(admin.DesignersIndex))
+			http.HandleFunc("/admin/designers/delete", admin.CheckAuthCookie(admin.DeleteDesigner))
 		}
 		if configuration.ServeWebsite {
 			http.HandleFunc("/api/font", http2.GetFontMeta)
