@@ -1,5 +1,5 @@
 {{define "content"}}
-    <h1>List designers</h1>
+    <h1>Designers of font {{.FontName}}</h1>
     {{if ne .Message ""}}
         <div class="error">{{.Message}}</div>
     {{else}}
@@ -9,6 +9,8 @@
                     <ul>
                         <li>
                             <a href="/admin/designers?font={{.FontName}}">List designers</a>
+                        </li>
+                        <li>
                             <a href="/admin/designers/add?font={{.FontName}}">Add designer</a>
                         </li>
                     </ul>

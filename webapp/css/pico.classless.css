@@ -1151,7 +1151,10 @@ textarea[disabled] {
 
 input:not([type=checkbox]):not([type=radio])[aria-invalid],
 select:not([type=checkbox]):not([type=radio])[aria-invalid],
-textarea:not([type=checkbox]):not([type=radio])[aria-invalid] {
+textarea:not([type=checkbox]):not([type=radio])[aria-invalid],
+input:invalid,
+select:invalid,
+textarea:invalid{
   padding-right: calc(var(--form-element-spacing-horizontal) + 1.5rem) !important;
   padding-left: var(--form-element-spacing-horizontal);
   -webkit-padding-start: var(--form-element-spacing-horizontal) !important;
@@ -1169,7 +1172,10 @@ textarea:not([type=checkbox]):not([type=radio])[aria-invalid=false] {
 }
 input:not([type=checkbox]):not([type=radio])[aria-invalid=true],
 select:not([type=checkbox]):not([type=radio])[aria-invalid=true],
-textarea:not([type=checkbox]):not([type=radio])[aria-invalid=true] {
+textarea:not([type=checkbox]):not([type=radio])[aria-invalid=true],
+input:invalid,
+select:invalid,
+textarea:invalid{ {
   background-image: var(--icon-invalid);
 }
 input[aria-invalid=false],
@@ -1187,14 +1193,23 @@ textarea[aria-invalid=false]:focus {
 }
 input[aria-invalid=true],
 select[aria-invalid=true],
-textarea[aria-invalid=true] {
+textarea[aria-invalid=true],
+input:invalid,
+select:invalid,
+textarea:invalid {
   --border-color: var(--form-element-invalid-border-color);
 }
 input[aria-invalid=true]:active, input[aria-invalid=true]:focus,
 select[aria-invalid=true]:active,
 select[aria-invalid=true]:focus,
 textarea[aria-invalid=true]:active,
-textarea[aria-invalid=true]:focus {
+textarea[aria-invalid=true]:focus,
+input:invalid:focus,
+input:invalid:active,
+select:invalid:focus,
+select:invalid:active,
+textarea:invalid:focus,
+textarea:invalid:active {
   --border-color: var(--form-element-invalid-active-border-color) !important;
   --box-shadow: 0 0 0 var(--outline-width) var(--form-element-invalid-focus-color) !important;
 }
