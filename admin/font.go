@@ -294,7 +294,7 @@ func AllFonts(w http.ResponseWriter, r *http.Request) {
 			NumberStyles: len(font.Fonts),
 			License:      font.License,
 			Category:     font.Category,
-			Author:       strings.Join(designers, ","),
+			Author:       strings.Join(designers, ", "),
 			GoogleFont:   font.GoogleFont,
 		})
 	}
@@ -338,7 +338,7 @@ func CustomFonts(w http.ResponseWriter, r *http.Request) {
 			NumberStyles: len(font.Fonts),
 			License:      font.License,
 			Category:     font.Category,
-			Author:       strings.Join(designers, ","),
+			Author:       strings.Join(designers, ", "),
 		})
 	}
 
@@ -381,7 +381,7 @@ func SyncedFonts(w http.ResponseWriter, r *http.Request) {
 			NumberStyles: len(font.Fonts),
 			License:      font.License,
 			Category:     font.Category,
-			Author:       strings.Join(designers, ","),
+			Author:       strings.Join(designers, ", "),
 		})
 	}
 

@@ -14,8 +14,10 @@ type Configuration struct {
 }
 
 var LoadedConfiguration *Configuration
+var ConfigurationPath string
 
 func LoadConfiguration(path string) (*Configuration, error) {
+	ConfigurationPath = path
 	file, err := os.Open(path)
 	if err != nil {
 		return nil, err

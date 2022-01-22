@@ -17,13 +17,16 @@ func TriggerSync(w http.ResponseWriter, r *http.Request) {
 		backupWriter := log.Writer()
 		buffer := bytes.Buffer{}
 		log.SetOutput(&buffer)
-
+		_, err := config.LoadConfiguration(config.ConfigurationPath)
+		if err != nil {
+			log.Println("Failed to reparse config")
+		}
 		_ = fontsync.Sync(config.LoadedConfiguration)
 
 		log.SetOutput(backupWriter)
 
 		data := syncData{Log: buffer.String()}
-		err := RenderAdmin(w, "triggerSync", data)
+		err = RenderAdmin(w, "triggerSync", data)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
