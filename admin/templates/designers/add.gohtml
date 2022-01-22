@@ -11,7 +11,7 @@
                 <label for="name">Name</label>
                 <input value="{{.Name}}" type="text" id="name" name="name" placeholder="The name of the designer" required>
                 <label for="bio">Biography</label>
-                <textarea name="bio" id="bio" cols="30" rows="10"></textarea>
+                <textarea name="bio" id="bio" cols="30" rows="10">{{.Bio}}</textarea>
                 <footer>
                     <a href="/admin/designers?font={{.FontName}}" class="secondary modal-button" role="button">
                         Discard

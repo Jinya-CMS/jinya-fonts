@@ -23,7 +23,7 @@
                     <option {{if eq .Category "Monospace"}}selected{{end}} value="Monospace">Monospace</option>
                 </select>
                 <label for="description">Description</label>
-                <textarea name="description" id="description" cols="30" rows="10"></textarea>
+                <textarea name="description" id="description" cols="30" rows="10">{{.Description}}</textarea>
                 <footer>
                     <a href="{{.Referer}}" class="secondary modal-button" role="button">
                         Discard
