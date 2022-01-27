@@ -14,12 +14,13 @@ import (
 func AddFont(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		err := RenderAdmin(w, "font/add", struct {
-			Message  string
-			Name     string
-			License  string
-			Category string
-			Referer  string
-		}{"", "", "", "", r.Referer()})
+			Message     string
+			Name        string
+			License     string
+			Category    string
+			Description string
+			Referer     string
+		}{"", "", "", "", "", r.Referer()})
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
@@ -27,12 +28,13 @@ func AddFont(w http.ResponseWriter, r *http.Request) {
 		err := r.ParseForm()
 		if err != nil {
 			RenderAdmin(w, "font/add", struct {
-				Message  string
-				Name     string
-				License  string
-				Category string
-				Referer  string
-			}{"Failed to parse input", "", "", "", r.Referer()})
+				Message     string
+				Name        string
+				License     string
+				Category    string
+				Description string
+				Referer     string
+			}{"Failed to parse input", "", "", "", "", r.Referer()})
 			return
 		}
 
@@ -44,12 +46,13 @@ func AddFont(w http.ResponseWriter, r *http.Request) {
 
 		if name == "" {
 			RenderAdmin(w, "font/add", struct {
-				Message  string
-				Name     string
-				License  string
-				Category string
-				Referer  string
-			}{"Please provide a name", name, license, category, referer})
+				Message     string
+				Name        string
+				License     string
+				Category    string
+				Description string
+				Referer     string
+			}{"Please provide a name", name, license, category, description, referer})
 			return
 		}
 		if license == "" {
@@ -61,12 +64,13 @@ func AddFont(w http.ResponseWriter, r *http.Request) {
 
 		if _, err := os.Stat(config.LoadedConfiguration.FontFileFolder + "/" + name + ".yaml"); !os.IsNotExist(err) {
 			RenderAdmin(w, "font/add", struct {
-				Message  string
-				Name     string
-				License  string
-				Category string
-				Referer  string
-			}{"A font with the given name exists already", name, license, category, referer})
+				Message     string
+				Name        string
+				License     string
+				Category    string
+				Description string
+				Referer     string
+			}{"A font with the given name exists already", name, license, category, description, referer})
 			return
 		}
 
@@ -83,24 +87,26 @@ func AddFont(w http.ResponseWriter, r *http.Request) {
 		data, err := yaml.Marshal(fontFile)
 		if err != nil {
 			RenderAdmin(w, "font/add", struct {
-				Message  string
-				Name     string
-				License  string
-				Category string
-				Referer  string
-			}{"Failed to convert font metadata", name, license, category, referer})
+				Message     string
+				Name        string
+				License     string
+				Category    string
+				Description string
+				Referer     string
+			}{"Failed to convert font metadata", name, license, category, description, referer})
 			return
 		}
 
 		err = ioutil.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+name+".yaml", data, 0775)
 		if err != nil {
 			RenderAdmin(w, "font/add", struct {
-				Message  string
-				Name     string
-				License  string
-				Category string
-				Referer  string
-			}{"Failed to save font metadata", name, license, category, referer})
+				Message     string
+				Name        string
+				License     string
+				Category    string
+				Description string
+				Referer     string
+			}{"Failed to save font metadata", name, license, category, description, referer})
 			return
 		}
 
