@@ -315,3 +315,178 @@ func AddFile(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 }
+
+func EditFile(w http.ResponseWriter, r *http.Request) {
+	fontName := r.URL.Query().Get("font")
+	path := r.URL.Query().Get("path")
+	data, err := ioutil.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
+	if err != nil {
+		RenderAdmin(w, "files/index", struct {
+			Message  string
+			FontName string
+			Files    []meta.FontFileMeta
+		}{"Font does not exist", fontName, []meta.FontFileMeta{}})
+		return
+	}
+
+	var font meta.FontFile
+	err = yaml.Unmarshal(data, &font)
+	if err != nil {
+		RenderAdmin(w, "files/index", struct {
+			Message  string
+			FontName string
+			Files    []meta.FontFileMeta
+		}{"Font does not exist", fontName, []meta.FontFileMeta{}})
+		return
+	}
+
+	if font.GoogleFont {
+		RenderAdmin(w, "files/index", struct {
+			Message  string
+			FontName string
+			Files    []meta.FontFileMeta
+		}{"You cannot edit the files of a synced font", fontName, []meta.FontFileMeta{}})
+		return
+	}
+	var fontFile meta.FontFileMeta
+	for _, item := range font.Fonts {
+		if item.Path == path {
+			fontFile = item
+			break
+		}
+	}
+
+	if r.Method == http.MethodGet {
+		RenderAdmin(w, "files/edit", struct {
+			Message  string
+			FontName string
+			Subset   string
+			Weight   string
+			Style    string
+		}{"", fontName, fontFile.Subset, fontFile.Weight, fontFile.Style})
+	} else if r.Method == http.MethodPost {
+		err = r.ParseMultipartForm(10 * 1024 * 1024 * 1024)
+		if err != nil {
+			RenderAdmin(w, "files/edit", struct {
+				Message  string
+				FontName string
+				Subset   string
+				Weight   string
+				Style    string
+			}{"Failed to add file to font", fontName, fontFile.Subset, fontFile.Weight, fontFile.Style})
+			return
+		}
+
+		fileStyle := r.FormValue("style")
+		fileSubset := r.FormValue("subset")
+		fileWeight := r.FormValue("weight")
+		filename := fontName + "." + fileSubset + "." + fileWeight + fileStyle + ".woff2"
+
+		fileExists := false
+		for _, item := range font.Fonts {
+			if strings.ToLower(item.Path) == strings.ToLower(filename) && strings.ToLower(item.Path) != strings.ToLower(path) {
+				fileExists = true
+				break
+			}
+		}
+
+		if fileExists {
+			RenderAdmin(w, "files/edit", struct {
+				Message  string
+				FontName string
+				Subset   string
+				Weight   string
+				Style    string
+			}{"A file with the chosen properties is already present", fontName, fileSubset, fileWeight, fileStyle})
+			return
+		}
+
+		_ = os.Remove(config.LoadedConfiguration.FontFileFolder + "/" + fontName + "/" + path)
+
+		fontFile, _, err := r.FormFile("file")
+		if err != nil {
+			RenderAdmin(w, "files/edit", struct {
+				Message  string
+				FontName string
+				Subset   string
+				Weight   string
+				Style    string
+			}{"Failed to update file in font", fontName, fileSubset, fileWeight, fileStyle})
+			return
+		}
+
+		fileBuffer := bytes.NewBufferString("")
+		_, err = io.Copy(fileBuffer, fontFile)
+		if err != nil {
+			RenderAdmin(w, "files/edit", struct {
+				Message  string
+				FontName string
+				Subset   string
+				Weight   string
+				Style    string
+			}{"Failed to update file in font", fontName, fileSubset, fileWeight, fileStyle})
+			return
+		}
+
+		err = os.MkdirAll(config.LoadedConfiguration.FontFileFolder+"/"+fontName, 0775)
+		if err != nil {
+			RenderAdmin(w, "files/edit", struct {
+				Message  string
+				FontName string
+				Subset   string
+				Weight   string
+				Style    string
+			}{"Failed to update file in font", fontName, fileSubset, fileWeight, fileStyle})
+			return
+		}
+
+		err = ioutil.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+"/"+filename, fileBuffer.Bytes(), 0775)
+		if err != nil {
+			RenderAdmin(w, "files/edit", struct {
+				Message  string
+				FontName string
+				Subset   string
+				Weight   string
+				Style    string
+			}{"Failed to update file in font", fontName, fileSubset, fileWeight, fileStyle})
+			return
+		}
+
+		for idx, item := range font.Fonts {
+			if strings.ToLower(item.Path) == strings.ToLower(path) {
+				font.Fonts[idx].Path = filename
+				font.Fonts[idx].Style = fileStyle
+				font.Fonts[idx].Weight = fileWeight
+				font.Fonts[idx].Subset = fileSubset
+			}
+		}
+
+		data, err := yaml.Marshal(font)
+		if err != nil {
+			RenderAdmin(w, "files/edit", struct {
+				Message  string
+				FontName string
+				Subset   string
+				Weight   string
+				Style    string
+			}{"Failed to update file in font", fontName, fileSubset, fileWeight, fileStyle})
+			return
+		}
+
+		err = ioutil.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+".yaml", data, 0775)
+		if err != nil {
+			RenderAdmin(w, "files/edit", struct {
+				Message  string
+				FontName string
+				Subset   string
+				Weight   string
+				Style    string
+			}{"Failed to update file in font", fontName, fileSubset, fileWeight, fileStyle})
+			return
+		}
+
+		http.Redirect(w, r, "/admin/files?font="+fontName, http.StatusFound)
+	} else {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+	}
+}
