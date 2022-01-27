@@ -51,8 +51,8 @@ func main() {
 			http.HandleFunc("/admin/designers/edit", admin.CheckAuthCookie(admin.EditDesigner))
 
 			http.HandleFunc("/admin/files", admin.CheckAuthCookie(admin.FilesIndex))
-			http.HandleFunc("/admin/files/delete", admin.CheckAuthCookie(admin.DeleteDesigner))
-			http.HandleFunc("/admin/files/add", admin.CheckAuthCookie(admin.AddDesigner))
+			http.HandleFunc("/admin/files/delete", admin.CheckAuthCookie(admin.DeleteFile))
+			http.HandleFunc("/admin/files/add", admin.CheckAuthCookie(admin.AddFile))
 			http.HandleFunc("/admin/files/edit", admin.CheckAuthCookie(admin.EditDesigner))
 
 			http.Handle("/admin/static/", http.StripPrefix("/admin/static", http.FileServer(http.Dir("./admin/static"))))

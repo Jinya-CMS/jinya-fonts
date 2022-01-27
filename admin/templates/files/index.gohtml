@@ -8,10 +8,10 @@
                 <nav>
                     <ul>
                         <li>
-                            <a href="/admin/files?font={{.FontName}}">List files</a>
+                            <a class="menu-active" href="/admin/files?font={{.FontName}}">List files</a>
                         </li>
                         <li>
-                            <a href="/admin/files/add?font={{.FontName}}">Add files</a>
+                            <a href="/admin/files/add?font={{.FontName}}">Add file</a>
                         </li>
                     </ul>
                 </nav>
@@ -34,8 +34,8 @@
                         <td>{{.Weight}}</td>
                         <td>{{.Style}}</td>
                         <td>
-                            <a href="/admin/files/edit?font={{$.FontName}}&name={{.Path}}">Edit</a>
-                            <a href="/admin/files/delete?font={{$.FontName}}&name={{.Path}}">Remove</a>
+                            <a href="/admin/files/edit?font={{$.FontName}}&path={{.Path}}">Edit</a>
+                            <a href="/admin/files/delete?font={{$.FontName}}&path={{.Path}}">Remove</a>
                         </td>
                     </tr>
                 {{end}}

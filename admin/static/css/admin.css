@@ -58,7 +58,18 @@ a[role=button].delete:focus {
     0 0 0 var(--outline-width) var(--delete-focus);
 }
 
+aside li a {
+    min-width: 200px;
+}
+
 .modal-button {
     display: inline-block;
     width: auto;
+}
+
+.menu-active {
+    --background-color: var(--primary-focus);
+    --color: var(--primary-hover);
+    --text-decoration: underline;
+    min-width: 200px;
 }
