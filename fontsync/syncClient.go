@@ -105,7 +105,6 @@ func saveFontFile(configuration *config.Configuration, channel chan []FontDownlo
 			for _, face := range faces {
 				if strings.Contains(face, "@font-face") {
 					data, err := HandleFontFace(configuration, idx, job, face)
-					data.Category = job.Category
 					if err != nil {
 						log.Printf("CPU %d: %s", idx, err.Error())
 						continue
@@ -194,7 +193,6 @@ func HandleFontFace(configuration *config.Configuration, idx int, job FontDownlo
 	return &meta.FontFileMeta{
 		Path:         path,
 		Subset:       subsetValue,
-		Variant:      job.Variant,
 		UnicodeRange: rangeValue,
 		Weight:       weightValue,
 		Style:        styleValue,

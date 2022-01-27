@@ -1,0 +1,46 @@
+{{define "content"}}
+    <h1>Font files of font {{.FontName}}</h1>
+    {{if ne .Message ""}}
+        <div class="error">{{.Message}}</div>
+    {{else}}
+        <div class="container-two-column">
+            <aside>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="/admin/files?font={{.FontName}}">List files</a>
+                        </li>
+                        <li>
+                            <a href="/admin/files/add?font={{.FontName}}">Add files</a>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+            <table role="grid">
+                <thead>
+                <tr>
+                    <th scope="col">Path</th>
+                    <th scope="col">Subset</th>
+                    <th scope="col">Weight</th>
+                    <th scope="col">Style</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{range .Files}}
+                    <tr>
+                        <td>{{.Path}}</td>
+                        <td>{{.Subset}}</td>
+                        <td>{{.Weight}}</td>
+                        <td>{{.Style}}</td>
+                        <td>
+                            <a href="/admin/files/edit?font={{$.FontName}}&name={{.Path}}">Edit</a>
+                            <a href="/admin/files/delete?font={{$.FontName}}&name={{.Path}}">Remove</a>
+                        </td>
+                    </tr>
+                {{end}}
+                </tbody>
+            </table>
+        </div>
+    {{end}}
+{{end}}

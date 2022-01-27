@@ -133,7 +133,6 @@ func AdminUploadFont(w http.ResponseWriter, r *http.Request) {
 	fontData := meta.FontFileMeta{
 		Path:         path,
 		Subset:       subset,
-		Variant:      variant,
 		UnicodeRange: unicodeRange,
 		Weight:       weight,
 		Style:        style,
