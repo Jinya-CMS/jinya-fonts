@@ -14,6 +14,7 @@ type FontFileMeta struct {
 	UnicodeRange string `yaml:"unicode_range" json:"unicodeRange"`
 	Weight       string `yaml:"weight" json:"weight"`
 	Style        string `yaml:"style" json:"style"`
+	Category     string `yaml:"category" json:"category"`
 	FontName     string `yaml:"-" json:"-"`
 }
 

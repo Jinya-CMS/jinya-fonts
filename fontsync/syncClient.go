@@ -197,6 +197,7 @@ func HandleFontFace(configuration *config.Configuration, idx int, job FontDownlo
 		Weight:       weightValue,
 		Style:        styleValue,
 		FontName:     job.Name,
+		Category:     job.Category,
 	}, nil
 }
 

@@ -284,6 +284,7 @@ func AddFile(w http.ResponseWriter, r *http.Request) {
 			Weight:   fileWeight,
 			Style:    fileStyle,
 			FontName: fontName,
+			Category: strings.ReplaceAll(strings.ToLower(font.Category), " ", "-"),
 		})
 
 		data, err := yaml.Marshal(font)
