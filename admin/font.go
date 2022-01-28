@@ -1,11 +1,14 @@
 package admin
 
 import (
+	"bytes"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
 	"jinya-fonts/config"
+	"jinya-fonts/fontsync"
 	"jinya-fonts/meta"
 	"jinya-fonts/utils"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -403,4 +406,36 @@ func grabDesigners(font meta.FontFile) []string {
 		designers = append(designers, designer.Name)
 	}
 	return designers
+}
+
+func TriggerSync(w http.ResponseWriter, r *http.Request) {
+	type syncData struct {
+		Log string
+	}
+
+	if r.Method == http.MethodPost {
+		backupWriter := log.Writer()
+		buffer := bytes.Buffer{}
+		log.SetOutput(&buffer)
+		_, err := config.LoadConfiguration(config.ConfigurationPath)
+		if err != nil {
+			log.Println("Failed to reparse config")
+		}
+		_ = fontsync.Sync(config.LoadedConfiguration)
+
+		log.SetOutput(backupWriter)
+
+		data := syncData{Log: buffer.String()}
+		err = RenderAdmin(w, "font/triggerSync", data)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+	} else {
+		err := RenderAdmin(w, "font/triggerSync", nil)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+	}
 }

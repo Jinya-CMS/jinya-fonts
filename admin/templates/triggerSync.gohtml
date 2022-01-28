@@ -1,9 +1,0 @@
-{{define "content"}}
-    <h1>Sync fonts from fonts.google.com</h1>
-    <form method="post">
-        <button onclick="event.currentTarget.setAttribute('aria-busy', true)" type="submit">Sync fonts</button>
-    </form>
-    {{if .Log}}
-        <pre>{{.Log}}</pre>
-    {{end}}
-{{end}}

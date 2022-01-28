@@ -1,33 +1,46 @@
 {{define "content"}}
     <h1>List custom fonts</h1>
-    <table role="grid">
-        <thead>
-        <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Number of styles</th>
-            <th scope="col">License</th>
-            <th scope="col">Category</th>
-            <th scope="col">Author</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{range .}}
+    <div class="container-two-column">
+        <aside>
+            <nav>
+                <ul>
+                    <li><a href="/admin/add">Add font</a></li>
+                    <li><a href="/admin">List all fonts</a></li>
+                    <li><a href="/admin/synced">List synced fonts</a></li>
+                    <li><a class="menu-active" href="/admin/custom">List custom fonts</a></li>
+                    <li><a href="/admin/sync">Sync fonts</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <table role="grid">
+            <thead>
             <tr>
-                <td>{{.Name}}</td>
-                <td>{{.NumberStyles}}</td>
-                <td>{{.License}}</td>
-                <td>{{.Category}}</td>
-                <td>{{.Author}}</td>
-                <td>
-                    <a target="_blank" href="/font.html?font={{.Name}}">Details</a>
-                    <a href="/admin/edit?name={{.Name}}">Edit</a>
-                    <a href="/admin/designers?font={{.Name}}">Designers</a>
-                    <a href="/admin/files?font={{.Name}}">Font files</a>
-                    <a href="/admin/delete?name={{.Name}}">Delete</a>
-                </td>
+                <th scope="col">Name</th>
+                <th scope="col">Number of styles</th>
+                <th scope="col">License</th>
+                <th scope="col">Category</th>
+                <th scope="col">Author</th>
+                <th scope="col">Actions</th>
             </tr>
-        {{end}}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {{range .}}
+                <tr>
+                    <td>{{.Name}}</td>
+                    <td>{{.NumberStyles}}</td>
+                    <td>{{.License}}</td>
+                    <td>{{.Category}}</td>
+                    <td>{{.Author}}</td>
+                    <td>
+                        <a target="_blank" href="/font.html?font={{.Name}}">Details</a>
+                        <a href="/admin/edit?name={{.Name}}">Edit</a>
+                        <a href="/admin/designers?font={{.Name}}">Designers</a>
+                        <a href="/admin/files?font={{.Name}}">Font files</a>
+                        <a href="/admin/delete?name={{.Name}}">Delete</a>
+                    </td>
+                </tr>
+            {{end}}
+            </tbody>
+        </table>
+    </div>
 {{end}}
