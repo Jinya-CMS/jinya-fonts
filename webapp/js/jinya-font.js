@@ -41,6 +41,7 @@ function updateLinks() {
     }
 
     document.getElementById('font-html-link').innerText = `<link rel="stylesheet" type="text/css" href="${url}">`;
+    document.getElementById('font-download-link').setAttribute('href', `/download?font=${urlsearch.get('font')}`);
 }
 
 function dedupe(arr) {
@@ -149,7 +150,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             updateLinks();
         }));
 
+        updateLinks();
         updateBody();
     }
-)
-;
+);

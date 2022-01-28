@@ -59,6 +59,7 @@ func main() {
 		}
 		if configuration.ServeWebsite {
 			http.HandleFunc("/api/font", http2.GetFontMeta)
+			http.HandleFunc("/download", http2.DownloadFont)
 			http.HandleFunc("/", http2.GetWebApp)
 		}
 

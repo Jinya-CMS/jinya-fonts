@@ -82,6 +82,17 @@
     }
 }
 
+.jinya-font-details__button {
+    text-decoration: none;
+    width: auto;
+}
+
+.jinya-font-links__download {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+}
+
 .jinya-font-details__add-to-css-label:hover {
     border-color: var(--primary-color);
     background: var(--primary-color);
