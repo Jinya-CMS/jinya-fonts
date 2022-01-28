@@ -169,12 +169,13 @@ func EditFont(w http.ResponseWriter, r *http.Request) {
 	data, err := ioutil.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + r.URL.Query().Get("name") + ".yaml")
 	if err != nil {
 		RenderAdmin(w, "font/edit", struct {
-			Message  string
-			Name     string
-			License  string
-			Category string
-			Referer  string
-		}{"Font does not exist", "", "", "", r.Referer()})
+			Message     string
+			Name        string
+			License     string
+			Category    string
+			Description string
+			Referer     string
+		}{"Font does not exist", "", "", "", "", r.Referer()})
 		return
 	}
 
@@ -182,23 +183,25 @@ func EditFont(w http.ResponseWriter, r *http.Request) {
 	err = yaml.Unmarshal(data, &font)
 	if err != nil {
 		RenderAdmin(w, "font/edit", struct {
-			Message  string
-			Name     string
-			License  string
-			Category string
-			Referer  string
-		}{"Font does not exist", "", "", "", r.Referer()})
+			Message     string
+			Name        string
+			License     string
+			Category    string
+			Description string
+			Referer     string
+		}{"Font does not exist", "", "", "", "", r.Referer()})
 		return
 	}
 
 	if r.Method == http.MethodGet {
 		err = RenderAdmin(w, "font/edit", struct {
-			Message  string
-			Name     string
-			License  string
-			Category string
-			Referer  string
-		}{"", font.Name, font.License, font.Category, r.Referer()})
+			Message     string
+			Name        string
+			License     string
+			Category    string
+			Description string
+			Referer     string
+		}{"", font.Name, font.License, font.Category, font.Description, r.Referer()})
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
@@ -223,12 +226,13 @@ func EditFont(w http.ResponseWriter, r *http.Request) {
 
 		if name == "" {
 			RenderAdmin(w, "font/edit", struct {
-				Message  string
-				Name     string
-				License  string
-				Category string
-				Referer  string
-			}{"Please provide a name", name, license, category, referer})
+				Message     string
+				Name        string
+				License     string
+				Category    string
+				Description string
+				Referer     string
+			}{"Please provide a name", name, license, category, description, referer})
 			return
 		}
 		if license == "" {
@@ -246,24 +250,26 @@ func EditFont(w http.ResponseWriter, r *http.Request) {
 		data, err := yaml.Marshal(font)
 		if err != nil {
 			RenderAdmin(w, "font/edit", struct {
-				Message  string
-				Name     string
-				License  string
-				Category string
-				Referer  string
-			}{"Failed to convert font metadata", name, license, category, referer})
+				Message     string
+				Name        string
+				License     string
+				Category    string
+				Description string
+				Referer     string
+			}{"Failed to convert font metadata", name, license, category, description, referer})
 			return
 		}
 
 		err = ioutil.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+name+".yaml", data, 0775)
 		if err != nil {
 			RenderAdmin(w, "font/edit", struct {
-				Message  string
-				Name     string
-				License  string
-				Category string
-				Referer  string
-			}{"Failed to save font metadata", name, license, category, referer})
+				Message     string
+				Name        string
+				License     string
+				Category    string
+				Description string
+				Referer     string
+			}{"Failed to save font metadata", name, license, category, description, referer})
 			return
 		}
 
