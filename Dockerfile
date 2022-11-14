@@ -1,4 +1,4 @@
-FROM quay.imanuel.dev/dockerhub/library---golang:1.17-alpine
+FROM quay.imanuel.dev/dockerhub/library---golang:1.19-alpine
 WORKDIR /app
 COPY . .
 

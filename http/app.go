@@ -1,8 +1,8 @@
 package http
 
 import (
-	"io/ioutil"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -12,10 +12,10 @@ func GetWebApp(w http.ResponseWriter, r *http.Request) {
 		path = "index.html"
 	}
 
-	data, err := ioutil.ReadFile("./webapp/" + path)
+	data, err := os.ReadFile("./webapp/" + path)
 	if err != nil {
 		path = "index.html"
-		data, err = ioutil.ReadFile("./webapp/" + path)
+		data, err = os.ReadFile("./webapp/" + path)
 
 		if err != nil {
 			http.NotFound(w, r)

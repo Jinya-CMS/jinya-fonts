@@ -3,7 +3,6 @@ package admin
 import (
 	"bytes"
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
 	"jinya-fonts/config"
 	"jinya-fonts/fontsync"
 	"jinya-fonts/meta"
@@ -100,7 +99,7 @@ func AddFont(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err = ioutil.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+name+".yaml", data, 0775)
+		err = os.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+name+".yaml", data, 0775)
 		if err != nil {
 			RenderAdmin(w, "font/add", struct {
 				Message     string
@@ -166,7 +165,7 @@ func DeleteFont(w http.ResponseWriter, r *http.Request) {
 }
 
 func EditFont(w http.ResponseWriter, r *http.Request) {
-	data, err := ioutil.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + r.URL.Query().Get("name") + ".yaml")
+	data, err := os.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + r.URL.Query().Get("name") + ".yaml")
 	if err != nil {
 		RenderAdmin(w, "font/edit", struct {
 			Message     string
@@ -260,7 +259,7 @@ func EditFont(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err = ioutil.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+name+".yaml", data, 0775)
+		err = os.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+name+".yaml", data, 0775)
 		if err != nil {
 			RenderAdmin(w, "font/edit", struct {
 				Message     string

@@ -1,15 +1,15 @@
 package admin
 
 import (
-	"io/ioutil"
 	"jinya-fonts/config"
 	"net/http"
+	"os"
 	"time"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		data, err := ioutil.ReadFile("./admin/templates/login.gohtml")
+		data, err := os.ReadFile("./admin/templates/login.gohtml")
 		if err != nil {
 			http.NotFound(w, r)
 			return
