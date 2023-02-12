@@ -37,7 +37,7 @@ function updateLinks() {
     if (selectedStyles.length === 0) {
         url = basepath;
     } else {
-        url = `${basepath}:ital,wght@${selectedStyles.map(item => `${item.style},${item.weight}`).join(';')}`;
+        url = `${basepath}:ital,wght@${selectedStyles.map(item => `${item.style},${item.weight}`).join('%3B')}`;
     }
 
     document.getElementById('font-html-link').innerText = `<link rel="stylesheet" type="text/css" href="${url}">`;
