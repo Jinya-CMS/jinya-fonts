@@ -2,16 +2,16 @@ package admin
 
 import (
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
 	"jinya-fonts/config"
 	"jinya-fonts/meta"
 	"net/http"
+	"os"
 	"strings"
 )
 
 func DesignersIndex(w http.ResponseWriter, r *http.Request) {
 	fontName := r.URL.Query().Get("font")
-	data, err := ioutil.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
+	data, err := os.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
 	if err != nil {
 		RenderAdmin(w, "designers/index", struct {
 			Message   string
@@ -53,7 +53,7 @@ func DesignersIndex(w http.ResponseWriter, r *http.Request) {
 
 func DeleteDesigner(w http.ResponseWriter, r *http.Request) {
 	fontName := r.URL.Query().Get("font")
-	data, err := ioutil.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
+	data, err := os.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
 	if err != nil {
 		RenderAdmin(w, "designers/delete", struct {
 			Message   string
@@ -126,7 +126,7 @@ func DeleteDesigner(w http.ResponseWriter, r *http.Request) {
 			}{"Failed to remove designer from font", fontName, designerName})
 		}
 
-		err = ioutil.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+".yaml", data, 0775)
+		err = os.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+".yaml", data, 0775)
 		if err != nil {
 			RenderAdmin(w, "designers/delete", struct {
 				Message      string
@@ -144,7 +144,7 @@ func DeleteDesigner(w http.ResponseWriter, r *http.Request) {
 
 func AddDesigner(w http.ResponseWriter, r *http.Request) {
 	fontName := r.URL.Query().Get("font")
-	data, err := ioutil.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
+	data, err := os.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
 	if err != nil {
 		RenderAdmin(w, "designers/index", struct {
 			Message   string
@@ -228,7 +228,7 @@ func AddDesigner(w http.ResponseWriter, r *http.Request) {
 			}{"Failed to add designer to font", fontName, designerName, designerBio})
 		}
 
-		err = ioutil.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+".yaml", data, 0775)
+		err = os.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+".yaml", data, 0775)
 		if err != nil {
 			RenderAdmin(w, "designers/add", struct {
 				Message  string
@@ -247,7 +247,7 @@ func AddDesigner(w http.ResponseWriter, r *http.Request) {
 
 func EditDesigner(w http.ResponseWriter, r *http.Request) {
 	fontName := r.URL.Query().Get("font")
-	data, err := ioutil.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
+	data, err := os.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
 	if err != nil {
 		RenderAdmin(w, "designers/index", struct {
 			Message   string
@@ -352,7 +352,7 @@ func EditDesigner(w http.ResponseWriter, r *http.Request) {
 			}{"Failed to add designer to font", fontName, designerName, designerBio})
 		}
 
-		err = ioutil.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+".yaml", data, 0775)
+		err = os.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+".yaml", data, 0775)
 		if err != nil {
 			RenderAdmin(w, "designers/edit", struct {
 				Message  string

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"gopkg.in/yaml.v3"
 	"io"
-	"io/ioutil"
 	"jinya-fonts/config"
 	"jinya-fonts/meta"
 	"net/http"
@@ -15,7 +14,7 @@ import (
 
 func FilesIndex(w http.ResponseWriter, r *http.Request) {
 	fontName := r.URL.Query().Get("font")
-	data, err := ioutil.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
+	data, err := os.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
 	if err != nil {
 		RenderAdmin(w, "files/index", struct {
 			Message  string
@@ -63,7 +62,7 @@ func FilesIndex(w http.ResponseWriter, r *http.Request) {
 
 func DeleteFile(w http.ResponseWriter, r *http.Request) {
 	fontName := r.URL.Query().Get("font")
-	data, err := ioutil.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
+	data, err := os.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
 	if err != nil {
 		RenderAdmin(w, "files/delete", struct {
 			Message  string
@@ -136,7 +135,7 @@ func DeleteFile(w http.ResponseWriter, r *http.Request) {
 			}{"Failed to remove file from font", fontName, path})
 		}
 
-		err = ioutil.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+".yaml", data, 0775)
+		err = os.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+".yaml", data, 0775)
 		if err != nil {
 			RenderAdmin(w, "files/delete", struct {
 				Message  string
@@ -154,7 +153,7 @@ func DeleteFile(w http.ResponseWriter, r *http.Request) {
 
 func AddFile(w http.ResponseWriter, r *http.Request) {
 	fontName := r.URL.Query().Get("font")
-	data, err := ioutil.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
+	data, err := os.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
 	if err != nil {
 		RenderAdmin(w, "files/index", struct {
 			Message  string
@@ -266,7 +265,7 @@ func AddFile(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err = ioutil.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+"/"+filename, fileBuffer.Bytes(), 0775)
+		err = os.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+"/"+filename, fileBuffer.Bytes(), 0775)
 		if err != nil {
 			RenderAdmin(w, "files/add", struct {
 				Message  string
@@ -299,7 +298,7 @@ func AddFile(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err = ioutil.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+".yaml", data, 0775)
+		err = os.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+".yaml", data, 0775)
 		if err != nil {
 			RenderAdmin(w, "files/add", struct {
 				Message  string
@@ -320,7 +319,7 @@ func AddFile(w http.ResponseWriter, r *http.Request) {
 func EditFile(w http.ResponseWriter, r *http.Request) {
 	fontName := r.URL.Query().Get("font")
 	path := r.URL.Query().Get("path")
-	data, err := ioutil.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
+	data, err := os.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + fontName + ".yaml")
 	if err != nil {
 		RenderAdmin(w, "files/index", struct {
 			Message  string
@@ -441,7 +440,7 @@ func EditFile(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err = ioutil.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+"/"+filename, fileBuffer.Bytes(), 0775)
+		err = os.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+"/"+filename, fileBuffer.Bytes(), 0775)
 		if err != nil {
 			RenderAdmin(w, "files/edit", struct {
 				Message  string
@@ -474,7 +473,7 @@ func EditFile(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err = ioutil.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+".yaml", data, 0775)
+		err = os.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+fontName+".yaml", data, 0775)
 		if err != nil {
 			RenderAdmin(w, "files/edit", struct {
 				Message  string

@@ -71,7 +71,7 @@ Just check fonts.jinya.de. If you host your own Jinya Fonts instance, point the 
 
 ## Custom fonts
 
-Adding custom fonts is rather simple, just access the admin dashboard under https://<jinya-fonts-instance>/admin and
+Adding custom fonts is rather simple, just access the admin dashboard under https://\<jinya-fonts-instance>/admin and
 enter the admin password. After that you can create a new font and add font files to it.
 
 ## Why should I use Jinya Fonts?

@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"jinya-fonts/config"
 	"jinya-fonts/meta"
 	"jinya-fonts/utils"
@@ -336,7 +335,7 @@ func fetchCss(idx int, job FontDownloadJob, userAgent string) ([]byte, error) {
 		return []byte{}, err
 	}
 
-	fontCss, err := ioutil.ReadAll(res.Body)
+	fontCss, err := io.ReadAll(res.Body)
 	if err != nil {
 		log.Printf("CPU %d: Failed to read body for font %s %s", idx, job.Name, job.Variant)
 		return []byte{}, err
@@ -397,7 +396,7 @@ func fetchFontMetadata(idx int, family string) (*WebFontMetadata, error) {
 		return nil, fmt.Errorf("failed to get metadata")
 	}
 
-	bodyBytes, err := ioutil.ReadAll(res.Body)
+	bodyBytes, err := io.ReadAll(res.Body)
 	if err != nil {
 		log.Printf("CPU %d: Failed to read response body for font %s", idx, family)
 		return nil, err

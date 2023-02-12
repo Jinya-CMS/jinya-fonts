@@ -3,17 +3,17 @@ package http
 import (
 	"encoding/json"
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
 	"jinya-fonts/config"
 	"jinya-fonts/meta"
 	"jinya-fonts/utils"
 	"net/http"
+	"os"
 )
 
 func GetFontMeta(w http.ResponseWriter, r *http.Request) {
 	font := r.URL.Query().Get("font")
 	if font != "" {
-		yamlFileData, err := ioutil.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + font + ".yaml")
+		yamlFileData, err := os.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + font + ".yaml")
 		var fontFile meta.FontFile
 		err = yaml.Unmarshal(yamlFileData, &fontFile)
 		if err != nil {

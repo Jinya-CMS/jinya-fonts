@@ -2,13 +2,13 @@ package utils
 
 import (
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
 	"jinya-fonts/config"
 	"jinya-fonts/meta"
+	"os"
 )
 
 func LoadFonts() ([]meta.FontFile, error) {
-	files, err := ioutil.ReadDir(config.LoadedConfiguration.FontFileFolder)
+	files, err := os.ReadDir(config.LoadedConfiguration.FontFileFolder)
 	if err != nil {
 		return nil, err
 	}
@@ -20,7 +20,7 @@ func LoadFonts() ([]meta.FontFile, error) {
 			continue
 		}
 
-		yamlFileData, err := ioutil.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + file.Name())
+		yamlFileData, err := os.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + file.Name())
 		if err != nil {
 			continue
 		}
