@@ -5,6 +5,7 @@ import (
 	"encoding/csv"
 	"jinya-fonts/meta"
 	"net/http"
+	"net/url"
 	"strings"
 	"text/template"
 )
@@ -67,7 +68,11 @@ func convertFamilyToTemplateData(fam family, display string) []templateData {
 }
 
 func GetCss2(w http.ResponseWriter, r *http.Request) {
-	unescapedQuery := strings.TrimPrefix(r.URL.RequestURI(), "/css2?")
+	unescapedQuery, err := url.QueryUnescape(r.URL.RawQuery)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 	querySplitIntoFamilies := strings.Split(unescapedQuery, "&")
 
 	var families []family
