@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return 0;
         });
 
-        const cssFont = filteredFontStylesAndWeights.map(m => `${m.style.toLowerCase() === 'italic' ? '1' : '0'},${m.weight}`).join(';');
+        const cssFont = filteredFontStylesAndWeights.map(m => `${m.style.toLowerCase() === 'italic' ? '1' : '0'},${m.weight}`).join('%3B');
         document.head.insertAdjacentHTML('beforeend', `<link type="text/css" rel="stylesheet" href="/css2?family=${encodeURI(font.name)}:ital,wght@${cssFont}&display=block">`);
 
         const contentTmpl = document.getElementById('content-tmpl').innerHTML;
