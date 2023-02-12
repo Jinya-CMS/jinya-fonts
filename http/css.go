@@ -67,7 +67,7 @@ func convertFamilyToTemplateData(fam family, display string) []templateData {
 }
 
 func GetCss2(w http.ResponseWriter, r *http.Request) {
-	unescapedQuery := strings.TrimPrefix(r.RequestURI, "/css2?")
+	unescapedQuery := strings.TrimPrefix(r.URL.RequestURI(), "/css2?")
 	querySplitIntoFamilies := strings.Split(unescapedQuery, "&")
 
 	var families []family
