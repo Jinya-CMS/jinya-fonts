@@ -1,3 +1,8 @@
+---
+permalink: index.html
+layout: "default"
+---
+
 # Jinya Fonts
 
 Jinya Fonts is a simple dropin replacement for Google Fonts that doesn't track your users. The public instance of Jinya
