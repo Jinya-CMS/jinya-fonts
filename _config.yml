@@ -20,7 +20,7 @@
 
 title: Jinya Fonts
 email: developers@jinya.de
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/jinya-fonts" # the subpath of your site, e.g. /blog
 url: "https://fonts.jinya.dev/" # the base hostname & protocol for your site, e.g. http://example.com
 
 plugins:
