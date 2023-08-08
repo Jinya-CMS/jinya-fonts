@@ -11,8 +11,8 @@ docker-build:
     - docker tag "quay.imanuel.dev/jinya/jinya-fonts:${CI_COMMIT_TAG}" "quay.imanuel.dev/jinya/jinya-fonts:latest"
     - docker tag "quay.imanuel.dev/jinya/jinya-fonts:${CI_COMMIT_TAG}" "jinyacms/jinya-fonts:${CI_COMMIT_TAG}"
     - docker tag "quay.imanuel.dev/jinya/jinya-fonts:${CI_COMMIT_TAG}" jinyacms/jinya-fonts:latest
-    - docker push "jinya/jinya-fonts:${CI_COMMIT_TAG}"
-    - docker push "jinya/jinya-fonts:latest"
+    - docker push "quay.imanuel.dev/jinya/jinya-fonts:${CI_COMMIT_TAG}"
+    - docker push "quay.imanuel.dev/jinya/jinya-fonts:latest"
     - docker push "jinyacms/jinya-fonts:${CI_COMMIT_TAG}"
     - docker push "jinyacms/jinya-fonts:latest"
   rules:
