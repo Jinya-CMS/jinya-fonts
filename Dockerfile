@@ -1,10 +1,10 @@
-FROM quay.imanuel.dev/dockerhub/library---golang:1.20-alpine AS build
+FROM harbor.ulbricht.casa/proxy/library/golang:1.21-alpine AS build
 WORKDIR /app
 COPY . .
 
 RUN go build -o /app/jinya-fonts
 
-FROM quay.imanuel.dev/dockerhub/library---alpine:latest
+FROM harbor.ulbricht.casa/proxy/library/alpine:latest
 
 COPY --from=build /app/jinya-fonts /app/jinya-fonts
 COPY --from=build /app/admin/templates /app/admin/templates
