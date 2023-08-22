@@ -1,18 +1,19 @@
 docker-build:
-  image: harbor.ulbricht.casa/proxy/library/docker:dind
-  stage: build
+  stage: deploy
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    pull_policy: always
+    entrypoint: [""]
   before_script:
-    - docker login -u "$HARBOR_USER" -p "$HARBOR_PASSWORD" harbor.ulbricht.casa
-    - docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PASSWORD"
+    - echo $KANIKO_DOCKERHUB_AND_HARBOR > /kaniko/.docker/config.json
   script:
-    - docker build --pull -t "harbor.ulbricht.casa/jinya/jinya-fonts:${CI_COMMIT_TAG}" -f ./Dockerfile .
-    - docker tag "harbor.ulbricht.casa/jinya/jinya-fonts:${CI_COMMIT_TAG}" "harbor.ulbricht.casa/jinya/jinya-fonts:latest"
-    - docker tag "harbor.ulbricht.casa/jinya/jinya-fonts:${CI_COMMIT_TAG}" "jinyacms/jinya-fonts:${CI_COMMIT_TAG}"
-    - docker tag "harbor.ulbricht.casa/jinya/jinya-fonts:${CI_COMMIT_TAG}" jinyacms/jinya-fonts:latest
-    - docker push "harbor.ulbricht.casa/jinya/jinya-fonts:${CI_COMMIT_TAG}"
-    - docker push "harbor.ulbricht.casa/jinya/jinya-fonts:latest"
-    - docker push "jinyacms/jinya-fonts:${CI_COMMIT_TAG}"
-    - docker push "jinyacms/jinya-fonts:latest"
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "harbor.ulbricht.casa/jinya/jinya-fonts:${CI_COMMIT_TAG}"
+      --destination "harbor.ulbricht.casa/jinya/jinya-fonts:latest"
+      --destination "jinyacms/jinya-fonts:${CI_COMMIT_TAG}"
+      --destination "jinyacms/jinya-fonts:latest"
   rules:
     - if: $CI_COMMIT_TAG
       exists:
