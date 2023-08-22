@@ -1,8 +1,6 @@
 docker-build:
   image: harbor.ulbricht.casa/proxy/library/docker:dind
   stage: build
-  services:
-    - docker:dind
   before_script:
     - docker login -u "$HARBOR_USER" -p "$HARBOR_PASSWORD" harbor.ulbricht.casa
     - docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PASSWORD"
