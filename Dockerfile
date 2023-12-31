@@ -1,10 +1,10 @@
-FROM harbor.ulbricht.casa/proxy/library/golang:1.21-alpine AS build
+FROM library/golang:1.21-alpine AS build
 WORKDIR /app
 COPY . .
 
 RUN go build -o /app/jinya-fonts
 
-FROM harbor.ulbricht.casa/proxy/library/alpine:latest
+FROM library/alpine:latest
 
 COPY --from=build /app/jinya-fonts /app/jinya-fonts
 COPY --from=build /app/admin/templates /app/admin/templates
