@@ -3,7 +3,7 @@ module jinya-fonts
 go 1.21
 
 require (
-	github.com/gosimple/slug v1.13.1
+	github.com/gosimple/slug v1.14.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
