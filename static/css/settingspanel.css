@@ -6,6 +6,16 @@
     background: #ffffff;
 }
 
+.jinya-settings-panel :first-child {
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+
+.jinya-settings-panel :last-child {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
 .jinya-preview__size {
     padding: 0;
     border-width: 0;
@@ -77,8 +87,8 @@
     border: 1px solid #ccc;
     margin: 0;
     box-sizing: border-box;
-    padding: 0.5rem 1rem;
-    height: 3rem;
+    padding: 0.5rem 0.5rem;
+    height: 2.5rem;
 }
 
 .jinya-preview__size:hover, .jinya-preview__size:focus {
@@ -102,14 +112,14 @@
 .jinya-preview__size-text,
 .jinya-search-box {
     border: 1px solid #ccc;
-    padding: 0.5rem 1rem;
     font-size: 1rem;
-    font-family: Lato, sans-serif;
+    font-family: "Albert Sans", sans-serif;
     border-radius: 0;
     background: #fff;
-    height: 3rem;
     box-sizing: border-box;
     width: 100%;
+    padding: 0.5rem 1rem;
+    height: 2.5rem;
 }
 
 .jinya-preview__type,
@@ -130,7 +140,8 @@
 @media screen and (min-width: 786px) {
     .jinya-font-type-panel {
         padding-bottom: 1rem;
-        display: block;
+        display: flex;
+        align-items: center;
     }
 
     .jinya-preview__size-text {

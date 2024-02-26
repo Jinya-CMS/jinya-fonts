@@ -80,12 +80,16 @@
         border: 1px solid #ccc;
         box-sizing: border-box;
         cursor: pointer;
+        border-radius: 0.25rem;
+        transition: background-color 0.3s, border-color 0.3s, color 0.3s;
     }
 }
 
 .jinya-font-details__button {
     text-decoration: none;
     width: auto;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 }
 
 .jinya-font-links__download {

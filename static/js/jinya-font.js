@@ -110,16 +110,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         content.innerHTML = contentTmpl
             .replaceAll('#= name #', font.name)
             .replaceAll('#= designers #', designerNames)
-            .replaceAll('#= about #', font.description)
+            .replaceAll('#= about #', font.description.replaceAll('<a', '<a target="_blank"'))
             .replaceAll('#= style-preview-container #', styleHtml)
-            .replaceAll('#= style-designers #', designersHtml);
+            .replaceAll('#= style-designers #', designersHtml.replaceAll('<a', '<a target="_blank"'));
 
-        document.getElementById('previewtype').addEventListener('change', () => {
-            updateBody();
-        });
-        document.getElementById('previewtext').addEventListener('input', () => {
-            updateBody();
-        });
+        document.getElementById('previewtype').addEventListener('change', updateBody);
+        document.getElementById('previewtext').addEventListener('input', updateBody);
         const previewSizeText = document.getElementById('previewsizetext');
         document.getElementById('previewsize').addEventListener('input', (e) => {
             const value = e.currentTarget.value;
@@ -135,13 +131,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         let license = font.license;
         switch (license) {
             case "apache2":
-                license = '<a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>';
+                license = '<a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>';
                 break;
             case "ofl":
-                license = '<a href="https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL">Open Font License</a>';
+                license = '<a target="_blank" href="https://openfontlicense.org/">Open Font License</a>';
                 break;
             case "ufl":
-                license = '<a href="https://font.ubuntu.com/ufl/">Ubuntu Font License</a>';
+                license = '<a target="_blank" href="https://font.ubuntu.com/ufl/">Ubuntu Font License</a>';
                 break;
         }
         document.getElementById('font-license').innerHTML = license;

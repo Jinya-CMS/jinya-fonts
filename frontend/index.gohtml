@@ -1,22 +1,22 @@
 {{define "content"}}
     <div class="jinya-settings-panel">
-        <input id="searchbox" placeholder="Search..." type="search" class="jinya-search-box">
-        <select id="previewtype" class="jinya-preview__type">
+        <input aria-label="Search for fonts" id="searchbox" placeholder="Search..." type="search" class="jinya-search-box">
+        <select aria-label="Preview type" id="previewtype" class="jinya-preview__type">
             <option value="custom">Custom</option>
             <option value="alphabet">Alphabet</option>
             <option value="lorem" selected>Lorem Ipsum</option>
             <option value="numbers">Numbers</option>
         </select>
-        <input id="previewtext" placeholder="Type text to preview..." type="text" class="jinya-preview__text">
+        <input aria-label="Preview text" id="previewtext" placeholder="Type text to preview..." type="text" class="jinya-preview__text">
         <span id="previewsizetext" class="jinya-preview__size-text">24px</span>
-        <input id="previewsize" type="range" value="24" max="240" min="8" class="jinya-preview__size">
+        <input aria-label="Preview size" id="previewsize" type="range" value="24" max="240" min="8" class="jinya-preview__size">
     </div>
     <div class="jinya-font-type-panel">
-        <input type="checkbox" id="sans" checked> <label for="sans">Sans-Serif</label>
-        <input type="checkbox" id="serif" checked> <label for="serif">Serif</label>
-        <input type="checkbox" id="handwritten" checked> <label for="handwritten">Handwritten</label>
-        <input type="checkbox" id="display" checked> <label for="display">Display</label>
-        <input type="checkbox" id="monospace" checked> <label for="monospace">Monospace</label>
+        <input class="jinya-checkbox" type="checkbox" id="sans" checked> <label for="sans">Sans-Serif</label>
+        <input class="jinya-checkbox" type="checkbox" id="serif" checked> <label for="serif">Serif</label>
+        <input class="jinya-checkbox" type="checkbox" id="handwritten" checked> <label for="handwritten">Handwritten</label>
+        <input class="jinya-checkbox" type="checkbox" id="display" checked> <label for="display">Display</label>
+        <input class="jinya-checkbox" type="checkbox" id="monospace" checked> <label for="monospace">Monospace</label>
     </div>
     <div id="cardlist" class="jinya-card__list jinya-card__list--loading">
         <div class="jinya-loader"></div>
