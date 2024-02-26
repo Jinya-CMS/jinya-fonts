@@ -10,13 +10,17 @@ import (
 	http2 "jinya-fonts/http"
 	"jinya-fonts/utils"
 	"log"
+	"mime"
 	"net/http"
 	"os"
+	"strings"
 )
 
 var (
 	//go:embed frontend
 	frontend embed.FS
+	//go:embed angular/jinya-fonts/dist/browser
+	angular embed.FS
 	//go:embed admin/static
 	adminStatic embed.FS
 	//go:embed static
@@ -47,6 +51,39 @@ func getWebApp(w http.ResponseWriter, r *http.Request) {
 	if err := tpl.Execute(w, nil); err != nil {
 		return
 	}
+}
+
+func getAngularStatic(w http.ResponseWriter, r *http.Request) {
+	path := strings.TrimPrefix(r.URL.Path, "/v3/")
+	var data []byte
+	var err error
+
+	if strings.HasSuffix(path, ".js") || strings.HasSuffix(path, ".css") || strings.HasSuffix(path, ".png") || strings.HasSuffix(path, ".ico") {
+		path = strings.TrimPrefix(path, "static/")
+		data, err = angular.ReadFile("angular/jinya-fonts/dist/browser/" + path)
+		if err != nil {
+			log.Printf("page %s not found in pages cache...", r.RequestURI)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+	} else {
+		data, err = angular.ReadFile("angular/jinya-fonts/dist/browser/index.html")
+		if err != nil {
+			log.Printf("page %s not found in pages cache...", r.RequestURI)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+	}
+
+	lastIdx := strings.LastIndex(path, ".")
+	extension := "text/html"
+	if lastIdx > 0 {
+		extension = path[lastIdx:len(path)]
+	}
+
+	w.Header().Set("Content-Type", mime.TypeByExtension(extension))
+	w.WriteHeader(http.StatusOK)
+	w.Write(data)
 }
 
 func main() {
@@ -97,6 +134,9 @@ func main() {
 		if configuration.ServeWebsite {
 			http.HandleFunc("/api/font", http2.GetFontMeta)
 			http.HandleFunc("/download", http2.DownloadFont)
+
+			http.HandleFunc("/v3/", getAngularStatic)
+
 			http.Handle("/static/", http.FileServer(http.FS(static)))
 			http.HandleFunc("/", getWebApp)
 		}
