@@ -9,7 +9,7 @@
     <filePath value="$PROJECT_DIR$/app.go" />
     <method v="2">
       <option name="NpmBeforeRunTask" enabled="true">
-        <package-json value="$PROJECT_DIR$/angular/jinya-fonts/package.json" />
+        <package-json value="$PROJECT_DIR$/angular/frontend/package.json" />
         <command value="run" />
         <scripts>
           <script value="build:dev" />

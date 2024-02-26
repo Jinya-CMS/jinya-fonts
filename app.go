@@ -19,7 +19,7 @@ import (
 var (
 	//go:embed frontend
 	frontend embed.FS
-	//go:embed angular/jinya-fonts/dist/browser
+	//go:embed angular/frontend/dist/browser
 	angular embed.FS
 	//go:embed admin/static
 	adminStatic embed.FS
@@ -60,14 +60,14 @@ func getAngularStatic(w http.ResponseWriter, r *http.Request) {
 
 	if strings.HasSuffix(path, ".js") || strings.HasSuffix(path, ".css") || strings.HasSuffix(path, ".png") || strings.HasSuffix(path, ".ico") {
 		path = strings.TrimPrefix(path, "static/")
-		data, err = angular.ReadFile("angular/jinya-fonts/dist/browser/" + path)
+		data, err = angular.ReadFile("angular/frontend/dist/browser/" + path)
 		if err != nil {
 			log.Printf("page %s not found in pages cache...", r.RequestURI)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 	} else {
-		data, err = angular.ReadFile("angular/jinya-fonts/dist/browser/index.html")
+		data, err = angular.ReadFile("angular/frontend/dist/browser/index.html")
 		if err != nil {
 			log.Printf("page %s not found in pages cache...", r.RequestURI)
 			w.WriteHeader(http.StatusInternalServerError)

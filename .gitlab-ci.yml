@@ -1,6 +1,20 @@
+build-frontend:
+  image: library/node:latest
+  stage: build
+  script:
+    - cd $CI_PROJECT_DIR/angular/frontend
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/angular/frontend/dist
+
 build:
   image: library/golang:1.22-alpine
   stage: build
+  needs:
+    - job: build-frontend
+      artifacts: true
   script:
     - go vet
     - go build -o jinya-fonts
