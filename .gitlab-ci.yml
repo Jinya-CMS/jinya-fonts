@@ -20,7 +20,7 @@ docker-build:
         - Dockerfile
 
 build-merge-request:
-  image: library/golang:1.21-alpine
+  image: library/golang:1.22-alpine
   stage: build
   script:
     - go vet
