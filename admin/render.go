@@ -1,12 +1,18 @@
 package admin
 
 import (
+	"embed"
 	"html/template"
 	"net/http"
 )
 
+var (
+	//go:embed templates
+	templates embed.FS
+)
+
 func RenderAdmin(w http.ResponseWriter, path string, data interface{}) error {
-	tmpl, err := template.New("layout").ParseFiles("./admin/templates/layout.gohtml", "./admin/templates/"+path+".gohtml")
+	tmpl, err := template.New("layout").ParseFS(templates, "templates/layout.gohtml", "templates/"+path+".gohtml")
 	if err != nil {
 		return err
 	}

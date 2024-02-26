@@ -1,7 +1,9 @@
 package main
 
 import (
+	"embed"
 	"flag"
+	"html/template"
 	"jinya-fonts/admin"
 	"jinya-fonts/config"
 	"jinya-fonts/fontsync"
@@ -11,6 +13,41 @@ import (
 	"net/http"
 	"os"
 )
+
+var (
+	//go:embed frontend
+	frontend embed.FS
+	//go:embed admin/static
+	adminStatic embed.FS
+	//go:embed static
+	static embed.FS
+	pages  = map[string]string{
+		"/":     "frontend/index.gohtml",
+		"/font": "frontend/font.gohtml",
+	}
+)
+
+func getWebApp(w http.ResponseWriter, r *http.Request) {
+	page, ok := pages[r.URL.Path]
+	if !ok {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	tpl, err := template.New("layout").ParseFS(frontend, "frontend/layout.gohtml", page)
+	if err != nil {
+		log.Printf("page %s not found in pages cache...", r.RequestURI)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/html")
+	w.WriteHeader(http.StatusOK)
+
+	if err := tpl.Execute(w, nil); err != nil {
+		return
+	}
+}
 
 func main() {
 	configFileFlag := flag.String("config-file", "./config.yaml", "The config file, check the sample for the structure")
@@ -29,7 +66,7 @@ func main() {
 	}
 
 	if utils.ContainsString(os.Args, "serve") {
-		http.HandleFunc("/fonts/", http2.GetFont)
+		http.Handle("/fonts/", http.StripPrefix("/fonts", http.FileServer(http.Dir(configuration.FontFileFolder))))
 		http.HandleFunc("/css2", http2.GetCss2)
 		if configuration.AdminPassword != "" {
 			http.HandleFunc("/login", admin.Login)
@@ -55,12 +92,13 @@ func main() {
 			http.HandleFunc("/admin/files/add", admin.CheckAuthCookie(admin.AddFile))
 			http.HandleFunc("/admin/files/edit", admin.CheckAuthCookie(admin.EditFile))
 
-			http.Handle("/admin/static/", http.StripPrefix("/admin/static", http.FileServer(http.Dir("./admin/static"))))
+			http.Handle("/admin/static/", http.FileServer(http.FS(adminStatic)))
 		}
 		if configuration.ServeWebsite {
 			http.HandleFunc("/api/font", http2.GetFontMeta)
 			http.HandleFunc("/download", http2.DownloadFont)
-			http.HandleFunc("/", http2.GetWebApp)
+			http.Handle("/static/", http.FileServer(http.FS(static)))
+			http.HandleFunc("/", getWebApp)
 		}
 
 		log.Println("Serving at localhost:8090...")

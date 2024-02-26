@@ -236,7 +236,7 @@ func createFontDirectory(idx int, job FontDownloadJob, err error, fontDir string
 
 func getFontSubset(idx int, job FontDownloadJob, face string, subsetValue string) (string, error) {
 	log.Printf("CPU %d: Find font subset %s %s", idx, job.Name, job.Variant)
-	subsetRegex := regexp.MustCompile(`\/\* (?P<subset>.*) \*\/`)
+	subsetRegex := regexp.MustCompile(`/\* (?P<subset>.*) \*/`)
 	subsetMatches := subsetRegex.FindStringSubmatch(face)
 	if len(subsetMatches) != 2 {
 		log.Printf("CPU %d: Failed to find font-subset for font %s %s", idx, job.Name, job.Variant)
@@ -281,7 +281,7 @@ func getFontUnicodeRange(idx int, job FontDownloadJob, face string) string {
 	unicodeRangeRegex := regexp.MustCompile(`unicode-range: (?P<range>.*);`)
 	rangeMatches := unicodeRangeRegex.FindStringSubmatch(face)
 	rangeIndex := unicodeRangeRegex.SubexpIndex("range")
-	if rangeIndex != -1 {
+	if rangeIndex != -1 && len(rangeMatches) > rangeIndex {
 		return rangeMatches[rangeIndex]
 	}
 

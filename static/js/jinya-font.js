@@ -33,7 +33,7 @@ function updateLinks() {
         });
     });
 
-    let url = '';
+    let url;
     if (selectedStyles.length === 0) {
         url = basepath;
     } else {
@@ -146,9 +146,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         document.getElementById('font-license').innerHTML = license;
 
-        document.querySelectorAll('[data-role=select]').forEach(item => item.addEventListener('change', (e) => {
-            updateLinks();
-        }));
+        document.querySelectorAll('[data-role=select]').forEach(item => item.addEventListener('change', updateLinks));
 
         updateLinks();
         updateBody();

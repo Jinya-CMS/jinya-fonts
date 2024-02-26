@@ -12,7 +12,8 @@
     margin: 0;
     padding-top: 1rem;
     font-size: 2rem;
-    font-weight: 300;
+    font-weight: 200;
+    font-family: Urbanist, sans-serif;
 }
 
 .jinya-font-details__title--about {
@@ -100,8 +101,8 @@
 }
 
 .jinya-font-details__add-to-css-box:checked + .jinya-font-details__add-to-css-label {
-    border-color: #71687a;
-    background: #71687a;
+    border-color: var(--primary-color);
+    background: var(--primary-color);
     color: #ffffff;
 }
 
@@ -131,7 +132,7 @@
     background: #fafafa;
     padding: 1rem;
     font-size: 1rem;
-    font-family: "Fira Code", monospace;
+    font-family: "Oxygen Mono", monospace;
     box-sizing: border-box;
     margin: 0;
 }

@@ -1,7 +1,9 @@
 :root {
-    --primary-color: #514B57;
+    --primary-color: #19324c;
     --text-color: #333;
-    font-family: Lato, sans-serif;
+
+    font-family: "Albert Sans", sans-serif;
+
     color: var(--text-color);
 }
 
