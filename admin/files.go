@@ -5,7 +5,7 @@ import (
 	"gopkg.in/yaml.v3"
 	"io"
 	"jinya-fonts/config"
-	"jinya-fonts/meta"
+	"jinya-fonts/database"
 	"net/http"
 	"os"
 	"sort"
@@ -19,19 +19,19 @@ func FilesIndex(w http.ResponseWriter, r *http.Request) {
 		RenderAdmin(w, "files/index", struct {
 			Message  string
 			FontName string
-			Files    []meta.FontFileMeta
-		}{"Font does not exist", fontName, []meta.FontFileMeta{}})
+			Files    []database.Metadata
+		}{"Font does not exist", fontName, []database.Metadata{}})
 		return
 	}
 
-	var font meta.FontFile
+	var font database.Webfont
 	err = yaml.Unmarshal(data, &font)
 	if err != nil {
 		RenderAdmin(w, "files/index", struct {
 			Message  string
 			FontName string
-			Files    []meta.FontFileMeta
-		}{"Font does not exist", fontName, []meta.FontFileMeta{}})
+			Files    []database.Metadata
+		}{"Font does not exist", fontName, []database.Metadata{}})
 		return
 	}
 
@@ -39,8 +39,8 @@ func FilesIndex(w http.ResponseWriter, r *http.Request) {
 		RenderAdmin(w, "files/index", struct {
 			Message  string
 			FontName string
-			Files    []meta.FontFileMeta
-		}{"You cannot edit the files of a synced font", fontName, []meta.FontFileMeta{}})
+			Files    []database.Metadata
+		}{"You cannot edit the files of a synced font", fontName, []database.Metadata{}})
 		return
 	}
 
@@ -53,7 +53,7 @@ func FilesIndex(w http.ResponseWriter, r *http.Request) {
 	err = RenderAdmin(w, "files/index", struct {
 		Message  string
 		FontName string
-		Files    []meta.FontFileMeta
+		Files    []database.Metadata
 	}{"", font.Name, font.Fonts})
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -72,7 +72,7 @@ func DeleteFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var font meta.FontFile
+	var font database.Webfont
 	err = yaml.Unmarshal(data, &font)
 	if err != nil {
 		RenderAdmin(w, "files/index", struct {
@@ -93,7 +93,7 @@ func DeleteFile(w http.ResponseWriter, r *http.Request) {
 	}
 
 	path := r.URL.Query().Get("path")
-	var file *meta.FontFileMeta
+	var file *database.Metadata
 	for _, item := range font.Fonts {
 		if item.Path == path {
 			file = &item
@@ -117,7 +117,7 @@ func DeleteFile(w http.ResponseWriter, r *http.Request) {
 			Path     string
 		}{"", fontName, path})
 	} else if r.Method == http.MethodPost {
-		var files []meta.FontFileMeta
+		var files []database.Metadata
 		for _, item := range font.Fonts {
 			if item.Path != path {
 				files = append(files, item)
@@ -158,19 +158,19 @@ func AddFile(w http.ResponseWriter, r *http.Request) {
 		RenderAdmin(w, "files/index", struct {
 			Message  string
 			FontName string
-			Files    []meta.FontFileMeta
-		}{"Font does not exist", fontName, []meta.FontFileMeta{}})
+			Files    []database.Metadata
+		}{"Font does not exist", fontName, []database.Metadata{}})
 		return
 	}
 
-	var font meta.FontFile
+	var font database.Webfont
 	err = yaml.Unmarshal(data, &font)
 	if err != nil {
 		RenderAdmin(w, "files/index", struct {
 			Message  string
 			FontName string
-			Files    []meta.FontFileMeta
-		}{"Font does not exist", fontName, []meta.FontFileMeta{}})
+			Files    []database.Metadata
+		}{"Font does not exist", fontName, []database.Metadata{}})
 		return
 	}
 
@@ -178,8 +178,8 @@ func AddFile(w http.ResponseWriter, r *http.Request) {
 		RenderAdmin(w, "files/index", struct {
 			Message  string
 			FontName string
-			Files    []meta.FontFileMeta
-		}{"You cannot edit the files of a synced font", fontName, []meta.FontFileMeta{}})
+			Files    []database.Metadata
+		}{"You cannot edit the files of a synced font", fontName, []database.Metadata{}})
 		return
 	}
 
@@ -277,7 +277,7 @@ func AddFile(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		font.Fonts = append(font.Fonts, meta.FontFileMeta{
+		font.Fonts = append(font.Fonts, database.Metadata{
 			Path:     filename,
 			Subset:   fileSubset,
 			Weight:   fileWeight,
@@ -324,19 +324,19 @@ func EditFile(w http.ResponseWriter, r *http.Request) {
 		RenderAdmin(w, "files/index", struct {
 			Message  string
 			FontName string
-			Files    []meta.FontFileMeta
-		}{"Font does not exist", fontName, []meta.FontFileMeta{}})
+			Files    []database.Metadata
+		}{"Font does not exist", fontName, []database.Metadata{}})
 		return
 	}
 
-	var font meta.FontFile
+	var font database.Webfont
 	err = yaml.Unmarshal(data, &font)
 	if err != nil {
 		RenderAdmin(w, "files/index", struct {
 			Message  string
 			FontName string
-			Files    []meta.FontFileMeta
-		}{"Font does not exist", fontName, []meta.FontFileMeta{}})
+			Files    []database.Metadata
+		}{"Font does not exist", fontName, []database.Metadata{}})
 		return
 	}
 
@@ -344,11 +344,11 @@ func EditFile(w http.ResponseWriter, r *http.Request) {
 		RenderAdmin(w, "files/index", struct {
 			Message  string
 			FontName string
-			Files    []meta.FontFileMeta
-		}{"You cannot edit the files of a synced font", fontName, []meta.FontFileMeta{}})
+			Files    []database.Metadata
+		}{"You cannot edit the files of a synced font", fontName, []database.Metadata{}})
 		return
 	}
-	var fontFile meta.FontFileMeta
+	var fontFile database.Metadata
 	for _, item := range font.Fonts {
 		if item.Path == path {
 			fontFile = item

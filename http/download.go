@@ -6,7 +6,7 @@ import (
 	"github.com/gosimple/slug"
 	"io"
 	"jinya-fonts/config"
-	"jinya-fonts/meta"
+	"jinya-fonts/database"
 	"net/http"
 	"os"
 )
@@ -25,21 +25,21 @@ func DownloadFont(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fontFile, err := meta.LoadFontFileCache(font)
+	webfont, err := database.GetFont(font)
 	if err != nil {
 		http.NotFound(w, r)
 		return
 	}
 
 	css := ""
-	files := make(map[string]*os.File, len(fontFile.Fonts))
+	files := make(map[string]*os.File, len(webfont.Fonts))
 
-	for _, item := range fontFile.Fonts {
+	for _, item := range webfont.Fonts {
 		convertedCss, err := convertTemplateDataToCss(templateData{
 			Subset:       item.Subset,
-			Name:         fontFile.Name,
+			Name:         webfont.Name,
 			Style:        item.Style,
-			Url:          "./" + slug.Make(fontFile.Name) + "/" + item.Path,
+			Url:          "./" + slug.Make(webfont.Name) + "/" + item.Path,
 			UnicodeRange: item.UnicodeRange,
 			Weight:       item.Weight,
 			FontDisplay:  "block",
@@ -48,7 +48,7 @@ func DownloadFont(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 
-		file, err := os.Open(config.LoadedConfiguration.FontFileFolder + "/" + fontFile.Name + "/" + item.Path)
+		file, err := os.Open(config.LoadedConfiguration.FontFileFolder + "/" + webfont.Name + "/" + item.Path)
 		if err != nil {
 			continue
 		}

@@ -1,0 +1,23 @@
+$schema: http://json-schema.org/draft/2019-09/schema
+title: Metadata
+type: object
+required:
+  - path
+  - subset
+  - unicodeRange
+  - weight
+  - style
+  - category
+properties:
+  path:
+    type: string
+  subset:
+    type: string
+  unicodeRange:
+    type: string
+  weight:
+    type: string
+  style:
+    type: string
+  category:
+    type: string

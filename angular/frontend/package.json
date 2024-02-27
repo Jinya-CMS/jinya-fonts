@@ -1,0 +1,35 @@
+{
+  "name": "jinya-fonts",
+  "version": "3.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "build:dev": "ng build --configuration development",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "17.2.2",
+    "@angular/common": "17.2.2",
+    "@angular/compiler": "17.2.2",
+    "@angular/core": "17.2.2",
+    "@angular/forms": "17.2.2",
+    "@angular/platform-browser": "17.2.2",
+    "@angular/platform-browser-dynamic": "17.2.2",
+    "@angular/router": "17.2.2",
+    "@fontsource/albert-sans": "^5.0.8",
+    "@fontsource/oxygen-mono": "^5.0.18",
+    "@fontsource/urbanist": "^5.0.18",
+    "rxjs": "7.8.1",
+    "tslib": "2.6.2",
+    "zone.js": "0.14.4"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "17.2.1",
+    "@angular/cli": "17.2.1",
+    "@angular/compiler-cli": "17.2.2",
+    "typescript": "5.3.3"
+  }
+}

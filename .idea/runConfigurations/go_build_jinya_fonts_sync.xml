@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="go build jinya-fonts sync" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="jinya-fonts" />
+    <working_directory value="$PROJECT_DIR$" />
+    <parameters value="sync" />
+    <kind value="PACKAGE" />
+    <package value="jinya-fonts" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/app.go" />
+    <method v="2" />
+  </configuration>
+</component>

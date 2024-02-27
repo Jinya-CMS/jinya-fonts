@@ -1,0 +1,17 @@
+.jinya-footer {
+  border-top: 0.625rem solid var(--primary-color);
+  padding-top: 0.5rem;
+  background: var(--white);
+}
+
+.jinya-footer {
+  p {
+    padding-bottom: 0.5rem;
+    margin: 0;
+
+    @media screen and (min-width: 786px) {
+      position: sticky;
+      bottom: 0;
+    }
+  }
+}

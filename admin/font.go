@@ -4,9 +4,8 @@ import (
 	"bytes"
 	"gopkg.in/yaml.v3"
 	"jinya-fonts/config"
+	"jinya-fonts/database"
 	"jinya-fonts/fontsync"
-	"jinya-fonts/meta"
-	"jinya-fonts/utils"
 	"log"
 	"net/http"
 	"os"
@@ -76,11 +75,11 @@ func AddFont(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		fontFile := meta.FontFile{
+		fontFile := database.Webfont{
 			Name:        name,
-			Fonts:       []meta.FontFileMeta{},
+			Fonts:       []database.Metadata{},
 			Description: description,
-			Designers:   []meta.FontDesigner{},
+			Designers:   []database.Designer{},
 			License:     license,
 			Category:    category,
 			GoogleFont:  false,
@@ -178,7 +177,7 @@ func EditFont(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var font meta.FontFile
+	var font database.Webfont
 	err = yaml.Unmarshal(data, &font)
 	if err != nil {
 		RenderAdmin(w, "font/edit", struct {
@@ -293,7 +292,7 @@ func AllFonts(w http.ResponseWriter, r *http.Request) {
 		GoogleFont   bool
 	}
 
-	fonts, err := utils.LoadFonts()
+	fonts, err := database.GetAllFonts()
 	if err != nil {
 		http.NotFound(w, r)
 		return
@@ -333,7 +332,7 @@ func CustomFonts(w http.ResponseWriter, r *http.Request) {
 		Author       string
 	}
 
-	fonts, err := utils.LoadFonts()
+	fonts, err := database.GetAllFonts()
 	if err != nil {
 		http.NotFound(w, r)
 		return
@@ -376,7 +375,7 @@ func SyncedFonts(w http.ResponseWriter, r *http.Request) {
 		Author       string
 	}
 
-	fonts, err := utils.LoadFonts()
+	fonts, err := database.GetAllFonts()
 	if err != nil {
 		http.NotFound(w, r)
 		return
@@ -405,7 +404,7 @@ func SyncedFonts(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func grabDesigners(font meta.FontFile) []string {
+func grabDesigners(font database.Webfont) []string {
 	var designers []string
 	for _, designer := range font.Designers {
 		designers = append(designers, designer.Name)

@@ -3,7 +3,7 @@ package admin
 import (
 	"gopkg.in/yaml.v3"
 	"jinya-fonts/config"
-	"jinya-fonts/meta"
+	"jinya-fonts/database"
 	"net/http"
 	"os"
 	"strings"
@@ -16,19 +16,19 @@ func DesignersIndex(w http.ResponseWriter, r *http.Request) {
 		RenderAdmin(w, "designers/index", struct {
 			Message   string
 			FontName  string
-			Designers []meta.FontDesigner
-		}{"Font does not exist", fontName, []meta.FontDesigner{}})
+			Designers []database.Designer
+		}{"Font does not exist", fontName, []database.Designer{}})
 		return
 	}
 
-	var font meta.FontFile
+	var font database.Webfont
 	err = yaml.Unmarshal(data, &font)
 	if err != nil {
 		RenderAdmin(w, "designers/index", struct {
 			Message   string
 			FontName  string
-			Designers []meta.FontDesigner
-		}{"Font does not exist", fontName, []meta.FontDesigner{}})
+			Designers []database.Designer
+		}{"Font does not exist", fontName, []database.Designer{}})
 		return
 	}
 
@@ -36,15 +36,15 @@ func DesignersIndex(w http.ResponseWriter, r *http.Request) {
 		RenderAdmin(w, "designers/index", struct {
 			Message   string
 			FontName  string
-			Designers []meta.FontDesigner
-		}{"You cannot edit the designers of a synced font", fontName, []meta.FontDesigner{}})
+			Designers []database.Designer
+		}{"You cannot edit the designers of a synced font", fontName, []database.Designer{}})
 		return
 	}
 
 	err = RenderAdmin(w, "designers/index", struct {
 		Message   string
 		FontName  string
-		Designers []meta.FontDesigner
+		Designers []database.Designer
 	}{"", font.Name, font.Designers})
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -58,12 +58,12 @@ func DeleteDesigner(w http.ResponseWriter, r *http.Request) {
 		RenderAdmin(w, "designers/delete", struct {
 			Message   string
 			FontName  string
-			Designers []meta.FontDesigner
-		}{"Font does not exist", fontName, []meta.FontDesigner{}})
+			Designers []database.Designer
+		}{"Font does not exist", fontName, []database.Designer{}})
 		return
 	}
 
-	var font meta.FontFile
+	var font database.Webfont
 	err = yaml.Unmarshal(data, &font)
 	if err != nil {
 		RenderAdmin(w, "designers/index", struct {
@@ -84,7 +84,7 @@ func DeleteDesigner(w http.ResponseWriter, r *http.Request) {
 	}
 
 	designerName := r.URL.Query().Get("name")
-	var designer *meta.FontDesigner
+	var designer *database.Designer
 	for _, item := range font.Designers {
 		if item.Name == designerName {
 			designer = &item
@@ -108,7 +108,7 @@ func DeleteDesigner(w http.ResponseWriter, r *http.Request) {
 			DesignerName string
 		}{"", fontName, designerName})
 	} else if r.Method == http.MethodPost {
-		var designers []meta.FontDesigner
+		var designers []database.Designer
 		for _, item := range font.Designers {
 			if item.Name != designerName {
 				designers = append(designers, item)
@@ -149,19 +149,19 @@ func AddDesigner(w http.ResponseWriter, r *http.Request) {
 		RenderAdmin(w, "designers/index", struct {
 			Message   string
 			FontName  string
-			Designers []meta.FontDesigner
-		}{"Font does not exist", fontName, []meta.FontDesigner{}})
+			Designers []database.Designer
+		}{"Font does not exist", fontName, []database.Designer{}})
 		return
 	}
 
-	var font meta.FontFile
+	var font database.Webfont
 	err = yaml.Unmarshal(data, &font)
 	if err != nil {
 		RenderAdmin(w, "designers/index", struct {
 			Message   string
 			FontName  string
-			Designers []meta.FontDesigner
-		}{"Font does not exist", fontName, []meta.FontDesigner{}})
+			Designers []database.Designer
+		}{"Font does not exist", fontName, []database.Designer{}})
 		return
 	}
 
@@ -169,8 +169,8 @@ func AddDesigner(w http.ResponseWriter, r *http.Request) {
 		RenderAdmin(w, "designers/index", struct {
 			Message   string
 			FontName  string
-			Designers []meta.FontDesigner
-		}{"You cannot edit the designers of a synced font", fontName, []meta.FontDesigner{}})
+			Designers []database.Designer
+		}{"You cannot edit the designers of a synced font", fontName, []database.Designer{}})
 		return
 	}
 
@@ -214,7 +214,7 @@ func AddDesigner(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		font.Designers = append(font.Designers, meta.FontDesigner{
+		font.Designers = append(font.Designers, database.Designer{
 			Name: designerName,
 			Bio:  designerBio,
 		})
@@ -252,19 +252,19 @@ func EditDesigner(w http.ResponseWriter, r *http.Request) {
 		RenderAdmin(w, "designers/index", struct {
 			Message   string
 			FontName  string
-			Designers []meta.FontDesigner
-		}{"Font does not exist", fontName, []meta.FontDesigner{}})
+			Designers []database.Designer
+		}{"Font does not exist", fontName, []database.Designer{}})
 		return
 	}
 
-	var font meta.FontFile
+	var font database.Webfont
 	err = yaml.Unmarshal(data, &font)
 	if err != nil {
 		RenderAdmin(w, "designers/index", struct {
 			Message   string
 			FontName  string
-			Designers []meta.FontDesigner
-		}{"Font does not exist", fontName, []meta.FontDesigner{}})
+			Designers []database.Designer
+		}{"Font does not exist", fontName, []database.Designer{}})
 		return
 	}
 
@@ -272,13 +272,13 @@ func EditDesigner(w http.ResponseWriter, r *http.Request) {
 		RenderAdmin(w, "designers/index", struct {
 			Message   string
 			FontName  string
-			Designers []meta.FontDesigner
-		}{"You cannot edit the designers of a synced font", fontName, []meta.FontDesigner{}})
+			Designers []database.Designer
+		}{"You cannot edit the designers of a synced font", fontName, []database.Designer{}})
 		return
 	}
 
 	designerNameFromUri := r.URL.Query().Get("name")
-	var designer *meta.FontDesigner
+	var designer *database.Designer
 	for _, item := range font.Designers {
 		if item.Name == designerNameFromUri {
 			designer = &item
@@ -290,8 +290,8 @@ func EditDesigner(w http.ResponseWriter, r *http.Request) {
 		RenderAdmin(w, "designers/index", struct {
 			Message   string
 			FontName  string
-			Designers []meta.FontDesigner
-		}{"Designer doesn't exist in font", fontName, []meta.FontDesigner{}})
+			Designers []database.Designer
+		}{"Designer doesn't exist in font", fontName, []database.Designer{}})
 		return
 	}
 
