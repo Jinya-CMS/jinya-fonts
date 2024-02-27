@@ -57,7 +57,7 @@ function dedupe(arr) {
 
 document.addEventListener('DOMContentLoaded', async () => {
         const urlsearch = new URLSearchParams(location.search);
-        const response = await fetch(`/api/font?font=${urlsearch.get('font')}`);
+        const response = await fetch(`/api/font/${urlsearch.get('font')}`);
         const font = await response.json();
         const filteredFontStylesAndWeights = dedupe(font.fonts.map(m => ({
             weight: m.weight,
