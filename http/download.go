@@ -94,5 +94,5 @@ func DownloadFont(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Disposition", "attachment; filename=\""+slug.Make(font)+".zip\"")
-	w.Write(buffer.Bytes())
+	_, _ = w.Write(buffer.Bytes())
 }

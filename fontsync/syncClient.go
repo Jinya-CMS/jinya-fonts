@@ -6,13 +6,13 @@ import (
 	"io"
 	"jinya-fonts/config"
 	"jinya-fonts/database"
-	"jinya-fonts/utils"
 	"log"
 	"net/http"
 	"net/url"
 	"os"
 	"regexp"
 	"runtime"
+	"slices"
 	"strings"
 	"sync"
 )
@@ -359,7 +359,9 @@ func Sync(configuration *config.Configuration) error {
 	}
 
 	for _, font := range fonts {
-		if len(configuration.FilterByName) > 0 && !utils.ContainsStringLower(configuration.FilterByName, font.Family) {
+		if len(configuration.FilterByName) > 0 && !slices.ContainsFunc(configuration.FilterByName, func(filter string) bool {
+			return strings.ToLower(filter) == strings.ToLower(font.Family)
+		}) {
 			continue
 		}
 		variants := font.Variants

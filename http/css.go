@@ -47,24 +47,70 @@ func convertFamilyToTemplateData(fam family, display string) []templateData {
 	}
 
 	var data []templateData
-	for _, fontFamily := range webfont.Fonts {
-		if fam.Italic && fontFamily.Style != "italic" {
+	for _, metadata := range webfont.Fonts {
+		if fam.Italic && metadata.Style != "italic" {
 			continue
 		}
-		if fontFamily.Weight == fam.Weight {
+		if metadata.Weight == fam.Weight {
 			data = append(data, templateData{
-				Subset:       fontFamily.Subset,
+				Subset:       metadata.Subset,
 				Name:         fam.Name,
-				Style:        fontFamily.Style,
-				Url:          "/fonts/" + fam.Name + "/" + fontFamily.Path,
-				UnicodeRange: fontFamily.UnicodeRange,
-				Weight:       fam.Weight,
+				Style:        metadata.Style,
+				Url:          "/fonts/" + fam.Name + "/" + metadata.Path,
+				UnicodeRange: metadata.UnicodeRange,
+				Weight:       metadata.Weight,
 				FontDisplay:  display,
 			})
 		}
 	}
 
 	return data
+}
+
+func getFamiliesFromModifiers(allModifiers [][]string, name string) []family {
+	italicIdx := -1
+	weightIdx := -1
+	headerRow := allModifiers[0]
+	for i := range headerRow {
+		if headerRow[i] == "ital" {
+			italicIdx = i
+		} else if headerRow[i] == "wght" {
+			weightIdx = i
+		}
+	}
+
+	var families []family
+
+	for _, entry := range allModifiers[1:] {
+		italic := false
+		weight := "regular"
+		if italicIdx != -1 {
+			italic = entry[italicIdx] == "1"
+		}
+
+		if weightIdx != -1 {
+			weight = entry[weightIdx]
+		}
+
+		families = append(families, family{name, italic, weight})
+	}
+
+	return families
+}
+
+func convertTemplateDataToCss(item templateData) (string, error) {
+	parsedTmpl, err := template.New("css").Parse(tmpl)
+	if err != nil {
+		return "", err
+	}
+
+	var buf bytes.Buffer
+	err = parsedTmpl.Execute(&buf, item)
+	if err != nil {
+		return "", err
+	}
+
+	return buf.String(), nil
 }
 
 func GetCss2(w http.ResponseWriter, r *http.Request) {
@@ -118,51 +164,5 @@ func GetCss2(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Add("Content-Type", "text/css")
-	w.Write([]byte(css))
-}
-
-func convertTemplateDataToCss(item templateData) (string, error) {
-	parsedTmpl, err := template.New("css").Parse(tmpl)
-	if err != nil {
-		return "", err
-	}
-
-	var buf bytes.Buffer
-	err = parsedTmpl.Execute(&buf, item)
-	if err != nil {
-		return "", err
-	}
-
-	return buf.String(), nil
-}
-
-func getFamiliesFromModifiers(allModifiers [][]string, name string) []family {
-	italicIdx := -1
-	weightIdx := -1
-	headerRow := allModifiers[0]
-	for i := range headerRow {
-		if headerRow[i] == "ital" {
-			italicIdx = i
-		} else if headerRow[i] == "wght" {
-			weightIdx = i
-		}
-	}
-
-	var families []family
-
-	for _, entry := range allModifiers[1:] {
-		italic := false
-		weight := "regular"
-		if italicIdx != -1 {
-			italic = entry[italicIdx] == "1"
-		}
-
-		if weightIdx != -1 {
-			weight = entry[weightIdx]
-		}
-
-		families = append(families, family{name, italic, weight})
-	}
-
-	return families
+	_, _ = w.Write([]byte(css))
 }

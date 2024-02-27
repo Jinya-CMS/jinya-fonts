@@ -10,11 +10,11 @@ import (
 	"jinya-fonts/config"
 	"jinya-fonts/fontsync"
 	http2 "jinya-fonts/http"
-	"jinya-fonts/utils"
 	"log"
 	"net/http"
 	"os"
 	"path"
+	"slices"
 	"strings"
 )
 
@@ -82,14 +82,14 @@ func main() {
 		panic(err)
 	}
 
-	if utils.ContainsString(os.Args, "sync") {
+	if slices.Contains(os.Args, "sync") {
 		err = fontsync.Sync(configuration)
 		if err != nil {
 			panic(err)
 		}
 	}
 
-	if utils.ContainsString(os.Args, "serve") {
+	if slices.Contains(os.Args, "serve") {
 		router := mux.NewRouter()
 
 		router.PathPrefix("/fonts/").Handler(http.StripPrefix("/fonts", http.FileServer(http.Dir(configuration.FontFileFolder))))
