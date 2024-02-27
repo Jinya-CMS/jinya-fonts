@@ -23,6 +23,8 @@ var (
 	frontend embed.FS
 	//go:embed angular/frontend/dist/browser
 	angular embed.FS
+	//go:embed openapi
+	openapi embed.FS
 	//go:embed static
 	static embed.FS
 	//go:embed admin/static
@@ -88,6 +90,36 @@ func getAngularStatic(w http.ResponseWriter, r *http.Request) {
 	w.Write(data)
 }
 
+func getOpenApiYaml(w http.ResponseWriter, r *http.Request) {
+	var data []byte
+	var err error
+
+	data, err = openapi.ReadFile("openapi/v3/jinya-fonts.yaml")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/x-yaml")
+	w.WriteHeader(http.StatusOK)
+	w.Write(data)
+}
+
+func getOpenApi(w http.ResponseWriter, r *http.Request) {
+	var data []byte
+	var err error
+
+	data, err = openapi.ReadFile("openapi/v3/index.html")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/html")
+	w.WriteHeader(http.StatusOK)
+	w.Write(data)
+}
+
 func main() {
 	configFileFlag := flag.String("config-file", "./config.yaml", "The config file, check the sample for the structure")
 	flag.Parse()
@@ -139,6 +171,10 @@ func main() {
 			router.HandleFunc("/download", http2.DownloadFont)
 
 			router.PathPrefix("/v3/").HandlerFunc(getAngularStatic)
+
+			router.HandleFunc("/openapi.yaml", getOpenApiYaml)
+			router.HandleFunc("/openapi", getOpenApi)
+			router.PathPrefix("/openapi/static/").Handler(http.FileServer(http.FS(openapi)))
 
 			router.PathPrefix("/static/").Handler(http.FileServer(http.FS(static)))
 			router.PathPrefix("/").HandlerFunc(getWebApp)

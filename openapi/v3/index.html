@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jinya Fonts API Docs</title>
+    <link href="https://fonts.jinya.de/css2?family=Albert Sans:wght@300;400;700" rel="stylesheet">
+    <link href="https://fonts.jinya.de/css2?family=Urbanist:wght@200;300;400;700" rel="stylesheet">
+    <link href="https://fonts.jinya.de/css2?family=Oxygen Mono" rel="stylesheet">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/openapi/static/assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/openapi/static/assets/favicon-512x512.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/openapi/static/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/openapi/static/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/openapi/static/assets/favicon-16x16.png">
+    <link rel="shortcut icon" href="/openapi/static/assets/favicon.ico">
+
+    <meta name="msapplication-TileColor" content="#19324c">
+    <meta name="theme-color" content="#19324c">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            color: #333;
+
+            --monospace-font-family: 'Oxygen Mono', monospace;
+            --font-family: 'Albert Sans', sans-serif;
+            --heading-font-family: Urbanist, sans-serif;
+            --heading-font-weight: 200;
+        }
+    </style>
+</head>
+<body>
+<redoc spec-url='/openapi.yaml'
+       theme='{"colors":{"primary":{"main":"#598c79"}},"typography":{"code":{"fontFamily":"var(--monospace-font-family)"},"fontFamily":"var(--font-family)","headings":{"fontFamily":"var(--heading-font-family)","fontWeight":"var(--heading-font-weight)"}}}'></redoc>
+<script src="/openapi/static/js/redoc.standalone.js"></script>
+</body>
+</html>
