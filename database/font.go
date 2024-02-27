@@ -6,21 +6,6 @@ import (
 	"os"
 )
 
-type Metadata struct {
-	Path         string `yaml:"path" json:"path"`
-	Subset       string `yaml:"subset" json:"subset"`
-	UnicodeRange string `yaml:"unicode_range" json:"unicodeRange"`
-	Weight       string `yaml:"weight" json:"weight"`
-	Style        string `yaml:"style" json:"style"`
-	Category     string `yaml:"category" json:"category"`
-	FontName     string `yaml:"-" json:"-"`
-}
-
-type Designer struct {
-	Name string `yaml:"name" json:"name"`
-	Bio  string `yaml:"bio" json:"bio"`
-}
-
 type Webfont struct {
 	Name        string     `yaml:"name" json:"name"`
 	Fonts       []Metadata `yaml:"fonts" json:"fonts"`

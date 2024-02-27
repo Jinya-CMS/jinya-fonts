@@ -4,6 +4,11 @@ import (
 	"fmt"
 )
 
+type Designer struct {
+	Name string `yaml:"name" json:"name"`
+	Bio  string `yaml:"bio" json:"bio"`
+}
+
 func GetDesigners(name string) ([]Designer, error) {
 	font, err := GetFont(name)
 	if err != nil {

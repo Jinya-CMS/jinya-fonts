@@ -15,6 +15,6 @@ func SetupApiRouter(router *mux.Router) {
 	router.Methods("DELETE").Path("/api/font/{fontName}/file/{fontSubset}/{fontWeight}/{fontStyle}").HandlerFunc(checkAuthorizationHeader(deleteFontFile))
 
 	router.Methods("GET").Path("/api/font/{fontName}/designer").HandlerFunc(getFontDesigners)
-	router.Methods("POST").Path("/api/font/{fontName}/designer/{designerName}").HandlerFunc(checkAuthorizationHeader(createFontDesigner))
+	router.Methods("POST").Path("/api/font/{fontName}/designer").HandlerFunc(checkAuthorizationHeader(createFontDesigner))
 	router.Methods("DELETE").Path("/api/font/{fontName}/designer/{designerName}").HandlerFunc(checkAuthorizationHeader(deleteFontDesigner))
 }

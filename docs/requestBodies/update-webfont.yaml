@@ -1,0 +1,14 @@
+$schema: http://json-schema.org/draft/2019-09/schema
+title: Update Webfont Request
+type: object
+required:
+  - license
+  - category
+  - description
+properties:
+  description:
+    type: string
+  license:
+    type: string
+  category:
+    type: string

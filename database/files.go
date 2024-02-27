@@ -6,6 +6,16 @@ import (
 	"os"
 )
 
+type Metadata struct {
+	Path         string `yaml:"path" json:"path"`
+	Subset       string `yaml:"subset" json:"subset"`
+	UnicodeRange string `yaml:"unicode_range" json:"unicodeRange"`
+	Weight       string `yaml:"weight" json:"weight"`
+	Style        string `yaml:"style" json:"style"`
+	Category     string `yaml:"category" json:"category"`
+	FontName     string `yaml:"-" json:"-"`
+}
+
 func GetFontFiles(name string) ([]Metadata, error) {
 	font, err := GetFont(name)
 	if err != nil {

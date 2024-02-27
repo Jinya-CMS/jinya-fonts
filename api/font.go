@@ -15,7 +15,6 @@ type addFontData struct {
 }
 
 type updateFontData struct {
-	Name        string `json:"name"`
 	License     string `json:"license"`
 	Category    string `json:"category"`
 	Description string `json:"description"`
