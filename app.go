@@ -12,9 +12,9 @@ import (
 	http2 "jinya-fonts/http"
 	"jinya-fonts/utils"
 	"log"
-	"mime"
 	"net/http"
 	"os"
+	"path"
 	"strings"
 )
 
@@ -34,6 +34,22 @@ var (
 		"/font": "frontend/font.gohtml",
 	}
 )
+
+type SpaHandler struct {
+	embedFS      embed.FS
+	indexPath    string
+	fsPrefixPath string
+}
+
+func (handler SpaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fullPath := strings.TrimPrefix(path.Join(handler.fsPrefixPath, r.URL.Path), "/")
+	if _, err := handler.embedFS.Open(fullPath); err != nil {
+		http.ServeFileFS(w, r, handler.embedFS, handler.indexPath)
+		return
+	}
+
+	http.FileServerFS(handler.embedFS).ServeHTTP(w, r)
+}
 
 func getWebApp(w http.ResponseWriter, r *http.Request) {
 	page, ok := pages[r.URL.Path]
@@ -55,69 +71,6 @@ func getWebApp(w http.ResponseWriter, r *http.Request) {
 	if err := tpl.Execute(w, nil); err != nil {
 		return
 	}
-}
-
-func getAngularStatic(w http.ResponseWriter, r *http.Request) {
-	path := strings.TrimPrefix(r.URL.Path, "/v3/")
-	var data []byte
-	var err error
-
-	if strings.HasSuffix(path, ".js") || strings.HasSuffix(path, ".css") || strings.HasSuffix(path, ".png") || strings.HasSuffix(path, ".ico") {
-		path = strings.TrimPrefix(path, "static/")
-		data, err = angular.ReadFile("angular/frontend/dist/browser/" + path)
-		if err != nil {
-			log.Printf("page %s not found in pages cache...", r.RequestURI)
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-	} else {
-		data, err = angular.ReadFile("angular/frontend/dist/browser/index.html")
-		if err != nil {
-			log.Printf("page %s not found in pages cache...", r.RequestURI)
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-	}
-
-	lastIdx := strings.LastIndex(path, ".")
-	extension := "text/html"
-	if lastIdx > 0 {
-		extension = path[lastIdx:len(path)]
-	}
-
-	w.Header().Set("Content-Type", mime.TypeByExtension(extension))
-	w.WriteHeader(http.StatusOK)
-	w.Write(data)
-}
-
-func getOpenApiYaml(w http.ResponseWriter, r *http.Request) {
-	var data []byte
-	var err error
-
-	data, err = openapi.ReadFile("openapi/v3/jinya-fonts.yaml")
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "text/x-yaml")
-	w.WriteHeader(http.StatusOK)
-	w.Write(data)
-}
-
-func getOpenApi(w http.ResponseWriter, r *http.Request) {
-	var data []byte
-	var err error
-
-	data, err = openapi.ReadFile("openapi/v3/index.html")
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "text/html")
-	w.WriteHeader(http.StatusOK)
-	w.Write(data)
 }
 
 func main() {
@@ -170,20 +123,24 @@ func main() {
 
 			router.HandleFunc("/download", http2.DownloadFont)
 
-			router.PathPrefix("/v3/").HandlerFunc(getAngularStatic)
+			router.PathPrefix("/v3").Handler(SpaHandler{
+				embedFS:      angular,
+				indexPath:    "angular/frontend/dist/browser/index.html",
+				fsPrefixPath: "angular/frontend/dist/browser",
+			})
 
-			router.HandleFunc("/openapi.yaml", getOpenApiYaml)
-			router.HandleFunc("/openapi", getOpenApi)
-			router.PathPrefix("/openapi/static/").Handler(http.FileServer(http.FS(openapi)))
+			router.PathPrefix("/openapi").Handler(SpaHandler{
+				embedFS:      openapi,
+				indexPath:    "openapi/index.html",
+				fsPrefixPath: "",
+			})
 
-			router.PathPrefix("/static/").Handler(http.FileServer(http.FS(static)))
+			router.PathPrefix("/static/").Handler(http.FileServerFS(static))
 			router.PathPrefix("/").HandlerFunc(getWebApp)
 		}
 
-		http.Handle("/", router)
-
 		log.Println("Serving at localhost:8090...")
-		err = http.ListenAndServe(":8090", nil)
+		err = http.ListenAndServe(":8090", router)
 		if err != nil {
 			panic(err)
 		}

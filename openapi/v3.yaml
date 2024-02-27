@@ -7,6 +7,10 @@ info:
     name: Jinya Developers
     url: https://jinya.de
     email: developers@jinya.de
+  x-logo:
+    url: "/static/img/favicon.png"
+    backgroundColor: "#FFFFFF"
+    altText: "Jinya Fonts Logo"
 servers:
   - url: "https://fonts.jinya.de"
     description: The production instance of Jinya Fonts
