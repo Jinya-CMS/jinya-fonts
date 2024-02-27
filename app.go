@@ -138,7 +138,7 @@ func main() {
 
 			router.HandleFunc("/download", http2.DownloadFont)
 
-			router.HandleFunc("/v3/", getAngularStatic)
+			router.PathPrefix("/v3/").HandlerFunc(getAngularStatic)
 
 			router.PathPrefix("/static/").Handler(http.FileServer(http.FS(static)))
 			router.PathPrefix("/").HandlerFunc(getWebApp)
