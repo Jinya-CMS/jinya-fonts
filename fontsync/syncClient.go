@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 	"jinya-fonts/config"
-	"jinya-fonts/meta"
+	"jinya-fonts/database"
 	"jinya-fonts/utils"
 	"log"
 	"net/http"
@@ -93,7 +93,7 @@ type FontDownloadJob struct {
 
 func saveFontFile(configuration *config.Configuration, channel chan []FontDownloadJob, wg *sync.WaitGroup, idx int) {
 	for jobs := range channel {
-		var fontData []meta.FontFileMeta
+		var fontData []database.Metadata
 		var name string
 		for _, job := range jobs {
 			woff2Css, _ := fetchCss(idx, job, FontTypeWoff2)
@@ -119,15 +119,15 @@ func saveFontFile(configuration *config.Configuration, channel chan []FontDownlo
 			metadata = &WebFontMetadata{}
 		}
 
-		var designers []meta.FontDesigner
+		var designers []database.Designer
 		for _, designer := range metadata.Designers {
-			designers = append(designers, meta.FontDesigner{
+			designers = append(designers, database.Designer{
 				Name: designer.Name,
 				Bio:  designer.Bio,
 			})
 		}
 
-		fontFile := meta.FontFile{
+		fontFile := database.Webfont{
 			Name:        name,
 			Fonts:       fontData,
 			Description: metadata.Description,
@@ -137,7 +137,7 @@ func saveFontFile(configuration *config.Configuration, channel chan []FontDownlo
 			GoogleFont:  true,
 		}
 
-		err = meta.SaveFontFileMetadata(fontFile)
+		err = database.CreateGoogleFont(&fontFile)
 		if err != nil {
 			log.Printf("CPU %d: %s", idx, err.Error())
 		}
@@ -146,7 +146,7 @@ func saveFontFile(configuration *config.Configuration, channel chan []FontDownlo
 	wg.Done()
 }
 
-func HandleFontFace(configuration *config.Configuration, idx int, job FontDownloadJob, face string) (*meta.FontFileMeta, error) {
+func HandleFontFace(configuration *config.Configuration, idx int, job FontDownloadJob, face string) (*database.Metadata, error) {
 	fontUrl, err := getFontFaceUrl(idx, job, face)
 	if err != nil {
 		return nil, err
@@ -189,7 +189,7 @@ func HandleFontFace(configuration *config.Configuration, idx int, job FontDownlo
 
 	path := job.Name + "." + subsetValue + "." + job.Variant + ".woff2"
 
-	return &meta.FontFileMeta{
+	return &database.Metadata{
 		Path:         path,
 		Subset:       subsetValue,
 		UnicodeRange: rangeValue,

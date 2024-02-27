@@ -3,7 +3,7 @@ package http
 import (
 	"bytes"
 	"encoding/csv"
-	"jinya-fonts/meta"
+	"jinya-fonts/database"
 	"net/http"
 	"net/url"
 	"strings"
@@ -41,13 +41,13 @@ type family struct {
 }
 
 func convertFamilyToTemplateData(fam family, display string) []templateData {
-	fontFile, err := meta.LoadFontFileCache(fam.Name)
+	webfont, err := database.GetFont(fam.Name)
 	if err != nil {
 		return []templateData{}
 	}
 
 	var data []templateData
-	for _, fontFamily := range fontFile.Fonts {
+	for _, fontFamily := range webfont.Fonts {
 		if fam.Italic && fontFamily.Style != "italic" {
 			continue
 		}
