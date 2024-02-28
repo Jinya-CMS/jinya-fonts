@@ -27,9 +27,14 @@ type GoogleWebfont struct {
 	Menu         string            `json:"menu"`
 }
 
-func downloadFontList(apiKey string) ([]GoogleWebfont, error) {
+func downloadFontList(apiKey string, fetchOnly []string) ([]GoogleWebfont, error) {
 	log.Println("Download font list")
-	req, err := http.NewRequest("GET", fmt.Sprintf("https://webfonts.googleapis.com/v1/webfonts?capability=WOFF2&key=%s", apiKey), nil)
+	familyFilter := strings.Join(fetchOnly, "&family=")
+	if len(familyFilter) > 0 {
+		familyFilter = "&family=" + strings.ReplaceAll(familyFilter, " ", "+")
+	}
+
+	req, err := http.NewRequest("GET", fmt.Sprintf("https://webfonts.googleapis.com/v1/webfonts?capability=WOFF2&key=%s%s", apiKey, familyFilter), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -133,7 +138,7 @@ func Sync(configuration *config.Configuration) error {
 	}
 
 	log.Println("Grab font list")
-	fonts, err := downloadFontList(configuration.ApiKey)
+	fonts, err := downloadFontList(configuration.ApiKey, configuration.FilterByName)
 	if err != nil {
 		return err
 	}
