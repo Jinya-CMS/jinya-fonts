@@ -11,15 +11,11 @@ import (
 )
 
 var tmpl = `
-/* {{.Subset}} */
 @font-face {
     font-family: '{{.Name}}';
     font-style: {{.Style}};
     font-weight: {{.Weight}};
     src: url('{{.Url}}') format('woff2');
-	{{if ne .UnicodeRange ""}}
-    unicode-range: {{.UnicodeRange}};
-	{{end}}
     font-display: {{.FontDisplay}};
 }
 `
@@ -53,13 +49,11 @@ func convertFamilyToTemplateData(fam family, display string) []templateData {
 		}
 		if metadata.Weight == fam.Weight {
 			data = append(data, templateData{
-				Subset:       metadata.Subset,
-				Name:         fam.Name,
-				Style:        metadata.Style,
-				Url:          "/fonts/" + fam.Name + "/" + metadata.Path,
-				UnicodeRange: metadata.UnicodeRange,
-				Weight:       metadata.Weight,
-				FontDisplay:  display,
+				Name:        fam.Name,
+				Style:       metadata.Style,
+				Url:         "/fonts/" + fam.Name + "/" + metadata.Path,
+				Weight:      metadata.Weight,
+				FontDisplay: display,
 			})
 		}
 	}

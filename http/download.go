@@ -36,13 +36,11 @@ func DownloadFont(w http.ResponseWriter, r *http.Request) {
 
 	for _, item := range webfont.Fonts {
 		convertedCss, err := convertTemplateDataToCss(templateData{
-			Subset:       item.Subset,
-			Name:         webfont.Name,
-			Style:        item.Style,
-			Url:          "./" + slug.Make(webfont.Name) + "/" + item.Path,
-			UnicodeRange: item.UnicodeRange,
-			Weight:       item.Weight,
-			FontDisplay:  "block",
+			Name:        webfont.Name,
+			Style:       item.Style,
+			Url:         "./" + slug.Make(webfont.Name) + "/" + item.Path,
+			Weight:      item.Weight,
+			FontDisplay: "block",
 		})
 		if err != nil {
 			continue

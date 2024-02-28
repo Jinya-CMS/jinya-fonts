@@ -66,7 +66,7 @@ func createFont(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	webfont, err := database.CreateFont(font.Name, font.License, font.Category, font.Description)
+	webfont, err := database.CreateFont(font.Name, font.Description, font.License, font.Category)
 	if err != nil {
 		http.Error(w, "Failed to create font", http.StatusInternalServerError)
 		return
@@ -94,7 +94,7 @@ func updateFont(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = database.UpdateFont(fontName, font.Description, font.License, font.Category)
+	err = database.UpdateFont(fontName, font.Description, font.License)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return

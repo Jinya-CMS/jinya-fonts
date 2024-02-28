@@ -89,7 +89,7 @@ func CreateFont(name string, description string, license string, category string
 	return &webfont, nil
 }
 
-func UpdateFont(name string, description string, license string, category string) error {
+func UpdateFont(name string, description string, license string) error {
 	webfont, err := GetFont(name)
 	if err != nil {
 		return err
@@ -97,7 +97,6 @@ func UpdateFont(name string, description string, license string, category string
 
 	webfont.Description = description
 	webfont.License = license
-	webfont.Category = category
 
 	return writeFont(*webfont)
 }

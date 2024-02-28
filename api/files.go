@@ -46,7 +46,6 @@ func getFontFiles(w http.ResponseWriter, r *http.Request) {
 func createFontFile(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name := vars["fontName"]
-	subset := vars["fontSubset"]
 	weight := vars["fontWeight"]
 	style := vars["fontStyle"]
 
@@ -57,7 +56,7 @@ func createFontFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = database.AddFontFile(name, fileBuffer.Bytes(), subset, weight, style)
+	_, err = database.AddFontFile(name, fileBuffer.Bytes(), weight, style)
 	if err != nil {
 		http.Error(w, "Failed to create font file", http.StatusInternalServerError)
 		return
@@ -69,7 +68,6 @@ func createFontFile(w http.ResponseWriter, r *http.Request) {
 func updateFontFile(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name := vars["fontName"]
-	subset := vars["fontSubset"]
 	weight := vars["fontWeight"]
 	style := vars["fontStyle"]
 
@@ -80,7 +78,7 @@ func updateFontFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = database.UpdateFontFile(name, fileBuffer.Bytes(), subset, weight, style)
+	err = database.UpdateFontFile(name, fileBuffer.Bytes(), weight, style)
 	if err != nil {
 		http.Error(w, "Failed to update font file", http.StatusInternalServerError)
 		return
@@ -92,11 +90,10 @@ func updateFontFile(w http.ResponseWriter, r *http.Request) {
 func deleteFontFile(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name := vars["fontName"]
-	subset := vars["fontSubset"]
 	weight := vars["fontWeight"]
 	style := vars["fontStyle"]
 
-	err := database.DeleteFontFile(name, subset, weight, style)
+	err := database.DeleteFontFile(name, weight, style)
 	if err != nil {
 		http.Error(w, "Failed to delete font file", http.StatusInternalServerError)
 		return

@@ -323,23 +323,14 @@ components:
       type: "object"
       required:
         - "path"
-        - "subset"
-        - "unicodeRange"
         - "weight"
         - "style"
-        - "category"
       properties:
         path:
-          type: "string"
-        subset:
-          type: "string"
-        unicodeRange:
           type: "string"
         weight:
           type: "string"
         style:
-          type: "string"
-        category:
           type: "string"
     designer:
       title: "Designer"
