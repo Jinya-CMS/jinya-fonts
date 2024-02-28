@@ -279,10 +279,8 @@ func AddFile(w http.ResponseWriter, r *http.Request) {
 
 		font.Fonts = append(font.Fonts, database.Metadata{
 			Path:     filename,
-			Subset:   fileSubset,
 			Weight:   fileWeight,
 			Style:    fileStyle,
-			FontName: fontName,
 			Category: strings.ReplaceAll(strings.ToLower(font.Category), " ", "-"),
 		})
 
@@ -363,7 +361,7 @@ func EditFile(w http.ResponseWriter, r *http.Request) {
 			Subset   string
 			Weight   string
 			Style    string
-		}{"", fontName, fontFile.Subset, fontFile.Weight, fontFile.Style})
+		}{"", fontName, "", fontFile.Weight, fontFile.Style})
 	} else if r.Method == http.MethodPost {
 		err = r.ParseMultipartForm(10 * 1024 * 1024 * 1024)
 		if err != nil {
@@ -373,7 +371,7 @@ func EditFile(w http.ResponseWriter, r *http.Request) {
 				Subset   string
 				Weight   string
 				Style    string
-			}{"Failed to add file to font", fontName, fontFile.Subset, fontFile.Weight, fontFile.Style})
+			}{"Failed to add file to font", fontName, "", fontFile.Weight, fontFile.Style})
 			return
 		}
 
@@ -457,7 +455,6 @@ func EditFile(w http.ResponseWriter, r *http.Request) {
 				font.Fonts[idx].Path = filename
 				font.Fonts[idx].Style = fileStyle
 				font.Fonts[idx].Weight = fileWeight
-				font.Fonts[idx].Subset = fileSubset
 			}
 		}
 
