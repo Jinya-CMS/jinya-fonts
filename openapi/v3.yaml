@@ -316,6 +316,8 @@ components:
           type: "string"
         category:
           type: "string"
+        googleFont:
+          type: "boolean"
     metadata:
       title: "Metadata"
       type: "object"

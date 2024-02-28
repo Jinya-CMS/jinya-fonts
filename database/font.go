@@ -13,7 +13,7 @@ type Webfont struct {
 	Designers   []Designer `yaml:"designers,omitempty" json:"designers"`
 	License     string     `yaml:"license,omitempty" json:"license"`
 	Category    string     `yaml:"category,omitempty" json:"category"`
-	GoogleFont  bool       `yaml:"google_font" json:"-"`
+	GoogleFont  bool       `yaml:"google_font" json:"googleFont"`
 }
 
 func writeFont(webfont Webfont) error {
