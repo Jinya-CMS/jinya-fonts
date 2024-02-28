@@ -60,6 +60,42 @@ func downloadFontList(apiKey string) ([]GoogleWebfont, error) {
 	return webFontList.Items, nil
 }
 
+func downloadFontFiles(font GoogleWebfont, cpu int) {
+	for weightAndStyle, file := range font.Files {
+		weight := "400"
+		style := "normal"
+		if strings.HasSuffix(weightAndStyle, "italic") {
+			style = "italic"
+		}
+		if weightAndStyle != "italic" && weightAndStyle != "regular" {
+			weight = weightAndStyle[0:3]
+		}
+
+		response, err := http.Get(file)
+		if err != nil {
+			logWithCpu(cpu, "Failed to load font file from Google server: %s", err.Error())
+			continue
+		}
+
+		if response.StatusCode != http.StatusOK {
+			logWithCpu(cpu, "Failed to load font file from Google server: %s", response.Status)
+			continue
+		}
+
+		data, err := io.ReadAll(response.Body)
+		if err != nil {
+			logWithCpu(cpu, "Failed to read font file data: %s", err.Error())
+			continue
+		}
+
+		_, err = database.AddFontFile(font.Family, data, weight, style)
+		if err != nil {
+			logWithCpu(cpu, "Failed to add font file: %s", err.Error())
+			continue
+		}
+	}
+}
+
 func handleWebfont(channel chan GoogleWebfont, wg *sync.WaitGroup, cpu int) {
 	for font := range channel {
 		webfontMetadata, err := getGoogleWebfontMetadata(cpu, font.Family)
@@ -83,39 +119,7 @@ func handleWebfont(channel chan GoogleWebfont, wg *sync.WaitGroup, cpu int) {
 			continue
 		}
 
-		for weightAndStyle, file := range font.Files {
-			weight := "400"
-			style := "normal"
-			if strings.HasSuffix(weightAndStyle, "italic") {
-				style = "italic"
-			}
-			if weightAndStyle != "italic" && weightAndStyle != "regular" {
-				weight = weightAndStyle[0:3]
-			}
-
-			response, err := http.Get(file)
-			if err != nil {
-				logWithCpu(cpu, "Failed to load font file from Google server: %s", err.Error())
-				continue
-			}
-
-			if response.StatusCode != http.StatusOK {
-				logWithCpu(cpu, "Failed to load font file from Google server: %s", response.Status)
-				continue
-			}
-
-			data, err := io.ReadAll(response.Body)
-			if err != nil {
-				logWithCpu(cpu, "Failed to read font file data: %s", err.Error())
-				continue
-			}
-
-			_, err = database.AddFontFile(font.Family, data, weight, style)
-			if err != nil {
-				logWithCpu(cpu, "Failed to add font file: %s", err.Error())
-				continue
-			}
-		}
+		downloadFontFiles(font, cpu)
 	}
 
 	wg.Done()
