@@ -43,12 +43,18 @@ type SpaHandler struct {
 
 func (handler SpaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fullPath := strings.TrimPrefix(path.Join(handler.fsPrefixPath, r.URL.Path), "/")
-	if _, err := handler.embedFS.Open(fullPath); err != nil {
+	file, err := handler.embedFS.Open(fullPath)
+	if err != nil {
 		http.ServeFileFS(w, r, handler.embedFS, handler.indexPath)
 		return
 	}
 
-	http.FileServerFS(handler.embedFS).ServeHTTP(w, r)
+	if fi, err := file.Stat(); err != nil || fi.IsDir() {
+		http.ServeFileFS(w, r, handler.embedFS, handler.indexPath)
+		return
+	}
+
+	http.ServeFileFS(w, r, handler.embedFS, fullPath)
 }
 
 func getWebApp(w http.ResponseWriter, r *http.Request) {
@@ -123,11 +129,11 @@ func main() {
 
 			router.HandleFunc("/download", http2.DownloadFont)
 
-			router.PathPrefix("/v3").Handler(SpaHandler{
+			router.PathPrefix("/v3").Handler(http.StripPrefix("/v3", SpaHandler{
 				embedFS:      angular,
 				indexPath:    "angular/frontend/dist/browser/index.html",
 				fsPrefixPath: "angular/frontend/dist/browser",
-			})
+			}))
 
 			router.PathPrefix("/openapi").Handler(SpaHandler{
 				embedFS:      openapi,

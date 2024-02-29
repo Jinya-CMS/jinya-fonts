@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"os"
 	"runtime"
-	"slices"
 	"strings"
 	"sync"
 )
@@ -151,12 +150,6 @@ func Sync(configuration *config.Configuration) error {
 	}
 
 	for _, font := range fonts {
-		if len(configuration.FilterByName) > 0 && !slices.ContainsFunc(configuration.FilterByName, func(filter string) bool {
-			return strings.ToLower(filter) == strings.ToLower(font.Family)
-		}) {
-			continue
-		}
-
 		fontChannel <- font
 	}
 
