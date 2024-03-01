@@ -7,7 +7,9 @@
     "build": "ng build",
     "build:dev": "ng build --configuration development",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint": "prettier --check src && eslint src",
+    "format": "prettier --write src"
   },
   "private": true,
   "dependencies": {
@@ -19,9 +21,9 @@
     "@angular/platform-browser": "17.2.2",
     "@angular/platform-browser-dynamic": "17.2.2",
     "@angular/router": "17.2.2",
-    "@fontsource/albert-sans": "^5.0.8",
-    "@fontsource/oxygen-mono": "^5.0.18",
-    "@fontsource/urbanist": "^5.0.18",
+    "@fontsource/albert-sans": "5.0.8",
+    "@fontsource/oxygen-mono": "5.0.18",
+    "@fontsource/urbanist": "5.0.18",
     "rxjs": "7.8.1",
     "tslib": "2.6.2",
     "zone.js": "0.14.4"
@@ -30,6 +32,10 @@
     "@angular-devkit/build-angular": "17.2.1",
     "@angular/cli": "17.2.1",
     "@angular/compiler-cli": "17.2.2",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "eslint": "8.57.0",
+    "prettier": "3.2.5",
     "typescript": "5.3.3"
   }
 }

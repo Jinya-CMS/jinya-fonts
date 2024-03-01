@@ -1,3 +1,11 @@
+lint-frontend:
+  image: library/node:latest
+  stage: build
+  script:
+    - cd $CI_PROJECT_DIR/angular/frontend
+    - npm install
+    - npm run lint
+
 build-frontend:
   image: library/node:latest
   stage: build
