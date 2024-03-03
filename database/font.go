@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Webfont struct {
@@ -27,7 +28,7 @@ func GetAllFonts() ([]Webfont, error) {
 	defer cancelFunc()
 
 	fontsCollection := getFontsCollection(client)
-	cursor, err := fontsCollection.Find(ctx, bson.D{})
+	cursor, err := fontsCollection.Find(ctx, bson.D{}, options.Find().SetSort(bson.D{{"name", 1}}))
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +54,7 @@ func GetGoogleFonts() ([]Webfont, error) {
 	defer cancelFunc()
 
 	fontsCollection := getFontsCollection(client)
-	cursor, err := fontsCollection.Find(ctx, bson.D{{"googleFont", true}})
+	cursor, err := fontsCollection.Find(ctx, bson.D{{"googleFont", true}}, options.Find().SetSort(bson.D{{"name", 1}}))
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +80,7 @@ func GetCustomFonts() ([]Webfont, error) {
 	defer cancelFunc()
 
 	fontsCollection := getFontsCollection(client)
-	cursor, err := fontsCollection.Find(ctx, bson.D{{"googleFont", false}})
+	cursor, err := fontsCollection.Find(ctx, bson.D{{"googleFont", false}}, options.Find().SetSort(bson.D{{"name", 1}}))
 	if err != nil {
 		return nil, err
 	}

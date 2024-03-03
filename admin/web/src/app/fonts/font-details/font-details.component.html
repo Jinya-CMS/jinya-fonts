@@ -1,0 +1,118 @@
+@if (loading) {
+  <app-loading-spinner />
+}
+@defer (when !loading) {
+  <div class="cosmo-side-list">
+    <nav class="cosmo-side-list__items">
+      <a href="#" (click)="changeSideItem($event, ActiveSideListItem.Details)" class="cosmo-side-list__item"
+         [class.is--active]="activeSideListItem === ActiveSideListItem.Details" i18n>Details</a>
+      <a href="#" (click)="changeSideItem($event, ActiveSideListItem.Designers)" class="cosmo-side-list__item"
+         [class.is--active]="activeSideListItem === ActiveSideListItem.Designers" i18n>Designer</a>
+      <a href="#" (click)="changeSideItem($event, ActiveSideListItem.Files)" class="cosmo-side-list__item"
+         [class.is--active]="activeSideListItem === ActiveSideListItem.Files" i18n>Dateien</a>
+    </nav>
+    <div class="cosmo-side-list__content">
+      @switch (activeSideListItem) {
+        @case (ActiveSideListItem.Details) {
+          <span class="cosmo-title" i18n>{{ font.name }} – Details</span>
+          @if (!font.googleFont) {
+            <div class="cosmo-toolbar">
+              <div class="cosmo-toolbar__group">
+                <button class="cosmo-button" i18n>Bearbeiten</button>
+                <button class="cosmo-button" i18n>Löschen</button>
+              </div>
+            </div>
+          }
+          <dl class="cosmo-list is--key-value">
+            <dt i18n>Lizenz</dt>
+            <dd>
+              @switch (font.license) {
+                @case ('apache2') {
+                  <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version
+                    2.0</a>
+                }
+                @case ('ofl') {
+                  <a target="_blank" href="https://openfontlicense.org/">Open Font License</a>
+                }
+                @case ('ufl') {
+                  <a target="_blank" href="https://font.ubuntu.com/ufl/">Ubuntu Font License</a>
+                }
+                @default {
+                  {{ font.license }}
+                }
+              }
+            </dd>
+            <dt i18n>Kategorie</dt>
+            <dd>{{ font.category }}</dd>
+            <dt i18n>Google Font</dt>
+            <dd>
+              @if (font.googleFont) {
+                <lucide-icon [img]="Check" />
+              } @else {
+                <lucide-icon [img]="X" />
+              }
+            </dd>
+            <h4 i18n>Beschreibung</h4>
+            <div [innerHtml]="font.description"></div>
+          </dl>
+        }
+        @case (ActiveSideListItem.Designers) {
+          <span class="cosmo-title" i18n>{{ font.name }} – Designer</span>
+          <div class="cosmo-tab">
+            <div class="cosmo-tab__links">
+              @for (designer of font.designers; track designer) {
+                <a href="#" class="cosmo-tab__link" (click)="selectDesigner($event, designer)"
+                   [class.is--active]="activeDesigner?.name === designer.name">{{ designer.name }}</a>
+              }
+              @if (!font.googleFont) {
+                <a class="cosmo-tab__link" i18n>Neuer Designer</a>
+              }
+            </div>
+            <div class="cosmo-tab__content">
+              @if (!font.googleFont) {
+                <div class="cosmo-toolbar">
+                  <div class="cosmo-toolbar__group">
+                    <button class="cosmo-button" i18n>Bearbeiten</button>
+                    <button class="cosmo-button" i18n>Löschen</button>
+                  </div>
+                </div>
+              }
+              <div [innerHtml]="activeDesigner?.bio"></div>
+            </div>
+          </div>
+        }
+        @case (ActiveSideListItem.Files) {
+          <span class="cosmo-title" i18n>{{ font.name }} – Dateien</span>
+          <table class="cosmo-table">
+            <thead>
+            <tr>
+              <th i18n>Stil</th>
+              <th i18n>Stärke</th>
+              <th i18n>Dateityp</th>
+              <th i18n>Aktionen</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (file of font.fonts; track file) {
+                <tr>
+                  <td>{{ file.style }}</td>
+                  <td>{{ file.weight }}</td>
+                  <td>{{ file.type }}</td>
+                  <td>
+                    <div class="cosmo-toolbar__group">
+                      <a href="{{file.path}}" class="cosmo-button" i18n>Download</a>
+                      @if (!font.googleFont) {
+                        <button class="cosmo-button" i18n>Bearbeiten</button>
+                        <button class="cosmo-button" i18n>Löschen</button>
+                      }
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      }
+    </div>
+  </div>
+}

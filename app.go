@@ -23,6 +23,8 @@ var (
 	frontend embed.FS
 	//go:embed angular/frontend/dist/browser
 	angular embed.FS
+	//go:embed admin/web/dist/browser
+	angularAdmin embed.FS
 	//go:embed openapi
 	openapi embed.FS
 	//go:embed openapi/admin
@@ -39,18 +41,46 @@ type SpaHandler struct {
 	embedFS      embed.FS
 	indexPath    string
 	fsPrefixPath string
+	templated    bool
+	templateData any
+}
+
+func (handler SpaHandler) serveTemplated(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFS(handler.embedFS, handler.indexPath)
+	if err != nil {
+		http.Error(w, "Failed to get admin page", http.StatusInternalServerError)
+		return
+	}
+
+	err = tmpl.Execute(w, handler.templateData)
+	if err != nil {
+		http.Error(w, "Failed to get admin page", http.StatusInternalServerError)
+		return
+	}
+}
+
+func (handler SpaHandler) servePlain(w http.ResponseWriter, r *http.Request) {
+	http.ServeFileFS(w, r, handler.embedFS, handler.indexPath)
 }
 
 func (handler SpaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fullPath := strings.TrimPrefix(path.Join(handler.fsPrefixPath, r.URL.Path), "/")
 	file, err := handler.embedFS.Open(fullPath)
 	if err != nil {
-		http.ServeFileFS(w, r, handler.embedFS, handler.indexPath)
+		if handler.templated {
+			handler.serveTemplated(w, r)
+		} else {
+			handler.servePlain(w, r)
+		}
 		return
 	}
 
 	if fi, err := file.Stat(); err != nil || fi.IsDir() {
-		http.ServeFileFS(w, r, handler.embedFS, handler.indexPath)
+		if handler.templated {
+			handler.serveTemplated(w, r)
+		} else {
+			handler.servePlain(w, r)
+		}
 		return
 	}
 
@@ -102,12 +132,21 @@ func main() {
 			embedFS:      adminOpenapi,
 			indexPath:    "openapi/admin/index.html",
 			fsPrefixPath: "",
+			templated:    false,
 		})
 		router.PathPrefix("/openapi").Handler(SpaHandler{
 			embedFS:      openapi,
 			indexPath:    "openapi/index.html",
 			fsPrefixPath: "",
+			templated:    false,
 		})
+		router.PathPrefix("/admin").Handler(http.StripPrefix("/admin", SpaHandler{
+			embedFS:      angularAdmin,
+			indexPath:    "admin/web/dist/browser/index.html",
+			fsPrefixPath: "admin/web/dist/browser",
+			templated:    true,
+			templateData: config.LoadedConfiguration,
+		}))
 
 		if config.LoadedConfiguration.ServeWebsite {
 			api.SetupApiRouter(router)
@@ -116,6 +155,7 @@ func main() {
 				embedFS:      angular,
 				indexPath:    "angular/frontend/dist/browser/index.html",
 				fsPrefixPath: "angular/frontend/dist/browser",
+				templated:    false,
 			}))
 
 			router.PathPrefix("/static/").Handler(http.FileServerFS(static))

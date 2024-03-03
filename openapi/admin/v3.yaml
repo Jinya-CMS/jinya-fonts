@@ -14,9 +14,14 @@ info:
 servers:
   - url: "https://fonts.jinya.de"
     description: The production instance of Jinya Fonts
+security:
+  - accessToken: []
 paths:
-  /api/font:
+  /api/admin/font/all:
     get:
+      operationId: getAllFonts
+      security:
+        - accessToken: []
       summary: "Gets all fonts"
       responses:
         "404":
@@ -35,9 +40,10 @@ paths:
                 items:
                   $ref: "#/components/schemas/webfont"
     post:
-      summary: "Creates a new webfont"
+      operationId: createNewFont
       security:
-        - password: []
+        - accessToken: []
+      summary: "Creates a new webfont"
       requestBody:
         $ref: "#/components/schemas/add-webfont"
       responses:
@@ -47,8 +53,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/webfont"
-  /api/font/google:
+  /api/admin/font/google:
     get:
+      operationId: getGoogleFonts
+      security:
+        - accessToken: []
       summary: "Gets all google fonts"
       responses:
         "404":
@@ -66,8 +75,11 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/webfont"
-  /api/font/custom:
+  /api/admin/font/custom:
     get:
+      operationId: getCustomFonts
+      security:
+        - accessToken: []
       summary: "Gets all custom fonts"
       responses:
         "404":
@@ -85,8 +97,11 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/webfont"
-  /api/font/{fontName}:
+  /api/admin/font/{fontName}:
     get:
+      operationId: getFontByName
+      security:
+        - accessToken: []
       summary: "Gets the given font by name"
       responses:
         "404":
@@ -103,9 +118,10 @@ paths:
               schema:
                 $ref: "#/components/schemas/webfont"
     put:
-      summary: "Updates the given font"
+      operationId: updateFontByName
       security:
-        - password: []
+        - accessToken: []
+      summary: "Updates the given font"
       requestBody:
         $ref: "#/components/schemas/update-webfont"
       responses:
@@ -119,9 +135,10 @@ paths:
         "204":
           description: "Successfully updated font"
     delete:
-      summary: "Deletes the given font"
+      operationId: deleteFontByName
       security:
-        - password: []
+        - accessToken: []
+      summary: "Deletes the given font"
       responses:
         "404":
           description: "The font was not found"
@@ -138,8 +155,11 @@ paths:
         in: "path"
         schema:
           type: "string"
-  /api/font/{fontName}/file:
+  /api/admin/font/{fontName}/file:
     get:
+      operationId: getFontFiles
+      security:
+        - accessToken: []
       summary: "Gets the files for the given font"
       responses:
         "404":
@@ -161,8 +181,11 @@ paths:
         in: "path"
         schema:
           type: "string"
-  /api/font/{fontName}/file/{fontWeight}.{fontStyle}.{fontType}:
+  /api/admin/font/{fontName}/file/{fontWeight}.{fontStyle}.{fontType}:
     post:
+      operationId: createFontFile
+      security:
+        - accessToken: []
       summary: "Uploads a new font file with the given parameters"
       requestBody:
         required: true
@@ -182,6 +205,9 @@ paths:
               schema:
                 description: "Font not found error"
     put:
+      operationId: updateFontFile
+      security:
+        - accessToken: []
       summary: "Replaces the font file of the given font and its parameters"
       requestBody:
         required: true
@@ -205,6 +231,9 @@ paths:
               schema:
                 description: "Font not found error"
     delete:
+      operationId: removeFontFile
+      security:
+        - accessToken: []
       summary: "Deletes the font file of the given font and its parameters"
       responses:
         "204":
@@ -253,8 +282,11 @@ paths:
           enum:
             - "woff2"
             - "ttf"
-  /api/font/{fontName}/designer:
+  /api/admin/font/{fontName}/designer:
     get:
+      operationId: getFontDesigners
+      security:
+        - accessToken: []
       summary: "Gets the designers for the given font"
       responses:
         "404":
@@ -271,9 +303,10 @@ paths:
               schema:
                 $ref: "#/components/schemas/designer"
     post:
-      summary: "Adds a new designer to the given font"
+      operationId: addFontDesigner
       security:
-        - password: []
+        - accessToken: []
+      summary: "Adds a new designer to the given font"
       requestBody:
         $ref: "#/components/schemas/add-designer"
       responses:
@@ -289,8 +322,11 @@ paths:
         in: "path"
         schema:
           type: "string"
-  /api/font/{fontName}/designer/{designerName}:
+  /api/admin/font/{fontName}/designer/{designerName}:
     delete:
+      operationId: removeFontDesigner
+      security:
+        - accessToken: []
       summary: "Deletes given designer from the given font"
       responses:
         "204":
@@ -313,12 +349,34 @@ paths:
         in: "path"
         schema:
           type: "string"
+  /api/admin/settings:
+    get:
+      operationId: getSettings
+      security:
+        - accessToken: []
+      summary: "Gets the current settings"
+      responses:
+        "200":
+          description: "The settings"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/settings"
+    put:
+      operationId: updateSettings
+      security:
+        - accessToken: []
+      summary: "Updates the current settings"
+      requestBody:
+        $ref: "#/components/schemas/settings"
+      responses:
+        "204":
+          description: "Successful updated"
 components:
   securitySchemes:
-    password:
-      type: "apiKey"
-      in: "header"
-      name: "Authorization"
+    accessToken:
+      type: http
+      scheme: Bearer
   schemas:
     add-webfont:
       title: "Add Webfont Request"
@@ -377,6 +435,8 @@ components:
           type: "string"
         style:
           type: "string"
+        type:
+          type: "string"
     designer:
       title: "Designer"
       type: "object"
@@ -412,3 +472,13 @@ components:
           type: "string"
         bio:
           type: "string"
+    settings:
+      title: "Settings data"
+      type: "object"
+      required:
+        - "filterByName"
+      properties:
+        filterByName:
+          type: "array"
+          items:
+            type: "string"

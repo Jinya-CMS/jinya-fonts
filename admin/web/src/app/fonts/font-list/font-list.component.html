@@ -1,0 +1,114 @@
+<div class="cosmo-side-list">
+  <nav class="cosmo-side-list__items">
+    <a href="#" class="cosmo-side-list__item" (click)="changeSideItem($event, ActiveSideItem.All)"
+       [class.is--active]="activeSideItem === ActiveSideItem.All" i18n>Alle Fonts</a>
+    <a href="#" class="cosmo-side-list__item" (click)="changeSideItem($event, ActiveSideItem.Google)"
+       [class.is--active]="activeSideItem === ActiveSideItem.Google" i18n>Google Fonts</a>
+    <a href="#" class="cosmo-side-list__item" (click)="changeSideItem($event, ActiveSideItem.Custom)"
+       [class.is--active]="activeSideItem === ActiveSideItem.Custom" i18n>Custom Fonts</a>
+  </nav>
+  <div class="cosmo-side-list__content" [class.is--loading]="loading">
+    @if (loading) {
+      <app-loading-spinner></app-loading-spinner>
+    }
+    @defer (when !loading) {
+      <h1 class="cosmo-title" i18n>
+        @switch (activeSideItem) {
+          @case (ActiveSideItem.All) {
+            Alle Fonts
+          }
+          @case (ActiveSideItem.Google) {
+            Google Fonts
+          }
+          @case (ActiveSideItem.Custom) {
+            Eigene Fonts
+          }
+        }
+      </h1>
+      <div class="cosmo-toolbar">
+        @if (activeSideItem !== ActiveSideItem.Google) {
+          <div class="cosmo-toolbar__group cosmo-input__group">
+            <button class="cosmo-button">Neuer Font</button>
+          </div>
+        }
+        <div class="cosmo-toolbar__group cosmo-input__group">
+          <label for="nameSearch" i18n>Nach Name filtern</label>
+          <input class="cosmo-input" type="search" id="nameSearch" [value]="activeFilter.name"
+                 (input)="filterFonts({category: filterByCategory.value, name: filterByName.value})" #filterByName>
+        </div>
+        <div class="cosmo-toolbar__group cosmo-input__group">
+          <label for="categorySearch" i18n>Nach Kategorie filtern</label>
+          <select class="cosmo-select" id="categorySearch" #filterByCategory [value]="activeFilter.category"
+                  (input)="filterFonts({category: filterByCategory.value, name: filterByName.value})">
+            <option value="All">Alle Fonts</option>
+            <option value="Display">Display</option>
+            <option value="Handwriting">Handwriting</option>
+            <option value="Monospace">Monospace</option>
+            <option value="Sans Serif">Sans Serif</option>
+            <option value="Serif">Serif</option>
+          </select>
+        </div>
+      </div>
+      <div class="table-container">
+        <table class="cosmo-table is--full-width">
+          <thead>
+          <tr>
+            <th i18n>Name</th>
+            <th i18n>Kategorie</th>
+            <th i18n>Designer</th>
+            <th i18n>Lizenz</th>
+            @if (activeSideItem === ActiveSideItem.All) {
+              <th i18n>Google Font</th>
+            }
+            <th i18n>Aktionen</th>
+          </tr>
+          </thead>
+          <tbody>
+            @for (font of filteredFonts; track font.name) {
+              <tr>
+                <td>{{ font.name }}</td>
+                <td>{{ font.category }}</td>
+                <td>{{ designersToString(font.designers) }}</td>
+                <td>
+                  @switch (font.license) {
+                    @case ('apache2') {
+                      <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version
+                        2.0</a>
+                    }
+                    @case ('ofl') {
+                      <a target="_blank" href="https://openfontlicense.org/">Open Font License</a>
+                    }
+                    @case ('ufl') {
+                      <a target="_blank" href="https://font.ubuntu.com/ufl/">Ubuntu Font License</a>
+                    }
+                    @default {
+                      {{ font.license }}
+                    }
+                  }
+                </td>
+                @if (activeSideItem === ActiveSideItem.All) {
+                  <td>
+                    @if (font.googleFont) {
+                      <lucide-icon [img]="Check" />
+                    } @else {
+                      <lucide-icon [img]="X" />
+                    }
+                  </td>
+                }
+                <td>
+                  <div class="cosmo-toolbar__group">
+                    <a href="/download?font={{font.name}}" class="cosmo-button" i18n>Download ZIP</a>
+                    <a [routerLink]="[font.name]" class="cosmo-button" i18n>Details</a>
+                    @if (activeSideItem !== ActiveSideItem.Google) {
+                      <button [disabled]="font.googleFont" class="cosmo-button" i18n>Löschen</button>
+                    }
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>

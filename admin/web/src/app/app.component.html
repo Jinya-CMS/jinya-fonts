@@ -1,0 +1,30 @@
+@if (authService.isAuthenticated) {
+  <main class="cosmo-page">
+    <div class="cosmo-menu is--top">
+      <div class="cosmo-menu__row"></div>
+      <div class="cosmo-profile-picture"></div>
+      <a href="#" (click)="authService.logout()" class="cosmo-menu__item is--right" i18n>Abmelden</a>
+    </div>
+    <div class="cosmo-menu">
+      <button aria-label="Zurück" class="cosmo-back-button" (click)="goBack()" type="button" i18n></button>
+      <nav class="cosmo-menu__collection">
+        <div class="cosmo-menu__row is--main">
+          <a class="cosmo-menu__item" routerLink="font" routerLinkActive="is--active" [routerLinkActiveOptions]="{exact: false}" #fontMain="routerLinkActive" i18n>Fonts</a>
+          <a class="cosmo-menu__item" routerLink="settings" routerLinkActive="is--active" [routerLinkActiveOptions]="{exact: false}" i18n>Einstellungen</a>
+        </div>
+        @if (fontMain.isActive) {
+          <div class="cosmo-menu__row is--sub">
+            <a class="cosmo-menu__item" routerLink="font" routerLinkActive="is--active" [routerLinkActiveOptions]="{exact: true}" #fontOverview="routerLinkActive"
+               i18n>Übersicht</a>
+            <span class="cosmo-menu__item" [class.is--active]="!fontOverview.isActive" i18n>Details</span>
+          </div>
+        }
+      </nav>
+    </div>
+    <div class="cosmo-page__body">
+      <router-outlet />
+    </div>
+  </main>
+} @else {
+  <router-outlet />
+}
