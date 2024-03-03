@@ -6,7 +6,7 @@ import (
 )
 
 func getRedisClient() (*redis.Client, error) {
-	opts, err := redis.ParseURL(config.LoadedConfiguration.GoogleRedisUrl)
+	opts, err := redis.ParseURL(config.LoadedConfiguration.RedisUrl)
 	if err != nil {
 		return nil, err
 	}
