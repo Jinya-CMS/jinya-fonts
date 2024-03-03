@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.addEventListener('scroll', populate);
     let styles = '';
     for (const item of items) {
-        styles += `<link type="text/css" rel="stylesheet" href="/css2?family=${encodeURI(item.name)}&display=block">`
+        styles += `<link type="text/css" rel="stylesheet" href="/css2?family=${encodeURI(item.name)}&display=swap">`
     }
     document.head.insertAdjacentHTML('beforeend', styles);
 

@@ -2,14 +2,14 @@ package main
 
 import (
 	"embed"
-	"flag"
 	"github.com/gorilla/mux"
+	_ "github.com/sakirsensoy/genv/dotenv/autoload"
 	"html/template"
-	"jinya-fonts/admin"
+	admin "jinya-fonts/admin/api"
 	"jinya-fonts/api"
 	"jinya-fonts/config"
+	"jinya-fonts/fonts"
 	"jinya-fonts/fontsync"
-	http2 "jinya-fonts/http"
 	"log"
 	"net/http"
 	"os"
@@ -25,11 +25,11 @@ var (
 	angular embed.FS
 	//go:embed openapi
 	openapi embed.FS
+	//go:embed openapi/admin
+	adminOpenapi embed.FS
 	//go:embed static
 	static embed.FS
-	//go:embed admin/static
-	adminStatic embed.FS
-	pages       = map[string]string{
+	pages  = map[string]string{
 		"/":     "frontend/index.gohtml",
 		"/font": "frontend/font.gohtml",
 	}
@@ -80,16 +80,13 @@ func getWebApp(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	configFileFlag := flag.String("config-file", "./config.yaml", "The config file, check the sample for the structure")
-	flag.Parse()
-
-	configuration, err := config.LoadConfiguration(*configFileFlag)
+	err := config.LoadConfiguration()
 	if err != nil {
 		panic(err)
 	}
 
 	if slices.Contains(os.Args, "sync") {
-		err = fontsync.Sync(configuration)
+		err = fontsync.Sync()
 		if err != nil {
 			panic(err)
 		}
@@ -98,48 +95,28 @@ func main() {
 	if slices.Contains(os.Args, "serve") {
 		router := mux.NewRouter()
 
-		router.PathPrefix("/fonts/").Handler(http.StripPrefix("/fonts", http.FileServer(http.Dir(configuration.FontFileFolder))))
-		router.HandleFunc("/css2", http2.GetCss2)
-		if configuration.AdminPassword != "" {
-			router.HandleFunc("/login", admin.Login)
-			router.HandleFunc("/logout", admin.Logout)
+		fonts.SetupFontsRouter(router)
+		admin.SetupAdminApiRouter(router)
 
-			router.HandleFunc("/admin", admin.CheckAuthCookie(admin.AllFonts))
-			router.HandleFunc("/admin/add", admin.CheckAuthCookie(admin.AddFont))
-			router.HandleFunc("/admin/edit", admin.CheckAuthCookie(admin.EditFont))
-			router.HandleFunc("/admin/delete", admin.CheckAuthCookie(admin.DeleteFont))
-			router.HandleFunc("/admin/sync", admin.CheckAuthCookie(admin.TriggerSync))
-			router.HandleFunc("/admin/synced", admin.CheckAuthCookie(admin.SyncedFonts))
-			router.HandleFunc("/admin/custom", admin.CheckAuthCookie(admin.CustomFonts))
+		router.PathPrefix("/openapi/admin").Handler(SpaHandler{
+			embedFS:      adminOpenapi,
+			indexPath:    "openapi/admin/index.html",
+			fsPrefixPath: "",
+		})
+		router.PathPrefix("/openapi").Handler(SpaHandler{
+			embedFS:      openapi,
+			indexPath:    "openapi/index.html",
+			fsPrefixPath: "",
+		})
 
-			router.HandleFunc("/admin/designers", admin.CheckAuthCookie(admin.DesignersIndex))
-			router.HandleFunc("/admin/designers/delete", admin.CheckAuthCookie(admin.DeleteDesigner))
-			router.HandleFunc("/admin/designers/add", admin.CheckAuthCookie(admin.AddDesigner))
-			router.HandleFunc("/admin/designers/edit", admin.CheckAuthCookie(admin.EditDesigner))
-
-			router.HandleFunc("/admin/files", admin.CheckAuthCookie(admin.FilesIndex))
-			router.HandleFunc("/admin/files/delete", admin.CheckAuthCookie(admin.DeleteFile))
-			router.HandleFunc("/admin/files/add", admin.CheckAuthCookie(admin.AddFile))
-			router.HandleFunc("/admin/files/edit", admin.CheckAuthCookie(admin.EditFile))
-
-			router.PathPrefix("/admin/static/").Handler(http.FileServer(http.FS(adminStatic)))
-		}
-		if configuration.ServeWebsite {
+		if config.LoadedConfiguration.ServeWebsite {
 			api.SetupApiRouter(router)
-
-			router.HandleFunc("/download", http2.DownloadFont)
 
 			router.PathPrefix("/v3").Handler(http.StripPrefix("/v3", SpaHandler{
 				embedFS:      angular,
 				indexPath:    "angular/frontend/dist/browser/index.html",
 				fsPrefixPath: "angular/frontend/dist/browser",
 			}))
-
-			router.PathPrefix("/openapi").Handler(SpaHandler{
-				embedFS:      openapi,
-				indexPath:    "openapi/index.html",
-				fsPrefixPath: "",
-			})
 
 			router.PathPrefix("/static/").Handler(http.FileServerFS(static))
 			router.PathPrefix("/").HandlerFunc(getWebApp)

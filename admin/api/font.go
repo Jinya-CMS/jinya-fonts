@@ -1,0 +1,162 @@
+package api
+
+import (
+	"encoding/json"
+	"github.com/gorilla/mux"
+	"jinya-fonts/database"
+	"net/http"
+)
+
+type addFontData struct {
+	Name        string `json:"name"`
+	License     string `json:"license"`
+	Category    string `json:"category"`
+	Description string `json:"description"`
+}
+
+type updateFontData struct {
+	License     string `json:"license"`
+	Category    string `json:"category"`
+	Description string `json:"description"`
+}
+
+func getAllFonts(w http.ResponseWriter, r *http.Request) {
+	availableFonts, err := database.GetAllFonts()
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+
+	err = json.NewEncoder(w).Encode(availableFonts)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func getGoogleFonts(w http.ResponseWriter, r *http.Request) {
+	availableFonts, err := database.GetGoogleFonts()
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+
+	err = json.NewEncoder(w).Encode(availableFonts)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func getCustomFonts(w http.ResponseWriter, r *http.Request) {
+	availableFonts, err := database.GetCustomFonts()
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+
+	err = json.NewEncoder(w).Encode(availableFonts)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func getFontByName(w http.ResponseWriter, r *http.Request) {
+	fontName := mux.Vars(r)["fontName"]
+	font, err := database.GetFont(fontName)
+
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+
+	err = json.NewEncoder(w).Encode(font)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func createFont(w http.ResponseWriter, r *http.Request) {
+	body := new(addFontData)
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(body)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	font := database.Webfont{
+		Name:        body.Name,
+		Description: body.Description,
+		License:     body.License,
+		Category:    body.Category,
+		GoogleFont:  false,
+	}
+
+	err = database.CreateFont(&font)
+	if err != nil {
+		http.Error(w, "Failed to create font", http.StatusInternalServerError)
+		return
+	}
+
+	encoder := json.NewEncoder(w)
+	w.WriteHeader(http.StatusCreated)
+	_ = encoder.Encode(font)
+}
+
+func updateFont(w http.ResponseWriter, r *http.Request) {
+	fontName := mux.Vars(r)["fontName"]
+	font, err := database.GetFont(fontName)
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+
+	body := new(updateFontData)
+
+	decoder := json.NewDecoder(r.Body)
+	err = decoder.Decode(body)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	font.Description = body.Description
+	font.License = body.License
+	font.Category = body.Category
+
+	err = database.UpdateFont(font)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func deleteFont(w http.ResponseWriter, r *http.Request) {
+	fontName := mux.Vars(r)["fontName"]
+	_, err := database.GetFont(fontName)
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+
+	err = database.DeleteFont(fontName)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jinya Fonts API Docs</title>
+    <link href="https://fonts.jinya.de/css2?family=Albert Sans:wght@300;400;700" rel="stylesheet">
+    <link href="https://fonts.jinya.de/css2?family=Urbanist:wght@200;300;400;700" rel="stylesheet">
+    <link href="https://fonts.jinya.de/css2?family=Oxygen Mono" rel="stylesheet">
+
+    <link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <meta name="msapplication-TileColor" content="#19324c">
+    <meta name="theme-color" content="#19324c">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            color: #333;
+
+            --monospace-font-family: 'Oxygen Mono', monospace;
+            --font-family: 'Albert Sans', sans-serif;
+            --heading-font-family: Urbanist, sans-serif;
+            --heading-font-weight: 200;
+        }
+    </style>
+</head>
+<body>
+<redoc spec-url='/openapi/admin/v3.yaml'
+       theme='{"colors":{"primary":{"main":"#598c79"}},"typography":{"code":{"fontFamily":"var(--monospace-font-family)"},"fontFamily":"var(--font-family)","headings":{"fontFamily":"var(--heading-font-family)","fontWeight":"var(--heading-font-weight)"}}}'></redoc>
+<script src="/js/redoc.standalone.js"></script>
+</body>
+</html>

@@ -34,19 +34,6 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/webfont"
-    post:
-      summary: "Creates a new webfont"
-      security:
-        - password: []
-      requestBody:
-        $ref: "#/components/schemas/add-webfont"
-      responses:
-        "201":
-          description: "Created new font"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/webfont"
   /api/font/{fontName}:
     get:
       summary: "Gets the given font by name"
@@ -64,36 +51,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/webfont"
-    put:
-      summary: "Updates the given font"
-      security:
-        - password: []
-      requestBody:
-        $ref: "#/components/schemas/update-webfont"
-      responses:
-        "404":
-          description: "The font was not found"
-          content:
-            text/plain:
-              example: "Not found"
-              schema:
-                description: "Font not found error"
-        "204":
-          description: "Successfully updated font"
-    delete:
-      summary: "Deletes the given font"
-      security:
-        - password: []
-      responses:
-        "404":
-          description: "The font was not found"
-          content:
-            text/plain:
-              example: "Not found"
-              schema:
-                description: "Font not found error"
-        "204":
-          description: "Successfully deleted font"
     parameters:
       - name: "fontName"
         required: true
@@ -123,91 +80,6 @@ paths:
         in: "path"
         schema:
           type: "string"
-  /api/font/{fontName}/file/{fontSubset}/{fontWeight}/{fontStyle}:
-    post:
-      summary: "Uploads a new font file with the given parameters"
-      requestBody:
-        required: true
-        content:
-          font/woff2:
-            schema:
-              type: "string"
-              format: "binary"
-      responses:
-        "201":
-          description: "Uploaded font successfully"
-        "404":
-          description: "The font was not found"
-          content:
-            text/plain:
-              example: "Not found"
-              schema:
-                description: "Font not found error"
-    put:
-      summary: "Replaces the woff2 file of the given font and its parameters"
-      requestBody:
-        required: true
-        content:
-          font/woff2:
-            schema:
-              type: "string"
-              format: "binary"
-      responses:
-        "204":
-          description: "Uploaded font successfully"
-        "404":
-          description: "The font was not found"
-          content:
-            text/plain:
-              example: "Not found"
-              schema:
-                description: "Font not found error"
-    delete:
-      summary: "Deletes the woff2 file of the given font and its parameters"
-      responses:
-        "204":
-          description: "Deleted woff2 file successfully"
-        "404":
-          description: "The font was not found"
-          content:
-            text/plain:
-              example: "Not found"
-              schema:
-                description: "Font not found error"
-    parameters:
-      - name: "fontName"
-        required: true
-        in: "path"
-        schema:
-          type: "string"
-      - name: "fontSubset"
-        required: true
-        in: "path"
-        schema:
-          type: "string"
-      - name: "fontWeight"
-        required: true
-        in: "path"
-        schema:
-          type: "string"
-          enum:
-            - 100
-            - 200
-            - 300
-            - 400
-            - 500
-            - 600
-            - 700
-            - 800
-            - 900
-      - name: "fontStyle"
-        required: true
-        in: "path"
-        schema:
-          type: "string"
-          enum:
-            - "normal"
-            - "italic"
   /api/font/{fontName}/designer:
     get:
       summary: "Gets the designers for the given font"
@@ -225,73 +97,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/designer"
-    post:
-      summary: "Adds a new designer to the given font"
-      security:
-        - password: []
-      requestBody:
-        $ref: "#/components/schemas/add-designer"
-      responses:
-        "201":
-          description: "Created new font"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/designer"
     parameters:
       - name: "fontName"
-        required: true
-        in: "path"
-        schema:
-          type: "string"
-  /api/font/{fontName}/designer/{designerName}:
-    delete:
-      summary: "Deletes given designer from the given font"
-      responses:
-        "204":
-          description: "Deleted designer successfully"
-        "404":
-          description: "The font was not found"
-          content:
-            text/plain:
-              example: "Not found"
-              schema:
-                description: "Font not found error"
-    parameters:
-      - name: "fontName"
-        required: true
-        in: "path"
-        schema:
-          type: "string"
-      - name: "designerName"
         required: true
         in: "path"
         schema:
           type: "string"
 components:
-  securitySchemes:
-    password:
-      type: "apiKey"
-      in: "header"
-      name: "Authorization"
   schemas:
-    add-webfont:
-      title: "Add Webfont Request"
-      type: "object"
-      required:
-        - "name"
-        - "license"
-        - "category"
-        - "description"
-      properties:
-        name:
-          type: "string"
-        description:
-          type: "string"
-        license:
-          type: "string"
-        category:
-          type: "string"
     webfont:
       title: "Webfont"
       type: "object"
@@ -332,36 +145,13 @@ components:
           type: "string"
         style:
           type: "string"
+        type:
+          type: "string"
     designer:
       title: "Designer"
       type: "object"
       required:
         - "name"
-      properties:
-        name:
-          type: "string"
-        bio:
-          type: "string"
-    update-webfont:
-      title: "Update Webfont Request"
-      type: "object"
-      required:
-        - "license"
-        - "category"
-        - "description"
-      properties:
-        description:
-          type: "string"
-        license:
-          type: "string"
-        category:
-          type: "string"
-    add-designer:
-      title: "Add Designer Request"
-      type: "object"
-      required:
-        - "name"
-        - "bio"
       properties:
         name:
           type: "string"

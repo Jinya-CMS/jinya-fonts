@@ -1,4 +1,4 @@
-package http
+package fonts
 
 import (
 	"bytes"
@@ -15,19 +15,15 @@ var tmpl = `
     font-family: '{{.Name}}';
     font-style: {{.Style}};
     font-weight: {{.Weight}};
-    src: url('{{.Url}}') format('woff2');
+    src: url('{{.Path}}') format('{{.Type}}');
     font-display: {{.FontDisplay}};
 }
 `
 
 type templateData struct {
-	Subset       string
-	Name         string
-	Style        string
-	Url          string
-	UnicodeRange string
-	Weight       string
-	FontDisplay  string
+	*database.File
+	*database.Webfont
+	FontDisplay string
 }
 
 type family struct {
@@ -49,11 +45,9 @@ func convertFamilyToTemplateData(fam family, display string) []templateData {
 		}
 		if metadata.Weight == fam.Weight {
 			data = append(data, templateData{
-				Name:        fam.Name,
-				Style:       metadata.Style,
-				Url:         "/fonts/" + fam.Name + "/" + metadata.Path,
-				Weight:      metadata.Weight,
-				FontDisplay: display,
+				File:        &metadata,
+				Webfont:     webfont,
+				FontDisplay: "",
 			})
 		}
 	}
@@ -107,7 +101,7 @@ func convertTemplateDataToCss(item templateData) (string, error) {
 	return buf.String(), nil
 }
 
-func GetCss2(w http.ResponseWriter, r *http.Request) {
+func getCss2(w http.ResponseWriter, r *http.Request) {
 	unescapedQuery, err := url.QueryUnescape(r.URL.RawQuery)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)

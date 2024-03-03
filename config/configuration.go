@@ -1,34 +1,28 @@
 package config
 
 import (
-	"gopkg.in/yaml.v3"
-	"os"
+	"go-simpler.org/env"
 )
 
 type Configuration struct {
-	ApiKey         string   `yaml:"api_key"`
-	FontFileFolder string   `yaml:"font_file_folder"`
-	FilterByName   []string `yaml:"filter_by_name"`
-	ServeWebsite   bool     `yaml:"serve_website,omitempty"`
-	AdminPassword  string   `yaml:"admin_password,omitempty"`
+	ApiKey         string `env:"GOOGLE_API_KEY"`
+	MongoUrl       string `env:"MONGO_URL"`
+	MongoDatabase  string `env:"MONGO_DATABASE"`
+	GoogleRedisUrl string `env:"GOOGLE_REDIS_URL"`
+	CustomRedisUrl string `env:"CUSTOM_REDIS_URL"`
+	ServeWebsite   bool   `env:"SERVE_WEBSITE"`
 }
 
 var LoadedConfiguration *Configuration
-var ConfigurationPath string
 
-func LoadConfiguration(path string) (*Configuration, error) {
-	ConfigurationPath = path
-	file, err := os.Open(path)
-	if err != nil {
-		return nil, err
-	}
-
+func LoadConfiguration() error {
 	config := new(Configuration)
-
-	decoder := yaml.NewDecoder(file)
-	err = decoder.Decode(config)
+	err := env.Load(config, nil)
+	if err != nil {
+		return err
+	}
 
 	LoadedConfiguration = config
 
-	return config, err
+	return nil
 }

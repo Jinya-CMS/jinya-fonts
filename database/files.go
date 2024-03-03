@@ -1,118 +1,86 @@
 package database
 
 import (
+	"cmp"
 	"fmt"
-	"jinya-fonts/config"
-	"os"
+	"github.com/gosimple/slug"
+	"slices"
 )
 
-type Metadata struct {
-	Path     string `yaml:"path" json:"path"`
-	Weight   string `yaml:"weight" json:"weight"`
-	Style    string `yaml:"style" json:"style"`
-	Category string `yaml:"category" json:"category"`
+type File struct {
+	Path   string `json:"path" bson:"path"`
+	Weight string `json:"weight" bson:"weight"`
+	Style  string `json:"style" bson:"style"`
+	Data   []byte `json:"-" bson:"data"`
+	Type   string `json:"type" bson:"type"`
 }
 
-func GetFontFiles(name string) ([]Metadata, error) {
+func GetFontFileName(name, weight, style, fileType string, googleFont bool) string {
+	prefix := "google"
+	if !googleFont {
+		prefix = "custom"
+	}
+	return fmt.Sprintf("%s.%s.%s.%s.%s", prefix, slug.Make(name), weight, style, fileType)
+}
+
+func GetFontFiles(name string) ([]File, error) {
 	font, err := GetFont(name)
 	if err != nil {
 		return nil, err
 	}
 
-	return font.Fonts, nil
+	var fonts []File
+	for _, file := range font.Fonts {
+		fonts = append(fonts, file)
+	}
+
+	slices.SortFunc(fonts, func(a, b File) int {
+		return cmp.Compare(a.Weight+"."+a.Style, b.Weight+"."+b.Style)
+	})
+
+	return fonts, nil
 }
 
-func AddFontFile(name string, data []byte, weight string, style string) (*Metadata, error) {
+func SetWoff2FontFile(name, weight, style string, data []byte) (*File, error) {
 	font, err := GetFont(name)
 	if err != nil {
 		return nil, err
 	}
 
-	err = os.MkdirAll(config.LoadedConfiguration.FontFileFolder+"/"+name, 0775)
-	if err != nil {
-		return nil, err
-	}
-
-	filename := name + "." + weight + "." + style + ".woff2"
-	path := config.LoadedConfiguration.FontFileFolder + "/" + name + "/" + filename
-	err = os.WriteFile(path, data, 0775)
-	if err != nil {
-		return nil, err
-	}
-
-	metadata := Metadata{
-		Path:   filename,
+	fileName := GetFontFileName(name, weight, style, "woff2", font.GoogleFont)
+	path := fmt.Sprintf("/fonts/%s", fileName)
+	metadata := File{
+		Path:   path,
 		Weight: weight,
 		Style:  style,
+		Type:   "woff2",
+		Data:   data,
 	}
 
-	font.Fonts = append(font.Fonts, metadata)
-	err = writeFont(*font)
+	_ = AddCachedFontFile(name, weight, style, "woff2", data, false)
 
-	return &metadata, err
+	font.Fonts[fileName] = metadata
+	err = UpdateFont(font)
+	if err != nil {
+		return nil, err
+	}
+
+	return &metadata, nil
 }
 
-func UpdateFontFile(name string, data []byte, weight string, style string) error {
-	font, err := GetFont(name)
-	if err != nil {
-		return err
-	}
-
-	exists := false
-	for _, metadata := range font.Fonts {
-		if metadata.Style == style && metadata.Weight == weight {
-			exists = true
-			break
-		}
-	}
-
-	if !exists {
-		return fmt.Errorf("not found")
-	}
-
-	err = os.MkdirAll(config.LoadedConfiguration.FontFileFolder+"/"+name, 0775)
-	if err != nil {
-		return err
-	}
-
-	filename := config.LoadedConfiguration.FontFileFolder + "/" + name + "/" + name + "." + weight + "." + style + "." + ".woff2"
-	err = os.WriteFile(filename, data, 0664)
-	if err != nil {
-		return err
-	}
-
-	return err
-}
-
-func DeleteFontFile(name string, weight string, style string) error {
+func RemoveFontFile(name, weight, style, fileType string) error {
 	font, err := GetFont(name)
 	if err != nil {
 		return err
 	}
 
 	if !font.GoogleFont {
-		return fmt.Errorf("cannot delete google font")
+		return fmt.Errorf("cannot remove file from google font")
 	}
 
-	err = os.MkdirAll(config.LoadedConfiguration.FontFileFolder+"/"+name, 0775)
-	if err != nil {
-		return err
-	}
+	RemoveCachedFontFile(name, weight, style, fileType, false)
 
-	filename := config.LoadedConfiguration.FontFileFolder + "/" + name + "/" + name + "." + weight + "." + style + "." + ".woff2"
-	err = os.Remove(filename)
-	if err != nil {
-		return err
-	}
+	delete(font.Fonts, GetFontFileName(name, weight, style, fileType, font.GoogleFont))
 
-	var fonts []Metadata
-	for _, item := range font.Fonts {
-		if item.Path != filename {
-			fonts = append(fonts, item)
-		}
-	}
-
-	font.Fonts = fonts
-
-	return writeFont(*font)
+	return UpdateFont(font)
 }

@@ -2,11 +2,12 @@ package database
 
 import (
 	"fmt"
+	"slices"
 )
 
 type Designer struct {
-	Name string `yaml:"name" json:"name"`
-	Bio  string `yaml:"bio" json:"bio"`
+	Name string `json:"name" bson:"name"`
+	Bio  string `json:"bio" bson:"bio"`
 }
 
 func GetDesigners(name string) ([]Designer, error) {
@@ -18,19 +19,17 @@ func GetDesigners(name string) ([]Designer, error) {
 	return font.Designers, nil
 }
 
-func CreateDesigner(name string, designerName string, bio string) (*Designer, error) {
+func CreateDesigner(name string, designer Designer) (*Designer, error) {
 	font, err := GetFont(name)
 	if err != nil {
 		return nil, err
 	}
 
-	designer := Designer{
-		Name: designerName,
-		Bio:  bio,
-	}
-
 	font.Designers = append(font.Designers, designer)
-	err = writeFont(*font)
+	err = UpdateFont(font)
+	if err != nil {
+		return nil, err
+	}
 
 	return &designer, err
 }
@@ -42,17 +41,12 @@ func DeleteDesigner(name string, designerName string) error {
 	}
 
 	if !font.GoogleFont {
-		return fmt.Errorf("cannot delete google font")
+		return fmt.Errorf("cannot remove designers from a google font")
 	}
 
-	var designers []Designer
-	for _, item := range font.Designers {
-		if item.Name != name {
-			designers = append(designers, item)
-		}
-	}
+	slices.DeleteFunc(font.Designers, func(designer Designer) bool {
+		return designer.Name == designerName
+	})
 
-	font.Designers = designers
-
-	return writeFont(*font)
+	return UpdateFont(font)
 }
