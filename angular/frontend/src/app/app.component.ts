@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SettingsPanelComponent } from './settingsPanel/settingsPanel.component';
+import { SettingsPanelComponent } from './settingsPanel/settings-panel.component';
 
 @Component({
   selector: 'app-root',
