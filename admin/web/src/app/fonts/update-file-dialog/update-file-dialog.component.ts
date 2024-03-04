@@ -20,7 +20,7 @@ export class UpdateFileDialogComponent {
 
   @Output() saved = new EventEmitter();
 
-  constructor(private apiClient: ApiService) {}
+  constructor(private apiService: ApiService) {}
 
   updateFile() {
     if (this.editFileForm.invalid) {
@@ -30,7 +30,7 @@ export class UpdateFileDialogComponent {
     const file = this.editFileForm.get('file')?.value;
     let saveObservable = new Observable<void>();
     if (file && this.file.type === 'woff2') {
-      saveObservable = this.apiClient.updateFontFile$Woff2({
+      saveObservable = this.apiService.updateFontFile$Woff2({
         body: file,
         fontName: this.font.name,
         fontStyle: this.file.style,
@@ -38,7 +38,7 @@ export class UpdateFileDialogComponent {
         fontType: 'woff2'
       });
     } else if (file && this.file.type === 'ttf') {
-      saveObservable = this.apiClient.updateFontFile$Ttf({
+      saveObservable = this.apiService.updateFontFile$Ttf({
         body: file,
         fontName: this.font.name,
         fontStyle: this.file.style,

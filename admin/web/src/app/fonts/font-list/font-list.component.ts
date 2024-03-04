@@ -39,7 +39,7 @@ export class FontListComponent implements OnInit {
   protected readonly X = X;
   protected readonly ActiveSideItem = ActiveSideItem;
 
-  constructor(private apiClient: ApiService) {}
+  constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
     switch (this.type.toLowerCase()) {
@@ -62,7 +62,7 @@ export class FontListComponent implements OnInit {
     this.loading = true;
     this.fonts = [];
     this.filteredFonts = [];
-    this.apiClient.getAllFonts().subscribe((value) => {
+    this.apiService.getAllFonts().subscribe((value) => {
       this.filteredFonts = value;
       this.fonts = value;
       this.loading = false;
@@ -77,7 +77,7 @@ export class FontListComponent implements OnInit {
     this.loading = true;
     this.fonts = [];
     this.filteredFonts = [];
-    this.apiClient.getGoogleFonts().subscribe((value) => {
+    this.apiService.getGoogleFonts().subscribe((value) => {
       this.filteredFonts = value;
       this.fonts = value;
       this.loading = false;
@@ -92,7 +92,7 @@ export class FontListComponent implements OnInit {
     this.loading = true;
     this.fonts = [];
     this.filteredFonts = [];
-    this.apiClient.getCustomFonts().subscribe((value) => {
+    this.apiService.getCustomFonts().subscribe((value) => {
       this.filteredFonts = value;
       this.fonts = value;
       this.loading = false;
@@ -138,7 +138,7 @@ export class FontListComponent implements OnInit {
   }
 
   deleteFont() {
-    this.apiClient.deleteFontByName({ fontName: this.selectedFont?.name ?? '' }).subscribe(() => {
+    this.apiService.deleteFontByName({ fontName: this.selectedFont?.name ?? '' }).subscribe(() => {
       this.deleteFontOpen = false;
       this.fonts = this.fonts.filter((font) => font.name !== this.selectedFont?.name);
       this.filterFonts(this.activeFilter);

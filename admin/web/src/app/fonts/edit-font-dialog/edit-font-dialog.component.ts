@@ -23,7 +23,7 @@ export class EditFontDialogComponent {
   isOpen = false;
 
   constructor(
-    private apiClient: ApiService,
+    private apiService: ApiService,
     private router: Router
   ) {}
 
@@ -43,7 +43,7 @@ export class EditFontDialogComponent {
     const category = this.editFontForm.get('category')?.value ?? '';
     const description = this.editFontForm.get('description')?.value ?? '';
 
-    this.apiClient
+    this.apiService
       .updateFontByName({
         fontName: this.font.name,
         body: { license, description, category }

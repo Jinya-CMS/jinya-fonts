@@ -2,12 +2,15 @@ package main
 
 import (
 	"embed"
+	"errors"
 	"github.com/gorilla/mux"
 	_ "github.com/sakirsensoy/genv/dotenv/autoload"
+	"go.mongodb.org/mongo-driver/mongo"
 	"html/template"
 	admin "jinya-fonts/admin/api"
 	"jinya-fonts/api"
 	"jinya-fonts/config"
+	"jinya-fonts/database"
 	"jinya-fonts/fonts"
 	"jinya-fonts/fontsync"
 	"log"
@@ -113,6 +116,19 @@ func main() {
 	err := config.LoadConfiguration()
 	if err != nil {
 		panic(err)
+	}
+
+	_, err = database.GetSettings()
+	if errors.Is(err, mongo.ErrNoDocuments) {
+		settings := database.JinyaFontsSettings{
+			FilterByName: []string{},
+			SyncEnabled:  true,
+			SyncInterval: "0 0 1 * *",
+		}
+		err = database.UpdateSettings(&settings)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	if slices.Contains(os.Args, "sync") {

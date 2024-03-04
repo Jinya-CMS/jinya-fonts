@@ -19,7 +19,7 @@ export class CreateFontDialogComponent {
   @Input() open = false;
 
   constructor(
-    private apiClient: ApiService,
+    private apiService: ApiService,
     private router: Router
   ) {}
 
@@ -33,7 +33,7 @@ export class CreateFontDialogComponent {
     const category = this.createFontForm.get('category')?.value ?? '';
     const description = this.createFontForm.get('description')?.value ?? '';
 
-    this.apiClient.createNewFont({ body: { name, license, description, category } }).subscribe((value) => {
+    this.apiService.createNewFont({ body: { name, license, description, category } }).subscribe((value) => {
       this.router.navigate(['/font/detail', value.name]);
     });
   }

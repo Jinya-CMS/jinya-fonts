@@ -22,7 +22,7 @@ export class AddFileDialogComponent {
 
   @Output() saved = new EventEmitter();
 
-  constructor(private apiClient: ApiService) {}
+  constructor(private apiService: ApiService) {}
 
   createFile() {
     if (this.createFileForm.invalid) {
@@ -32,7 +32,7 @@ export class AddFileDialogComponent {
     const file = this.createFileForm.get('file')?.value;
     let saveObservable = new Observable<void>();
     if (file && file.type === 'font/woff2') {
-      saveObservable = this.apiClient.createFontFile$Woff2({
+      saveObservable = this.apiService.createFontFile$Woff2({
         body: file,
         fontName: this.font.name,
         fontStyle: this.createFileForm.get('style')?.value ?? 'normal',
@@ -40,7 +40,7 @@ export class AddFileDialogComponent {
         fontType: 'woff2'
       });
     } else if (file && file.type === 'font/ttf') {
-      saveObservable = this.apiClient.createFontFile$Ttf({
+      saveObservable = this.apiService.createFontFile$Ttf({
         body: file,
         fontName: this.font.name,
         fontStyle: this.createFileForm.get('style')?.value ?? 'normal',

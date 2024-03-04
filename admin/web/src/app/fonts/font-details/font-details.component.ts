@@ -50,7 +50,7 @@ export class FontDetailsComponent implements OnInit {
   protected readonly X = X;
 
   constructor(
-    private apiClient: ApiService,
+    private apiService: ApiService,
     private router: Router
   ) {}
 
@@ -82,7 +82,7 @@ export class FontDetailsComponent implements OnInit {
   }
 
   deleteFont() {
-    this.apiClient.deleteFontByName({ fontName: this.fontName }).subscribe(() => {
+    this.apiService.deleteFontByName({ fontName: this.fontName }).subscribe(() => {
       this.router.navigateByUrl('/font');
     });
   }
@@ -92,7 +92,7 @@ export class FontDetailsComponent implements OnInit {
       this.loading = true;
     }
 
-    this.apiClient.getFontByName({ fontName: this.fontName }).subscribe((value) => {
+    this.apiService.getFontByName({ fontName: this.fontName }).subscribe((value) => {
       this.font = value;
       this.loading = false;
       if (activeDesigner) {
@@ -114,7 +114,7 @@ export class FontDetailsComponent implements OnInit {
       return;
     }
 
-    this.apiClient
+    this.apiService
       .addFontDesigner({
         fontName: this.fontName,
         body: { name: this.addDesignerForm.get('name')?.value ?? '', bio: this.addDesignerForm.get('bio')?.value ?? '' }
@@ -123,10 +123,10 @@ export class FontDetailsComponent implements OnInit {
   }
 
   updateNewDesigner() {
-    this.apiClient
+    this.apiService
       .removeFontDesigner({ fontName: this.fontName, designerName: this.activeDesigner?.name ?? '' })
       .subscribe(() => {
-        this.apiClient
+        this.apiService
           .addFontDesigner({
             fontName: this.fontName,
             body: { name: this.activeDesigner?.name ?? '', bio: this.editDesignerForm.get('bio')?.value ?? '' }
@@ -139,13 +139,13 @@ export class FontDetailsComponent implements OnInit {
   }
 
   removeDesigner() {
-    this.apiClient
+    this.apiService
       .removeFontDesigner({ fontName: this.fontName, designerName: this.activeDesigner?.name ?? '' })
       .subscribe(() => this.loadData());
   }
 
   removeFile() {
-    this.apiClient
+    this.apiService
       .removeFontFile({
         fontName: this.fontName,
         fontStyle: this.activeFile?.style ?? 'normal',

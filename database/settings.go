@@ -2,11 +2,12 @@ package database
 
 import (
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type JinyaFontsSettings struct {
 	FilterByName []string `json:"filterByName" bson:"filterByName"`
+	SyncEnabled  bool     `json:"syncEnabled" bson:"syncEnabled"`
+	SyncInterval string   `json:"syncInterval" bson:"syncInterval"`
 }
 
 func GetSettings() (*JinyaFontsSettings, error) {
@@ -43,8 +44,13 @@ func UpdateSettings(settings *JinyaFontsSettings) error {
 	defer cancelFunc()
 
 	settingsCollection := getSettingsCollection(client)
+	_, err = settingsCollection.DeleteMany(ctx, bson.D{})
 
-	_, err = settingsCollection.UpdateOne(ctx, bson.D{}, settings, options.Update().SetUpsert(true))
+	if err != nil {
+		return err
+	}
+
+	_, err = settingsCollection.InsertOne(ctx, settings)
 
 	return err
 }

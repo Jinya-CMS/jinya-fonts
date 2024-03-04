@@ -12,18 +12,15 @@ export interface GetFontDesigners$Params {
   fontName: string;
 }
 
-export function getFontDesigners(
-  http: HttpClient,
-  rootUrl: string,
-  params: GetFontDesigners$Params,
-  context?: HttpContext
-): Observable<StrictHttpResponse<Designer>> {
+export function getFontDesigners(http: HttpClient, rootUrl: string, params: GetFontDesigners$Params, context?: HttpContext): Observable<StrictHttpResponse<Designer>> {
   const rb = new RequestBuilder(rootUrl, getFontDesigners.PATH, 'get');
   if (params) {
     rb.path('fontName', params.fontName, {});
   }
 
-  return http.request(rb.build({ responseType: 'json', accept: 'application/json', context })).pipe(
+  return http.request(
+    rb.build({ responseType: 'json', accept: 'application/json', context })
+  ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
       return r as StrictHttpResponse<Designer>;

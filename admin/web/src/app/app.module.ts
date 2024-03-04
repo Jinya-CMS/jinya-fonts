@@ -8,6 +8,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { FontsModule } from './fonts/fonts.module';
 import { ApiModule } from './api/api.module';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
+import { SettingsModule } from './settings/settings.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +21,7 @@ import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
     OAuthModule.forRoot(),
     AuthenticationModule.forRoot(),
     FontsModule.forRoot(),
+    SettingsModule.forRoot(),
     RouterLinkActive,
     RouterModule.forRoot(
       [

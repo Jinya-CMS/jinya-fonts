@@ -6,6 +6,7 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+
 export interface RemoveFontFile$Params {
   fontName: string;
   fontWeight: '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900';
@@ -13,12 +14,7 @@ export interface RemoveFontFile$Params {
   fontType: 'woff2' | 'ttf';
 }
 
-export function removeFontFile(
-  http: HttpClient,
-  rootUrl: string,
-  params: RemoveFontFile$Params,
-  context?: HttpContext
-): Observable<StrictHttpResponse<void>> {
+export function removeFontFile(http: HttpClient, rootUrl: string, params: RemoveFontFile$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
   const rb = new RequestBuilder(rootUrl, removeFontFile.PATH, 'delete');
   if (params) {
     rb.path('fontName', params.fontName, {});
@@ -27,7 +23,9 @@ export function removeFontFile(
     rb.path('fontType', params.fontType, {});
   }
 
-  return http.request(rb.build({ responseType: 'text', accept: '*/*', context })).pipe(
+  return http.request(
+    rb.build({ responseType: 'text', accept: '*/*', context })
+  ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
       return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;

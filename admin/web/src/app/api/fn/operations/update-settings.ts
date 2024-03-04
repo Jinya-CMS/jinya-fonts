@@ -9,21 +9,18 @@ import { RequestBuilder } from '../../request-builder';
 import { Settings } from '../../models/settings';
 
 export interface UpdateSettings$Params {
-  body?: Settings;
+      body?: Settings
 }
 
-export function updateSettings(
-  http: HttpClient,
-  rootUrl: string,
-  params?: UpdateSettings$Params,
-  context?: HttpContext
-): Observable<StrictHttpResponse<void>> {
+export function updateSettings(http: HttpClient, rootUrl: string, params?: UpdateSettings$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
   const rb = new RequestBuilder(rootUrl, updateSettings.PATH, 'put');
   if (params) {
     rb.body(params.body, 'application/json');
   }
 
-  return http.request(rb.build({ responseType: 'text', accept: '*/*', context })).pipe(
+  return http.request(
+    rb.build({ responseType: 'text', accept: '*/*', context })
+  ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
       return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;

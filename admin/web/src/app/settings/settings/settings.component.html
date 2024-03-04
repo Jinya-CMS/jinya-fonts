@@ -1,0 +1,69 @@
+@if (loading) {
+  <app-loading-spinner />
+}
+@defer (when !loading) {
+  <span class="cosmo-title" i18n>Einstellungen</span>
+  <div class="container">
+    <fieldset class="jinya-fieldset">
+      <legend class="jinya-legend" i18n>Synchronisation</legend>
+      <div class="cosmo-message is--information">
+        <span class="cosmo-message__header" i18n>Einstellungen für die Synchronisation</span>
+        <p class="cosmo-message__message" i18n>
+          Hier kannst du einstellen wie oft die Synchronisation ausgeführt werden soll und ob sie überhaupt ausgeführt
+          werden soll.
+        </p>
+      </div>
+      <form [formGroup]="settingsForm">
+        <div class="cosmo-input__group">
+          <div class="cosmo-input__group is--switch">
+            <input type="checkbox" id="enableSync" class="cosmo-switch" formControlName="syncEnabled" #enableSync />
+            <label for="enableSync" i18n>Automatische Synchronisation aktiv</label>
+          </div>
+          <label for="syncInterval" class="cosmo-label">Synchronisationsintervall</label>
+          <select class="cosmo-select is--small" id="syncInterval" formControlName="syncInterval">
+            <option value="0 0 * * *">Täglich</option>
+            <option value="0 0 * * 0">Wöchentlich</option>
+            <option value="0 0 1 * *">Monatlich</option>
+          </select>
+        </div>
+      </form>
+    </fieldset>
+    <fieldset class="jinya-fieldset">
+      <legend class="jinya-legend" i18n>Font Filter</legend>
+      <div class="cosmo-message is--information">
+        <span class="cosmo-message__header" i18n>Fonts die abgerufen werden sollen</span>
+        <p class="cosmo-message__message" i18n>
+          Hier kannst du einstellen welche Fonts von Google Fonts abgerufen werden sollen. Wenn die Liste leer ist
+          werden alle Fonts synchronisiert.
+        </p>
+      </div>
+      <div>
+        @for (font of onlyFetchFonts; track font) {
+          <span class="font-filter">
+            {{ font }}
+            <button class="cosmo-button is--negative is--small is--circle" (click)="removeFilteredFont(font)">
+             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"
+                  stroke-linejoin="round">
+               <path d="M18 6 6 18" />
+               <path d="m6 6 12 12" />
+             </svg>
+            </button>
+          </span>
+        }
+        <form class="add-filter-form" [formGroup]="addFilterForm" (submit)="addFilter()">
+          <div class="cosmo-input__group">
+            <label for="addFilterName" class="cosmo-label" i18n>Familie</label>
+            <input required type="text" id="addFilterName" class="cosmo-input" formControlName="filterName" />
+          </div>
+          <div class="cosmo-button__container">
+            <button class="cosmo-button is--primary" type="submit" i18n>Filter hinzufügen</button>
+          </div>
+        </form>
+      </div>
+    </fieldset>
+    <div class="cosmo-button__container">
+      <button class="cosmo-button" (click)="loadData()" i18n>Zurücksetzen</button>
+      <button class="cosmo-button is--primary" (click)="saveSettings()" i18n>Einstellungen speichern</button>
+    </div>
+  </div>
+}

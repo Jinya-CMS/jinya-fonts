@@ -8,19 +8,17 @@ import { RequestBuilder } from '../../request-builder';
 
 import { Settings } from '../../models/settings';
 
-export interface GetSettings$Params {}
+export interface GetSettings$Params {
+}
 
-export function getSettings(
-  http: HttpClient,
-  rootUrl: string,
-  params?: GetSettings$Params,
-  context?: HttpContext
-): Observable<StrictHttpResponse<Settings>> {
+export function getSettings(http: HttpClient, rootUrl: string, params?: GetSettings$Params, context?: HttpContext): Observable<StrictHttpResponse<Settings>> {
   const rb = new RequestBuilder(rootUrl, getSettings.PATH, 'get');
   if (params) {
   }
 
-  return http.request(rb.build({ responseType: 'json', accept: 'application/json', context })).pipe(
+  return http.request(
+    rb.build({ responseType: 'json', accept: 'application/json', context })
+  ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
       return r as StrictHttpResponse<Settings>;
