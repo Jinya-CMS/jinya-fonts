@@ -27,13 +27,17 @@ type GoogleWebfont struct {
 
 func downloadWoff2FontList() ([]GoogleWebfont, error) {
 	log.Println("Download font list")
-	//familyFilter := strings.Join(fetchOnly, "&family=")
-	//if len(familyFilter) > 0 {
-	//	familyFilter = "&family=" + strings.ReplaceAll(familyFilter, " ", "+")
-	//}
+	settings, err := database.GetSettings()
+	if err != nil {
+		return nil, err
+	}
 
-	//req, err := http.NewRequest("GET", fmt.Sprintf("https://webfonts.googleapis.com/v1/webfonts?capability=WOFF2&key=%s%s", apiKey, familyFilter), nil)
-	req, err := http.NewRequest("GET", fmt.Sprintf("https://webfonts.googleapis.com/v1/webfonts?capability=WOFF2&key=%s", config.LoadedConfiguration.ApiKey), nil)
+	familyFilter := strings.Join(settings.FilterByName, "&family=")
+	if len(familyFilter) > 0 {
+		familyFilter = "&family=" + strings.ReplaceAll(familyFilter, " ", "+")
+	}
+
+	req, err := http.NewRequest("GET", fmt.Sprintf("https://webfonts.googleapis.com/v1/webfonts?capability=WOFF2&key=%s%s", config.LoadedConfiguration.ApiKey, familyFilter), nil)
 	if err != nil {
 		return nil, err
 	}

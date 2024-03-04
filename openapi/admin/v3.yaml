@@ -15,13 +15,13 @@ servers:
   - url: "https://fonts.jinya.de"
     description: The production instance of Jinya Fonts
 security:
-  - accessToken: []
+  - accessToken: [ ]
 paths:
   /api/admin/font:
     post:
       operationId: createNewFont
       security:
-        - accessToken: []
+        - accessToken: [ ]
       summary: "Creates a new webfont"
       requestBody:
         content:
@@ -39,7 +39,7 @@ paths:
     get:
       operationId: getAllFonts
       security:
-        - accessToken: []
+        - accessToken: [ ]
       summary: "Gets all fonts"
       responses:
         "404":
@@ -61,7 +61,7 @@ paths:
     get:
       operationId: getGoogleFonts
       security:
-        - accessToken: []
+        - accessToken: [ ]
       summary: "Gets all google fonts"
       responses:
         "404":
@@ -79,11 +79,17 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/webfont"
+    post:
+      operationId: syncGoogleFonts
+      responses:
+        204:
+          description: All fonts synced successfully
+      summary: Syncs all configured Google fonts
   /api/admin/font/custom:
     get:
       operationId: getCustomFonts
       security:
-        - accessToken: []
+        - accessToken: [ ]
       summary: "Gets all custom fonts"
       responses:
         "404":
@@ -105,7 +111,7 @@ paths:
     get:
       operationId: getFontByName
       security:
-        - accessToken: []
+        - accessToken: [ ]
       summary: "Gets the given font by name"
       responses:
         "404":
@@ -124,7 +130,7 @@ paths:
     put:
       operationId: updateFontByName
       security:
-        - accessToken: []
+        - accessToken: [ ]
       summary: "Updates the given font"
       requestBody:
         content:
@@ -144,7 +150,7 @@ paths:
     delete:
       operationId: deleteFontByName
       security:
-        - accessToken: []
+        - accessToken: [ ]
       summary: "Deletes the given font"
       responses:
         "404":
@@ -166,7 +172,7 @@ paths:
     get:
       operationId: getFontFiles
       security:
-        - accessToken: []
+        - accessToken: [ ]
       summary: "Gets the files for the given font"
       responses:
         "404":
@@ -192,7 +198,7 @@ paths:
     post:
       operationId: createFontFile
       security:
-        - accessToken: []
+        - accessToken: [ ]
       summary: "Uploads a new font file with the given parameters"
       requestBody:
         required: true
@@ -218,7 +224,7 @@ paths:
     put:
       operationId: updateFontFile
       security:
-        - accessToken: []
+        - accessToken: [ ]
       summary: "Replaces the font file of the given font and its parameters"
       requestBody:
         required: true
@@ -244,7 +250,7 @@ paths:
     delete:
       operationId: removeFontFile
       security:
-        - accessToken: []
+        - accessToken: [ ]
       summary: "Deletes the font file of the given font and its parameters"
       responses:
         "204":
@@ -297,7 +303,7 @@ paths:
     get:
       operationId: getFontDesigners
       security:
-        - accessToken: []
+        - accessToken: [ ]
       summary: "Gets the designers for the given font"
       responses:
         "404":
@@ -316,7 +322,7 @@ paths:
     post:
       operationId: addFontDesigner
       security:
-        - accessToken: []
+        - accessToken: [ ]
       summary: "Adds a new designer to the given font"
       requestBody:
         content:
@@ -340,7 +346,7 @@ paths:
     delete:
       operationId: removeFontDesigner
       security:
-        - accessToken: []
+        - accessToken: [ ]
       summary: "Deletes given designer from the given font"
       responses:
         "204":
@@ -367,7 +373,7 @@ paths:
     get:
       operationId: getSettings
       security:
-        - accessToken: []
+        - accessToken: [ ]
       summary: "Gets the current settings"
       responses:
         "200":
@@ -379,7 +385,7 @@ paths:
     put:
       operationId: updateSettings
       security:
-        - accessToken: []
+        - accessToken: [ ]
       summary: "Updates the current settings"
       requestBody:
         content:

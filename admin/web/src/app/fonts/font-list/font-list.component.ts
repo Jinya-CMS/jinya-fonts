@@ -3,6 +3,7 @@ import { Webfont } from '../../api/models/webfont';
 import { ApiService } from '../../api/services/api.service';
 import { Check, X } from 'lucide-angular';
 import { Designer } from '../../api/models/designer';
+import { FontSyncEvents, FontSyncService } from '../font-sync.service';
 
 interface FontFilter {
   category: string;
@@ -39,7 +40,21 @@ export class FontListComponent implements OnInit {
   protected readonly X = X;
   protected readonly ActiveSideItem = ActiveSideItem;
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private fontSyncService: FontSyncService
+  ) {
+    fontSyncService.subscribe(FontSyncEvents.Success).subscribe(() => {
+      switch (this.activeSideItem) {
+        case ActiveSideItem.All:
+          this.getAllFonts();
+          break;
+        case ActiveSideItem.Google:
+          this.getGoogleFonts();
+          break;
+      }
+    });
+  }
 
   ngOnInit(): void {
     switch (this.type.toLowerCase()) {
@@ -143,5 +158,9 @@ export class FontListComponent implements OnInit {
       this.fonts = this.fonts.filter((font) => font.name !== this.selectedFont?.name);
       this.filterFonts(this.activeFilter);
     });
+  }
+
+  syncFonts() {
+    this.fontSyncService.syncFonts();
   }
 }

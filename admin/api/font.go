@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"jinya-fonts/database"
+	"jinya-fonts/fontsync"
 	"net/http"
 	"slices"
 )
@@ -201,6 +202,16 @@ func deleteFont(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err = database.DeleteFont(fontName)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func syncFonts(w http.ResponseWriter, r *http.Request) {
+	err := fontsync.Sync()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return

@@ -33,6 +33,7 @@ func SetupAdminApiRouter(router *mux.Router) {
 
 	router.Methods("GET").Path("/api/admin/font/all").Handler(mw.CheckAuthentication()(contentTypeJson()(http.HandlerFunc(getAllFonts))))
 	router.Methods("GET").Path("/api/admin/font/google").Handler(mw.CheckAuthentication()(contentTypeJson()(http.HandlerFunc(getGoogleFonts))))
+	router.Methods("POST").Path("/api/admin/font/google").Handler(mw.CheckAuthentication()(contentTypeJson()(http.HandlerFunc(syncFonts))))
 	router.Methods("GET").Path("/api/admin/font/custom").Handler(mw.CheckAuthentication()(contentTypeJson()(http.HandlerFunc(getCustomFonts))))
 	router.Methods("POST").Path("/api/admin/font").Handler(mw.CheckAuthentication()(contentTypeJson()(http.HandlerFunc(createFont))))
 	router.Methods("GET").Path("/api/admin/font/{fontName}").Handler(mw.CheckAuthentication()(contentTypeJson()(http.HandlerFunc(getFontByName))))

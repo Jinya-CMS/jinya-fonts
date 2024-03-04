@@ -11,19 +11,22 @@ import { Designer } from '../../models/designer';
 
 export interface AddFontDesigner$Params {
   fontName: string;
-      body?: AddDesigner
+  body?: AddDesigner;
 }
 
-export function addFontDesigner(http: HttpClient, rootUrl: string, params: AddFontDesigner$Params, context?: HttpContext): Observable<StrictHttpResponse<Designer>> {
+export function addFontDesigner(
+  http: HttpClient,
+  rootUrl: string,
+  params: AddFontDesigner$Params,
+  context?: HttpContext
+): Observable<StrictHttpResponse<Designer>> {
   const rb = new RequestBuilder(rootUrl, addFontDesigner.PATH, 'post');
   if (params) {
     rb.path('fontName', params.fontName, {});
     rb.body(params.body, 'application/json');
   }
 
-  return http.request(
-    rb.build({ responseType: 'json', accept: 'application/json', context })
-  ).pipe(
+  return http.request(rb.build({ responseType: 'json', accept: 'application/json', context })).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
       return r as StrictHttpResponse<Designer>;
