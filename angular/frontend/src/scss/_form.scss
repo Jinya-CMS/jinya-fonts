@@ -34,8 +34,8 @@
       display: block;
       height: var(--checkbox-mark-shortarm);
       width: var(--checkbox-mark-longarm);
-      border-right: var(--checkbox-mark-stroke-width) solid var(--white);
-      border-top: var(--checkbox-mark-stroke-width) solid var(--white);
+      border-right: var(--checkbox-mark-stroke-width) solid var(--checkmark-color);
+      border-top: var(--checkbox-mark-stroke-width) solid var(--checkmark-color);
       transform: rotate(135deg);
       top: calc(var(--checkbox-mark-longarm) - var(--checkbox-mark-shortarm));
       left: calc(var(--checkbox-mark-longarm) / 2 + 0.0625rem);

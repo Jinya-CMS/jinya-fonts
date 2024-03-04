@@ -1,17 +1,15 @@
 <div class="jinya-settings-panel">
-  <app-searchbar></app-searchbar>
-  <select aria-label="Preview type" id="previewtype" class="jinya-preview__type" name="previewOption"
-          (input)="updateText()" [formControl]="previewTextType" i18n-aria-label>
+  <app-searchbar (searchTextChanged)="search.emit($event)"></app-searchbar>
+  <select aria-label="Preview type" class="jinya-preview__type" (input)="updateText($event)" [value]="previewTextType" i18n-aria-label>
     <option value="custom" i18n>Custom</option>
     <option value="alphabet" i18n>Alphabet</option>
     <option value="lorem" i18n>Lorem Ipsum</option>
     <option value="numbers" i18n>Numbers</option>
   </select>
-  <input aria-label="Preview text" id="previewtext" placeholder="Type text to preview..." type="text"
-         class="jinya-preview__text" [formControl]="previewText" (input)="updateText()" i18n-aria-label
-         i18n-placeholder />
-  <span id="previewsizetext" class="jinya-preview__size-text">{{ previewSize.value }}px</span>
-  <input aria-label="Preview size" id="previewsize" type="range" [formControl]="previewSize" max="240" min="8"
+  <input aria-label="Preview text" placeholder="Type text to preview..." type="text" class="jinya-preview__text"
+         [value]="previewText.value" (input)="updatePreviewText($event)" i18n-aria-label i18n-placeholder />
+  <span class="jinya-preview__size-text">{{ previewSize.value }}px</span>
+  <input aria-label="Preview size" type="range" [formControl]="previewSize" max="240" min="8"
          class="jinya-preview__size" (input)="previewSizeChange.emit(previewSize.value ?? 24)" i18n-aria-label />
 </div>
 <div class="jinya-font-type-panel">

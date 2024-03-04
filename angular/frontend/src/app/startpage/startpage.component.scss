@@ -1,0 +1,29 @@
+@import "../../scss/loader";
+
+:host {
+  grid-row: body;
+}
+
+.jinya-card__list {
+  min-height: auto;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.jinya-card__list--loading {
+  justify-content: center;
+  align-items: center;
+}
+
+.jinya-no-fonts {
+  display: block;
+  text-align: center;
+  font-size: 2rem;
+  color: var(--no-match-color);
+  opacity: 0.8;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  width: 100%;
+}

@@ -4,6 +4,9 @@
   --white: #fff;
   --control-border-color: #ccc;
   --code-color: #fafafa;
+  --border-color: var(--primary-color);
+  --checkmark-color: var(--white);
+  --no-match-color: var(--primary-color);
 
   --checkbox-size: 1rem;
   --checkbox-mark-longarm: 0.5rem;
@@ -25,4 +28,15 @@
   --font-weight-card-title: 300;
   --font-weight-style-title: 700;
   --font-weight-designer-name: 400;
+
+  @media screen and (prefers-color-scheme: dark) {
+    --primary-color: #0f1e2e;
+    --text-color: #ccc;
+    --white: #000;
+    --control-border-color: #333;
+    --code-color: #666;
+    --border-color: var(--control-border-color);
+    --checkmark-color: #fff;
+    --no-match-color: var(--text-color);
+  }
 }
