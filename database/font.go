@@ -7,13 +7,13 @@ import (
 )
 
 type Webfont struct {
-	Name        string          `json:"name" bson:"name,omitempty"`
-	Fonts       map[string]File `json:"fonts" bson:"fonts,omitempty"`
-	Description string          `json:"description" bson:"description,omitempty"`
-	Designers   []Designer      `json:"designers" bson:"designers,omitempty"`
-	License     string          `json:"license" bson:"license,omitempty"`
-	Category    string          `json:"category" bson:"category,omitempty"`
-	GoogleFont  bool            `json:"googleFont" bson:"googleFont,omitempty"`
+	Name        string          `json:"name" bson:"name"`
+	Fonts       map[string]File `json:"fonts" bson:"fonts"`
+	Description string          `json:"description" bson:"description"`
+	Designers   []Designer      `json:"designers" bson:"designers"`
+	License     string          `json:"license" bson:"license"`
+	Category    string          `json:"category" bson:"category"`
+	GoogleFont  bool            `json:"googleFont" bson:"googleFont"`
 }
 
 func GetAllFonts() ([]Webfont, error) {
@@ -154,7 +154,7 @@ func UpdateFont(webfont *Webfont) error {
 	defer cancelFunc()
 
 	fontsCollection := getFontsCollection(client)
-	_, err = fontsCollection.UpdateOne(ctx, bson.D{{"name", webfont.Name}}, webfont)
+	err = fontsCollection.FindOneAndReplace(ctx, bson.D{{"name", webfont.Name}}, webfont).Err()
 
 	return err
 }

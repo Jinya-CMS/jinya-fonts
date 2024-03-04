@@ -17,6 +17,24 @@ servers:
 security:
   - accessToken: []
 paths:
+  /api/admin/font:
+    post:
+      operationId: createNewFont
+      security:
+        - accessToken: []
+      summary: "Creates a new webfont"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/add-webfont"
+      responses:
+        "201":
+          description: "Created new font"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/webfont"
   /api/admin/font/all:
     get:
       operationId: getAllFonts
@@ -39,20 +57,6 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/webfont"
-    post:
-      operationId: createNewFont
-      security:
-        - accessToken: []
-      summary: "Creates a new webfont"
-      requestBody:
-        $ref: "#/components/schemas/add-webfont"
-      responses:
-        "201":
-          description: "Created new font"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/webfont"
   /api/admin/font/google:
     get:
       operationId: getGoogleFonts
@@ -123,7 +127,10 @@ paths:
         - accessToken: []
       summary: "Updates the given font"
       requestBody:
-        $ref: "#/components/schemas/update-webfont"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/update-webfont"
       responses:
         "404":
           description: "The font was not found"
@@ -191,6 +198,10 @@ paths:
         required: true
         content:
           font/woff2:
+            schema:
+              type: "string"
+              format: "binary"
+          font/ttf:
             schema:
               type: "string"
               format: "binary"
@@ -308,7 +319,10 @@ paths:
         - accessToken: []
       summary: "Adds a new designer to the given font"
       requestBody:
-        $ref: "#/components/schemas/add-designer"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/add-designer"
       responses:
         "201":
           description: "Created new font"
@@ -368,7 +382,10 @@ paths:
         - accessToken: []
       summary: "Updates the current settings"
       requestBody:
-        $ref: "#/components/schemas/settings"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/settings"
       responses:
         "204":
           description: "Successful updated"
@@ -433,10 +450,26 @@ components:
           type: "string"
         weight:
           type: "string"
+          enum:
+            - 100
+            - 200
+            - 300
+            - 400
+            - 500
+            - 600
+            - 700
+            - 800
+            - 900
         style:
           type: "string"
+          enum:
+            - "normal"
+            - "italic"
         type:
           type: "string"
+          enum:
+            - "woff2"
+            - "ttf"
     designer:
       title: "Designer"
       type: "object"

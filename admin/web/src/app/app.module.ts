@@ -7,11 +7,13 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { FontsModule } from './fonts/fonts.module';
 import { ApiModule } from './api/api.module';
+import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     ApiModule.forRoot({ rootUrl: '' }),
+    EditorModule,
     BrowserModule,
     NgIf,
     RouterLink,
@@ -23,7 +25,7 @@ import { ApiModule } from './api/api.module';
       [
         {
           path: '**',
-          redirectTo: 'fonts'
+          redirectTo: 'font/all'
         }
       ],
       {
@@ -31,6 +33,7 @@ import { ApiModule } from './api/api.module';
       }
     )
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }]
 })
 export class AppModule {}

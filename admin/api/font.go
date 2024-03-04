@@ -143,7 +143,9 @@ func createFont(w http.ResponseWriter, r *http.Request) {
 
 	font := database.Webfont{
 		Name:        body.Name,
+		Fonts:       map[string]database.File{},
 		Description: body.Description,
+		Designers:   make([]database.Designer, 0),
 		License:     body.License,
 		Category:    body.Category,
 		GoogleFont:  false,

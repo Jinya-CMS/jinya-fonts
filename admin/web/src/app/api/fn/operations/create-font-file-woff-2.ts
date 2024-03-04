@@ -6,17 +6,21 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-
-export interface CreateFontFile$Params {
+export interface CreateFontFile$Woff2$Params {
   fontName: string;
   fontWeight: '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900';
   fontStyle: 'normal' | 'italic';
   fontType: 'woff2' | 'ttf';
-      body: Blob
+  body: Blob;
 }
 
-export function createFontFile(http: HttpClient, rootUrl: string, params: CreateFontFile$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, createFontFile.PATH, 'post');
+export function createFontFile$Woff2(
+  http: HttpClient,
+  rootUrl: string,
+  params: CreateFontFile$Woff2$Params,
+  context?: HttpContext
+): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, createFontFile$Woff2.PATH, 'post');
   if (params) {
     rb.path('fontName', params.fontName, {});
     rb.path('fontWeight', params.fontWeight, {});
@@ -25,9 +29,7 @@ export function createFontFile(http: HttpClient, rootUrl: string, params: Create
     rb.body(params.body, 'font/woff2');
   }
 
-  return http.request(
-    rb.build({ responseType: 'text', accept: '*/*', context })
-  ).pipe(
+  return http.request(rb.build({ responseType: 'text', accept: '*/*', context })).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
       return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
@@ -35,4 +37,4 @@ export function createFontFile(http: HttpClient, rootUrl: string, params: Create
   );
 }
 
-createFontFile.PATH = '/api/admin/font/{fontName}/file/{fontWeight}.{fontStyle}.{fontType}';
+createFontFile$Woff2.PATH = '/api/admin/font/{fontName}/file/{fontWeight}.{fontStyle}.{fontType}';

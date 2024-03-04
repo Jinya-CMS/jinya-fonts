@@ -25,6 +25,10 @@ func CreateDesigner(name string, designer Designer) (*Designer, error) {
 		return nil, err
 	}
 
+	if font.GoogleFont {
+		return nil, fmt.Errorf("cannot add designers from a google font")
+	}
+
 	font.Designers = append(font.Designers, designer)
 	err = UpdateFont(font)
 	if err != nil {
@@ -40,11 +44,11 @@ func DeleteDesigner(name string, designerName string) error {
 		return err
 	}
 
-	if !font.GoogleFont {
+	if font.GoogleFont {
 		return fmt.Errorf("cannot remove designers from a google font")
 	}
 
-	slices.DeleteFunc(font.Designers, func(designer Designer) bool {
+	font.Designers = slices.DeleteFunc(font.Designers, func(designer Designer) bool {
 		return designer.Name == designerName
 	})
 

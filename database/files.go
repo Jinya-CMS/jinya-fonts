@@ -20,6 +20,7 @@ func GetFontFileName(name, weight, style, fileType string, googleFont bool) stri
 	if !googleFont {
 		prefix = "custom"
 	}
+
 	return fmt.Sprintf("%s.%s.%s.%s.%s", prefix, slug.Make(name), weight, style, fileType)
 }
 
@@ -41,23 +42,31 @@ func GetFontFiles(name string) ([]File, error) {
 	return fonts, nil
 }
 
-func SetWoff2FontFile(name, weight, style string, data []byte) (*File, error) {
+func SetFontFile(name, weight, style, fileType string, data []byte) (*File, error) {
 	font, err := GetFont(name)
 	if err != nil {
 		return nil, err
 	}
 
-	fileName := GetFontFileName(name, weight, style, "woff2", font.GoogleFont)
+	if font.GoogleFont {
+		return nil, fmt.Errorf("cannot set file on google font")
+	}
+
+	fileName := GetFontFileName(name, weight, style, fileType, font.GoogleFont)
 	path := fmt.Sprintf("/fonts/%s", fileName)
 	metadata := File{
 		Path:   path,
 		Weight: weight,
 		Style:  style,
-		Type:   "woff2",
+		Type:   fileType,
 		Data:   data,
 	}
 
-	_ = AddCachedFontFile(name, weight, style, "woff2", data, false)
+	_ = AddCachedFontFile(name, weight, style, fileType, data, false)
+
+	if font.Fonts == nil {
+		font.Fonts = map[string]File{}
+	}
 
 	font.Fonts[fileName] = metadata
 	err = UpdateFont(font)
@@ -74,11 +83,11 @@ func RemoveFontFile(name, weight, style, fileType string) error {
 		return err
 	}
 
-	if !font.GoogleFont {
+	if font.GoogleFont {
 		return fmt.Errorf("cannot remove file from google font")
 	}
 
-	RemoveCachedFontFile(name, weight, style, fileType, false)
+	_ = RemoveCachedFontFile(name, weight, style, fileType, false)
 
 	delete(font.Fonts, GetFontFileName(name, weight, style, fileType, font.GoogleFont))
 

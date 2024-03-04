@@ -33,6 +33,11 @@ func createFontFile(w http.ResponseWriter, r *http.Request) {
 	name := vars["fontName"]
 	weight := vars["fontWeight"]
 	style := vars["fontStyle"]
+	fontType := vars["fontType"]
+	if fontType != "woff2" && fontType != "ttf" {
+		http.Error(w, "Invalid font type", http.StatusBadRequest)
+		return
+	}
 
 	fileBuffer := bytes.NewBufferString("")
 	_, err := io.Copy(fileBuffer, r.Body)
@@ -41,7 +46,7 @@ func createFontFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = database.SetWoff2FontFile(name, weight, style, fileBuffer.Bytes())
+	_, err = database.SetFontFile(name, weight, style, fontType, fileBuffer.Bytes())
 	if err != nil {
 		http.Error(w, "Failed to create font file", http.StatusInternalServerError)
 		return
@@ -55,6 +60,11 @@ func updateFontFile(w http.ResponseWriter, r *http.Request) {
 	name := vars["fontName"]
 	weight := vars["fontWeight"]
 	style := vars["fontStyle"]
+	fontType := vars["fontType"]
+	if fontType != "woff2" && fontType != "ttf" {
+		http.Error(w, "Invalid font type", http.StatusBadRequest)
+		return
+	}
 
 	fileBuffer := bytes.NewBufferString("")
 	_, err := io.Copy(fileBuffer, r.Body)
@@ -63,7 +73,7 @@ func updateFontFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = database.SetWoff2FontFile(name, weight, style, fileBuffer.Bytes())
+	_, err = database.SetFontFile(name, weight, style, fontType, fileBuffer.Bytes())
 	if err != nil {
 		return
 	}
@@ -82,7 +92,8 @@ func deleteFontFile(w http.ResponseWriter, r *http.Request) {
 	style := vars["fontStyle"]
 	fontType := vars["fontType"]
 	if fontType != "woff2" && fontType != "ttf" {
-		fontType = "woff2"
+		http.Error(w, "Invalid font type", http.StatusBadRequest)
+		return
 	}
 
 	err := database.RemoveFontFile(name, weight, style, fontType)

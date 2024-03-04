@@ -12,7 +12,7 @@ export class AppComponent {
 
   constructor(
     protected authService: AuthenticationService,
-    private router: Router
+    protected router: Router
   ) {}
 
   goBack() {

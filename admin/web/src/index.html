@@ -1,28 +1,28 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Jinya Fonts</title>
-  <base href="/admin/">
+  <head>
+    <meta charset="utf-8" />
+    <title>Jinya Fonts</title>
+    <base href="/admin/" />
 
-  <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg">
-  <link rel="icon" type="image/png" href="/static/img/favicon.png">
-  <link rel="shortcut icon" href="/static/img/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg" />
+    <link rel="icon" type="image/png" href="/static/img/favicon.png" />
+    <link rel="shortcut icon" href="/static/img/favicon.ico" />
 
-  <meta name="msapplication-TileColor" content="#19324c">
-  <meta name="theme-color" content="#19324c">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="msapplication-TileColor" content="#19324c" />
+    <meta name="theme-color" content="#19324c" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <script>
-    const jinyaConfig = {
-      openIdClientId: '{{.OpenIDClientId}}',
-      openIdUrl: 'https://{{.OpenIDDomain}}',
-      openIdCallbackUrl: '{{.GetRedirectUrl}}',
-      openIdLogoutRedirectUrl: '{{.ServerUrl}}',
-    };
-  </script>
-</head>
-<body>
-<app-root></app-root>
-</body>
+    <script>
+      const jinyaConfig = {
+        openIdClientId: '{{.OpenIDClientId}}',
+        openIdUrl: 'https://{{.OpenIDDomain}}',
+        openIdCallbackUrl: '{{.GetRedirectUrl}}',
+        openIdLogoutRedirectUrl: '{{.ServerUrl}}'
+      };
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
 </html>

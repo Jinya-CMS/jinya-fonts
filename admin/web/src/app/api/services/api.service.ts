@@ -11,8 +11,10 @@ import { StrictHttpResponse } from '../strict-http-response';
 
 import { addFontDesigner } from '../fn/operations/add-font-designer';
 import { AddFontDesigner$Params } from '../fn/operations/add-font-designer';
-import { createFontFile } from '../fn/operations/create-font-file';
-import { CreateFontFile$Params } from '../fn/operations/create-font-file';
+import { createFontFile$Ttf } from '../fn/operations/create-font-file-ttf';
+import { CreateFontFile$Ttf$Params } from '../fn/operations/create-font-file-ttf';
+import { createFontFile$Woff2 } from '../fn/operations/create-font-file-woff-2';
+import { CreateFontFile$Woff2$Params } from '../fn/operations/create-font-file-woff-2';
 import { createNewFont } from '../fn/operations/create-new-font';
 import { CreateNewFont$Params } from '../fn/operations/create-new-font';
 import { deleteFontByName } from '../fn/operations/delete-font-by-name';
@@ -54,6 +56,40 @@ export class ApiService extends BaseService {
     super(config, http);
   }
 
+  /** Path part for operation `createNewFont()` */
+  static readonly CreateNewFontPath = '/api/admin/font';
+
+  /**
+   * Creates a new webfont.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `createNewFont()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  createNewFont$Response(
+    params?: CreateNewFont$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<Webfont>> {
+    return createNewFont(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Creates a new webfont.
+   *
+   *
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `createNewFont$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  createNewFont(params?: CreateNewFont$Params, context?: HttpContext): Observable<Webfont> {
+    return this.createNewFont$Response(params, context).pipe(map((r: StrictHttpResponse<Webfont>): Webfont => r.body));
+  }
+
   /** Path part for operation `getAllFonts()` */
   static readonly GetAllFontsPath = '/api/admin/font/all';
 
@@ -67,7 +103,10 @@ export class ApiService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllFonts$Response(params?: GetAllFonts$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Webfont>>> {
+  getAllFonts$Response(
+    params?: GetAllFonts$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<Array<Webfont>>> {
     return getAllFonts(this.http, this.rootUrl, params, context);
   }
 
@@ -87,39 +126,6 @@ export class ApiService extends BaseService {
     );
   }
 
-  /** Path part for operation `createNewFont()` */
-  static readonly CreateNewFontPath = '/api/admin/font/all';
-
-  /**
-   * Creates a new webfont.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `createNewFont()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  createNewFont$Response(params: CreateNewFont$Params, context?: HttpContext): Observable<StrictHttpResponse<Webfont>> {
-    return createNewFont(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Creates a new webfont.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `createNewFont$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  createNewFont(params: CreateNewFont$Params, context?: HttpContext): Observable<Webfont> {
-    return this.createNewFont$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Webfont>): Webfont => r.body)
-    );
-  }
-
   /** Path part for operation `getGoogleFonts()` */
   static readonly GetGoogleFontsPath = '/api/admin/font/google';
 
@@ -133,7 +139,10 @@ export class ApiService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getGoogleFonts$Response(params?: GetGoogleFonts$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Webfont>>> {
+  getGoogleFonts$Response(
+    params?: GetGoogleFonts$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<Array<Webfont>>> {
     return getGoogleFonts(this.http, this.rootUrl, params, context);
   }
 
@@ -166,7 +175,10 @@ export class ApiService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getCustomFonts$Response(params?: GetCustomFonts$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Webfont>>> {
+  getCustomFonts$Response(
+    params?: GetCustomFonts$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<Array<Webfont>>> {
     return getCustomFonts(this.http, this.rootUrl, params, context);
   }
 
@@ -214,9 +226,7 @@ export class ApiService extends BaseService {
    * This method doesn't expect any request body.
    */
   getFontByName(params: GetFontByName$Params, context?: HttpContext): Observable<Webfont> {
-    return this.getFontByName$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Webfont>): Webfont => r.body)
-    );
+    return this.getFontByName$Response(params, context).pipe(map((r: StrictHttpResponse<Webfont>): Webfont => r.body));
   }
 
   /** Path part for operation `updateFontByName()` */
@@ -230,9 +240,12 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `updateFontByName()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updateFontByName$Response(params: UpdateFontByName$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  updateFontByName$Response(
+    params: UpdateFontByName$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<void>> {
     return updateFontByName(this.http, this.rootUrl, params, context);
   }
 
@@ -244,12 +257,10 @@ export class ApiService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `updateFontByName$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   updateFontByName(params: UpdateFontByName$Params, context?: HttpContext): Observable<void> {
-    return this.updateFontByName$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
+    return this.updateFontByName$Response(params, context).pipe(map((r: StrictHttpResponse<void>): void => r.body));
   }
 
   /** Path part for operation `deleteFontByName()` */
@@ -265,7 +276,10 @@ export class ApiService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  deleteFontByName$Response(params: DeleteFontByName$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  deleteFontByName$Response(
+    params: DeleteFontByName$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<void>> {
     return deleteFontByName(this.http, this.rootUrl, params, context);
   }
 
@@ -280,9 +294,7 @@ export class ApiService extends BaseService {
    * This method doesn't expect any request body.
    */
   deleteFontByName(params: DeleteFontByName$Params, context?: HttpContext): Observable<void> {
-    return this.deleteFontByName$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
+    return this.deleteFontByName$Response(params, context).pipe(map((r: StrictHttpResponse<void>): void => r.body));
   }
 
   /** Path part for operation `getFontFiles()` */
@@ -313,9 +325,7 @@ export class ApiService extends BaseService {
    * This method doesn't expect any request body.
    */
   getFontFiles(params: GetFontFiles$Params, context?: HttpContext): Observable<Metadata> {
-    return this.getFontFiles$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Metadata>): Metadata => r.body)
-    );
+    return this.getFontFiles$Response(params, context).pipe(map((r: StrictHttpResponse<Metadata>): Metadata => r.body));
   }
 
   /** Path part for operation `updateFontFile()` */
@@ -331,7 +341,10 @@ export class ApiService extends BaseService {
    *
    * This method sends `font/woff2` and handles request body of type `font/woff2`.
    */
-  updateFontFile$Woff2$Response(params: UpdateFontFile$Woff2$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  updateFontFile$Woff2$Response(
+    params: UpdateFontFile$Woff2$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<void>> {
     return updateFontFile$Woff2(this.http, this.rootUrl, params, context);
   }
 
@@ -346,9 +359,7 @@ export class ApiService extends BaseService {
    * This method sends `font/woff2` and handles request body of type `font/woff2`.
    */
   updateFontFile$Woff2(params: UpdateFontFile$Woff2$Params, context?: HttpContext): Observable<void> {
-    return this.updateFontFile$Woff2$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
+    return this.updateFontFile$Woff2$Response(params, context).pipe(map((r: StrictHttpResponse<void>): void => r.body));
   }
 
   /**
@@ -361,7 +372,10 @@ export class ApiService extends BaseService {
    *
    * This method sends `font/ttf` and handles request body of type `font/ttf`.
    */
-  updateFontFile$Ttf$Response(params: UpdateFontFile$Ttf$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  updateFontFile$Ttf$Response(
+    params: UpdateFontFile$Ttf$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<void>> {
     return updateFontFile$Ttf(this.http, this.rootUrl, params, context);
   }
 
@@ -376,9 +390,7 @@ export class ApiService extends BaseService {
    * This method sends `font/ttf` and handles request body of type `font/ttf`.
    */
   updateFontFile$Ttf(params: UpdateFontFile$Ttf$Params, context?: HttpContext): Observable<void> {
-    return this.updateFontFile$Ttf$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
+    return this.updateFontFile$Ttf$Response(params, context).pipe(map((r: StrictHttpResponse<void>): void => r.body));
   }
 
   /** Path part for operation `createFontFile()` */
@@ -390,12 +402,15 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `createFontFile()` instead.
+   * To access only the response body, use `createFontFile$Woff2()` instead.
    *
    * This method sends `font/woff2` and handles request body of type `font/woff2`.
    */
-  createFontFile$Response(params: CreateFontFile$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return createFontFile(this.http, this.rootUrl, params, context);
+  createFontFile$Woff2$Response(
+    params: CreateFontFile$Woff2$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<void>> {
+    return createFontFile$Woff2(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -404,14 +419,43 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `createFontFile$Response()` instead.
+   * To access the full response (for headers, for example), `createFontFile$Woff2$Response()` instead.
    *
    * This method sends `font/woff2` and handles request body of type `font/woff2`.
    */
-  createFontFile(params: CreateFontFile$Params, context?: HttpContext): Observable<void> {
-    return this.createFontFile$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
+  createFontFile$Woff2(params: CreateFontFile$Woff2$Params, context?: HttpContext): Observable<void> {
+    return this.createFontFile$Woff2$Response(params, context).pipe(map((r: StrictHttpResponse<void>): void => r.body));
+  }
+
+  /**
+   * Uploads a new font file with the given parameters.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `createFontFile$Ttf()` instead.
+   *
+   * This method sends `font/ttf` and handles request body of type `font/ttf`.
+   */
+  createFontFile$Ttf$Response(
+    params: CreateFontFile$Ttf$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<void>> {
+    return createFontFile$Ttf(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Uploads a new font file with the given parameters.
+   *
+   *
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `createFontFile$Ttf$Response()` instead.
+   *
+   * This method sends `font/ttf` and handles request body of type `font/ttf`.
+   */
+  createFontFile$Ttf(params: CreateFontFile$Ttf$Params, context?: HttpContext): Observable<void> {
+    return this.createFontFile$Ttf$Response(params, context).pipe(map((r: StrictHttpResponse<void>): void => r.body));
   }
 
   /** Path part for operation `removeFontFile()` */
@@ -442,9 +486,7 @@ export class ApiService extends BaseService {
    * This method doesn't expect any request body.
    */
   removeFontFile(params: RemoveFontFile$Params, context?: HttpContext): Observable<void> {
-    return this.removeFontFile$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
+    return this.removeFontFile$Response(params, context).pipe(map((r: StrictHttpResponse<void>): void => r.body));
   }
 
   /** Path part for operation `getFontDesigners()` */
@@ -460,7 +502,10 @@ export class ApiService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getFontDesigners$Response(params: GetFontDesigners$Params, context?: HttpContext): Observable<StrictHttpResponse<Designer>> {
+  getFontDesigners$Response(
+    params: GetFontDesigners$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<Designer>> {
     return getFontDesigners(this.http, this.rootUrl, params, context);
   }
 
@@ -491,9 +536,12 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `addFontDesigner()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  addFontDesigner$Response(params: AddFontDesigner$Params, context?: HttpContext): Observable<StrictHttpResponse<Designer>> {
+  addFontDesigner$Response(
+    params: AddFontDesigner$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<Designer>> {
     return addFontDesigner(this.http, this.rootUrl, params, context);
   }
 
@@ -505,7 +553,7 @@ export class ApiService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `addFontDesigner$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   addFontDesigner(params: AddFontDesigner$Params, context?: HttpContext): Observable<Designer> {
     return this.addFontDesigner$Response(params, context).pipe(
@@ -526,7 +574,10 @@ export class ApiService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  removeFontDesigner$Response(params: RemoveFontDesigner$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  removeFontDesigner$Response(
+    params: RemoveFontDesigner$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<void>> {
     return removeFontDesigner(this.http, this.rootUrl, params, context);
   }
 
@@ -541,9 +592,7 @@ export class ApiService extends BaseService {
    * This method doesn't expect any request body.
    */
   removeFontDesigner(params: RemoveFontDesigner$Params, context?: HttpContext): Observable<void> {
-    return this.removeFontDesigner$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
+    return this.removeFontDesigner$Response(params, context).pipe(map((r: StrictHttpResponse<void>): void => r.body));
   }
 
   /** Path part for operation `getSettings()` */
@@ -574,9 +623,7 @@ export class ApiService extends BaseService {
    * This method doesn't expect any request body.
    */
   getSettings(params?: GetSettings$Params, context?: HttpContext): Observable<Settings> {
-    return this.getSettings$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Settings>): Settings => r.body)
-    );
+    return this.getSettings$Response(params, context).pipe(map((r: StrictHttpResponse<Settings>): Settings => r.body));
   }
 
   /** Path part for operation `updateSettings()` */
@@ -590,9 +637,9 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `updateSettings()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updateSettings$Response(params: UpdateSettings$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  updateSettings$Response(params?: UpdateSettings$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
     return updateSettings(this.http, this.rootUrl, params, context);
   }
 
@@ -604,12 +651,9 @@ export class ApiService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `updateSettings$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updateSettings(params: UpdateSettings$Params, context?: HttpContext): Observable<void> {
-    return this.updateSettings$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
+  updateSettings(params?: UpdateSettings$Params, context?: HttpContext): Observable<void> {
+    return this.updateSettings$Response(params, context).pipe(map((r: StrictHttpResponse<void>): void => r.body));
   }
-
 }

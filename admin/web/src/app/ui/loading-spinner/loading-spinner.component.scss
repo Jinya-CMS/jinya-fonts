@@ -21,7 +21,7 @@
   position: absolute;
 
   &::before {
-    content: "";
+    content: '';
     display: block;
     width: 0.75rem;
     height: 0.75rem;
@@ -37,7 +37,7 @@
 @keyframes dwl-dot-spin {
   0% {
     transform: rotate(0deg);
-    animation-timing-function: cubic-bezier(0.390, 0.575, 0.565, 1.000);
+    animation-timing-function: cubic-bezier(0.39, 0.575, 0.565, 1);
     opacity: 1;
   }
 
@@ -49,7 +49,7 @@
 
   30% {
     transform: rotate(180deg);
-    animation-timing-function: cubic-bezier(0.445, 0.050, 0.550, 0.950);
+    animation-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
     opacity: 1;
   }
 
@@ -61,7 +61,7 @@
 
   69% {
     transform: rotate(520deg);
-    animation-timing-function: cubic-bezier(0.445, 0.050, 0.550, 0.950);
+    animation-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
     opacity: 1;
   }
 

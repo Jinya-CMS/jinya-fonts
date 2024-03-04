@@ -1,11 +1,29 @@
 <div class="cosmo-side-list">
   <nav class="cosmo-side-list__items">
-    <a href="#" class="cosmo-side-list__item" (click)="changeSideItem($event, ActiveSideItem.All)"
-       [class.is--active]="activeSideItem === ActiveSideItem.All" i18n>Alle Fonts</a>
-    <a href="#" class="cosmo-side-list__item" (click)="changeSideItem($event, ActiveSideItem.Google)"
-       [class.is--active]="activeSideItem === ActiveSideItem.Google" i18n>Google Fonts</a>
-    <a href="#" class="cosmo-side-list__item" (click)="changeSideItem($event, ActiveSideItem.Custom)"
-       [class.is--active]="activeSideItem === ActiveSideItem.Custom" i18n>Custom Fonts</a>
+    <a
+      routerLink="/font/all"
+      class="cosmo-side-list__item"
+      [class.is--active]="activeSideItem === ActiveSideItem.All"
+      (click)="changeSideItem($event, ActiveSideItem.All)"
+      i18n
+      >Alle Fonts</a
+    >
+    <a
+      routerLink="/font/google"
+      class="cosmo-side-list__item"
+      [class.is--active]="activeSideItem === ActiveSideItem.Google"
+      (click)="changeSideItem($event, ActiveSideItem.Google)"
+      i18n
+      >Google Fonts</a
+    >
+    <a
+      routerLink="/font/custom"
+      class="cosmo-side-list__item"
+      [class.is--active]="activeSideItem === ActiveSideItem.Custom"
+      (click)="changeSideItem($event, ActiveSideItem.Custom)"
+      i18n
+      >Custom Fonts</a
+    >
   </nav>
   <div class="cosmo-side-list__content" [class.is--loading]="loading">
     @if (loading) {
@@ -28,18 +46,29 @@
       <div class="cosmo-toolbar">
         @if (activeSideItem !== ActiveSideItem.Google) {
           <div class="cosmo-toolbar__group cosmo-input__group">
-            <button class="cosmo-button">Neuer Font</button>
+            <button class="cosmo-button" (click)="createFont.open = true">Neuer Font</button>
           </div>
         }
         <div class="cosmo-toolbar__group cosmo-input__group">
           <label for="nameSearch" i18n>Nach Name filtern</label>
-          <input class="cosmo-input" type="search" id="nameSearch" [value]="activeFilter.name"
-                 (input)="filterFonts({category: filterByCategory.value, name: filterByName.value})" #filterByName>
+          <input
+            class="cosmo-input"
+            type="search"
+            id="nameSearch"
+            [value]="activeFilter.name"
+            (input)="filterFonts({ category: filterByCategory.value, name: filterByName.value })"
+            #filterByName
+          />
         </div>
         <div class="cosmo-toolbar__group cosmo-input__group">
           <label for="categorySearch" i18n>Nach Kategorie filtern</label>
-          <select class="cosmo-select" id="categorySearch" #filterByCategory [value]="activeFilter.category"
-                  (input)="filterFonts({category: filterByCategory.value, name: filterByName.value})">
+          <select
+            class="cosmo-select"
+            id="categorySearch"
+            #filterByCategory
+            [value]="activeFilter.category"
+            (input)="filterFonts({ category: filterByCategory.value, name: filterByName.value })"
+          >
             <option value="All">Alle Fonts</option>
             <option value="Display">Display</option>
             <option value="Handwriting">Handwriting</option>
@@ -52,16 +81,16 @@
       <div class="table-container">
         <table class="cosmo-table is--full-width">
           <thead>
-          <tr>
-            <th i18n>Name</th>
-            <th i18n>Kategorie</th>
-            <th i18n>Designer</th>
-            <th i18n>Lizenz</th>
-            @if (activeSideItem === ActiveSideItem.All) {
-              <th i18n>Google Font</th>
-            }
-            <th i18n>Aktionen</th>
-          </tr>
+            <tr>
+              <th i18n>Name</th>
+              <th i18n>Kategorie</th>
+              <th i18n>Designer</th>
+              <th i18n>Lizenz</th>
+              @if (activeSideItem === ActiveSideItem.All) {
+                <th i18n>Google Font</th>
+              }
+              <th i18n>Aktionen</th>
+            </tr>
           </thead>
           <tbody>
             @for (font of filteredFonts; track font.name) {
@@ -72,8 +101,9 @@
                 <td>
                   @switch (font.license) {
                     @case ('apache2') {
-                      <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version
-                        2.0</a>
+                      <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0"
+                        >Apache License, Version 2.0</a
+                      >
                     }
                     @case ('ofl') {
                       <a target="_blank" href="https://openfontlicense.org/">Open Font License</a>
@@ -97,10 +127,12 @@
                 }
                 <td>
                   <div class="cosmo-toolbar__group">
-                    <a href="/download?font={{font.name}}" class="cosmo-button" i18n>Download ZIP</a>
-                    <a [routerLink]="[font.name]" class="cosmo-button" i18n>Details</a>
+                    <a href="/download?font={{ font.name }}" class="cosmo-button" i18n>Download ZIP</a>
+                    <a [routerLink]="['/font/detail', font.name]" class="cosmo-button" i18n>Details</a>
                     @if (activeSideItem !== ActiveSideItem.Google) {
-                      <button [disabled]="font.googleFont" class="cosmo-button" i18n>Löschen</button>
+                      <button [disabled]="font.googleFont" class="cosmo-button" (click)="openDelete(font)" i18n>
+                        Löschen
+                      </button>
                     }
                   </div>
                 </td>
@@ -112,3 +144,17 @@
     }
   </div>
 </div>
+<app-create-font-dialog [open]="false" #createFont />
+<app-confirm
+  [open]="deleteFontOpen"
+  title="Font löschen"
+  confirmLabel="Font löschen"
+  declineLabel="Font nicht löschen"
+  [negative]="true"
+  (decline)="deleteFontOpen = false"
+  (confirm)="deleteFont()"
+  i18n
+  i18n-title
+>
+  Soll der Font {{ selectedFont?.name }} wirklich gelöscht werden?
+</app-confirm>

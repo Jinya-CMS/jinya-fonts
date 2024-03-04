@@ -1,11 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Webfont } from '../../api/models/webfont';
 import { ApiService } from '../../api/services/api.service';
-import { NgForOf, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
-import { Check, LucideAngularModule, X } from 'lucide-angular';
-import { RouterLink } from '@angular/router';
+import { Check, X } from 'lucide-angular';
 import { Designer } from '../../api/models/designer';
-import { UiModule } from '../../ui/ui.module';
 
 interface FontFilter {
   category: string;
@@ -20,16 +17,18 @@ enum ActiveSideItem {
 
 @Component({
   selector: 'app-font-list',
-  standalone: true,
-  imports: [NgForOf, LucideAngularModule, NgIf, RouterLink, NgSwitchCase, NgSwitchDefault, NgSwitch, UiModule],
   templateUrl: './font-list.component.html',
   styleUrl: './font-list.component.scss'
 })
 export class FontListComponent implements OnInit {
+  @Input() type!: string;
+
   fonts: Webfont[] = [];
   filteredFonts: Webfont[] = [];
   activeSideItem = ActiveSideItem.All;
   loading = true;
+  deleteFontOpen = false;
+  selectedFont: Webfont | null = null;
 
   activeFilter = {
     name: '',
@@ -43,7 +42,20 @@ export class FontListComponent implements OnInit {
   constructor(private apiClient: ApiService) {}
 
   ngOnInit(): void {
-    this.getAllFonts();
+    switch (this.type.toLowerCase()) {
+      case 'google':
+        this.activeSideItem = ActiveSideItem.Google;
+        this.getGoogleFonts();
+        break;
+      case 'custom':
+        this.activeSideItem = ActiveSideItem.Custom;
+        this.getCustomFonts();
+        break;
+      default:
+        this.activeSideItem = ActiveSideItem.All;
+        this.getAllFonts();
+        break;
+    }
   }
 
   getAllFonts(): void {
@@ -118,5 +130,18 @@ export class FontListComponent implements OnInit {
         this.getCustomFonts();
         break;
     }
+  }
+
+  openDelete(font: Webfont) {
+    this.deleteFontOpen = true;
+    this.selectedFont = font;
+  }
+
+  deleteFont() {
+    this.apiClient.deleteFontByName({ fontName: this.selectedFont?.name ?? '' }).subscribe(() => {
+      this.deleteFontOpen = false;
+      this.fonts = this.fonts.filter((font) => font.name !== this.selectedFont?.name);
+      this.filterFonts(this.activeFilter);
+    });
   }
 }
