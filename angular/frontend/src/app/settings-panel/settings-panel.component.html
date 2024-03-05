@@ -1,5 +1,5 @@
 <div class="jinya-settings-panel">
-  <app-searchbar (searchTextChanged)="search.emit($event)"></app-searchbar>
+  <app-searchbar (searchTextChanged)="search($event)"></app-searchbar>
   <select
     aria-label="Preview type"
     class="jinya-preview__type"
@@ -39,45 +39,40 @@
     class="jinya-checkbox"
     type="checkbox"
     id="sans"
-    checked
     [formControl]="sansCheckbox"
-    (input)="sansCheckboxChange.emit(sansCheckbox.value ?? true)"
+    (change)="sansCheckboxChanged($event)"
   />
   <label for="sans" i18n>Sans-Serif</label>
   <input
     class="jinya-checkbox"
     type="checkbox"
     id="serif"
-    checked
     [formControl]="serifCheckbox"
-    (input)="serifCheckboxChange.emit(serifCheckbox.value ?? true)"
+    (change)="serifCheckboxChanged($event)"
   />
   <label for="serif" i18n>Serif</label>
   <input
     class="jinya-checkbox"
     type="checkbox"
     id="handwriting"
-    checked
     [formControl]="handwritingCheckbox"
-    (input)="handwritingCheckboxChange.emit(handwritingCheckbox.value ?? true)"
+    (change)="handwritingCheckboxChanged($event)"
   />
   <label for="handwriting" i18n>Handwriting</label>
   <input
     class="jinya-checkbox"
     type="checkbox"
     id="display"
-    checked
     [formControl]="displayCheckbox"
-    (input)="displayCheckboxChange.emit(displayCheckbox.value ?? true)"
+    (change)="displayCheckboxChanged($event)"
   />
   <label for="display" i18n>Display</label>
   <input
     class="jinya-checkbox"
     type="checkbox"
     id="monospace"
-    checked
     [formControl]="monospaceCheckbox"
-    (input)="monospaceCheckboxChange.emit(monospaceCheckbox.value ?? true)"
+    (change)="monospaceCheckboxChanged($event)"
   />
   <label for="monospace" i18n>Monospace</label>
 </div>

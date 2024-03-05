@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, input, Output } from '@angular/core';
 import { SearchbarComponent } from '../searchbar/searchbar.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FontCardComponent } from '../font-card/font-card.component';
@@ -10,6 +10,15 @@ export const previewTexts = {
   numbers: '0123456789'
 };
 
+export interface WebfontFilter {
+  searchText: string;
+  sansSerif: boolean;
+  serif: boolean;
+  handwriting: boolean;
+  display: boolean;
+  monospace: boolean;
+}
+
 @Component({
   selector: 'app-settings-panel',
   standalone: true,
@@ -18,8 +27,12 @@ export const previewTexts = {
   styleUrl: './settings-panel.component.scss'
 })
 export class SettingsPanelComponent {
+  @Output() previewSizeChange = new EventEmitter<number>();
+  @Output() previewTextChange = new EventEmitter<string>();
+  @Output() filter = new EventEmitter<WebfontFilter>();
+
   previewSize = new FormControl(24);
-  previewText = new FormControl('', { updateOn: 'change' });
+  previewText = new FormControl('');
   sansCheckbox = new FormControl(true);
   serifCheckbox = new FormControl(true);
   handwritingCheckbox = new FormControl(true);
@@ -28,14 +41,16 @@ export class SettingsPanelComponent {
 
   previewTextType = 'lorem';
 
-  @Output() previewSizeChange = new EventEmitter<number>();
-  @Output() previewTextChange = new EventEmitter<string>();
-  @Output() sansCheckboxChange = new EventEmitter<boolean>();
-  @Output() serifCheckboxChange = new EventEmitter<boolean>();
-  @Output() handwritingCheckboxChange = new EventEmitter<boolean>();
-  @Output() displayCheckboxChange = new EventEmitter<boolean>();
-  @Output() monospaceCheckboxChange = new EventEmitter<boolean>();
-  @Output() search = new EventEmitter<string>();
+  activeFilter: WebfontFilter = {
+    sansSerif: true,
+    serif: true,
+    handwriting: true,
+    display: true,
+    monospace: true,
+    searchText: ''
+  };
+
+  protected readonly input = input;
 
   constructor() {
     this.previewText.registerOnChange((value: string) => this.previewTextChange.emit(value));
@@ -59,5 +74,69 @@ export class SettingsPanelComponent {
     if (textType != 'custom') {
       this.previewText.setValue(previewTexts[textType]);
     }
+  }
+
+  allCheckboxesChecked() {
+    if (
+      !this.activeFilter.sansSerif &&
+      !this.activeFilter.serif &&
+      !this.activeFilter.handwriting &&
+      !this.activeFilter.display &&
+      !this.activeFilter.monospace
+    ) {
+      this.sansCheckbox.setValue(true);
+      this.serifCheckbox.setValue(true);
+      this.handwritingCheckbox.setValue(true);
+      this.displayCheckbox.setValue(true);
+      this.monospaceCheckbox.setValue(true);
+
+      this.activeFilter.sansSerif = true;
+      this.activeFilter.serif = true;
+      this.activeFilter.handwriting = true;
+      this.activeFilter.display = true;
+      this.activeFilter.monospace = true;
+
+      this.filter.emit(this.activeFilter);
+    }
+  }
+
+  sansCheckboxChanged($event: Event) {
+    const input = $event.target as HTMLInputElement;
+    this.activeFilter.sansSerif = input.checked;
+    this.filter.emit(this.activeFilter);
+    this.allCheckboxesChecked();
+  }
+
+  serifCheckboxChanged($event: Event) {
+    const input = $event.target as HTMLInputElement;
+    this.activeFilter.serif = input.checked;
+    this.filter.emit(this.activeFilter);
+    this.allCheckboxesChecked();
+  }
+
+  handwritingCheckboxChanged($event: Event) {
+    const input = $event.target as HTMLInputElement;
+    this.activeFilter.handwriting = input.checked;
+    this.filter.emit(this.activeFilter);
+    this.allCheckboxesChecked();
+  }
+
+  displayCheckboxChanged($event: Event) {
+    const input = $event.target as HTMLInputElement;
+    this.activeFilter.display = input.checked;
+    this.filter.emit(this.activeFilter);
+    this.allCheckboxesChecked();
+  }
+
+  monospaceCheckboxChanged($event: Event) {
+    const input = $event.target as HTMLInputElement;
+    this.activeFilter.monospace = input.checked;
+    this.filter.emit(this.activeFilter);
+    this.allCheckboxesChecked();
+  }
+
+  search(term: string) {
+    this.activeFilter.searchText = term;
+    this.filter.emit(this.activeFilter);
   }
 }

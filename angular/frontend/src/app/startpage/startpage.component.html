@@ -1,11 +1,11 @@
-<app-settings-panel (previewSizeChange)="size = $event" (previewTextChange)="text = $event" (search)="search($event)" />
+<app-settings-panel (previewSizeChange)="size = $event" (previewTextChange)="text = $event" (filter)="filter($event)" />
 <div class="jinya-card__list" [class.jinya-card__list--loading]="loading" [style.--jinya-card-font-size.px]="size">
   @if (loading) {
     <div class="jinya-loader"></div>
   }
   @defer (when !loading) {
-    @for (font of filteredWebfonts; track font) {
-      <app-font-card [font]="font" [text]="text"></app-font-card>
+    @for (font of webfonts; track font) {
+      <app-font-card [font]="font" [text]="text" [class.is--hidden]="!filteredWebfonts.includes(font)"></app-font-card>
     } @empty {
       <div class="jinya-no-fonts" i18n>Sadly no fonts match your criteria</div>
     }
