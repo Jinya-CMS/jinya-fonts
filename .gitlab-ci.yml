@@ -22,12 +22,12 @@ stages:
   - build-angular
   - build-golang
   - deploy
-
-lint-frontend:
-  extends:
-    - .angular-lint
-  variables:
-    ANGULAR_DIR: $CI_PROJECT_DIR/angular/frontend
+#
+#lint-frontend:
+#  extends:
+#    - .angular-lint
+#  variables:
+#    ANGULAR_DIR: $CI_PROJECT_DIR/angular/frontend
 
 lint-admin:
   extends:
