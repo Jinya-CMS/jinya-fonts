@@ -34,12 +34,15 @@ import { getGoogleFonts } from '../fn/operations/get-google-fonts';
 import { GetGoogleFonts$Params } from '../fn/operations/get-google-fonts';
 import { getSettings } from '../fn/operations/get-settings';
 import { GetSettings$Params } from '../fn/operations/get-settings';
+import { getStatus } from '../fn/operations/get-status';
+import { GetStatus$Params } from '../fn/operations/get-status';
 import { Metadata } from '../models/metadata';
 import { removeFontDesigner } from '../fn/operations/remove-font-designer';
 import { RemoveFontDesigner$Params } from '../fn/operations/remove-font-designer';
 import { removeFontFile } from '../fn/operations/remove-font-file';
 import { RemoveFontFile$Params } from '../fn/operations/remove-font-file';
 import { Settings } from '../models/settings';
+import { Status } from '../models/status';
 import { syncGoogleFonts } from '../fn/operations/sync-google-fonts';
 import { SyncGoogleFonts$Params } from '../fn/operations/sync-google-fonts';
 import { updateFontByName } from '../fn/operations/update-font-by-name';
@@ -691,5 +694,32 @@ export class ApiService extends BaseService {
    */
   updateSettings(params?: UpdateSettings$Params, context?: HttpContext): Observable<void> {
     return this.updateSettings$Response(params, context).pipe(map((r: StrictHttpResponse<void>): void => r.body));
+  }
+
+  /** Path part for operation `getStatus()` */
+  static readonly GetStatusPath = '/api/admin/status';
+
+  /**
+   * Gets the status of Jinya Fonts
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getStatus()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getStatus$Response(params?: GetStatus$Params, context?: HttpContext): Observable<StrictHttpResponse<Status>> {
+    return getStatus(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Gets the status of Jinya Fonts
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getStatus$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getStatus(params?: GetStatus$Params, context?: HttpContext): Observable<Status> {
+    return this.getStatus$Response(params, context).pipe(map((r: StrictHttpResponse<Status>): Status => r.body));
   }
 }

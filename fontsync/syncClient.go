@@ -25,6 +25,15 @@ type GoogleWebfont struct {
 	Menu         string            `json:"menu"`
 }
 
+type SyncJob struct{}
+
+func (s SyncJob) Run() {
+	err := Sync()
+	if err != nil {
+		log.Printf("Failed to run sync job %s", err.Error())
+	}
+}
+
 func downloadWoff2FontList() ([]GoogleWebfont, error) {
 	log.Println("Download font list")
 	settings, err := database.GetSettings()

@@ -42,3 +42,17 @@ func getFontsCollection(client *mongo.Client) *mongo.Collection {
 func getSettingsCollection(client *mongo.Client) *mongo.Collection {
 	return getDatabase(client).Collection("settings")
 }
+
+func CheckMongo() bool {
+	ctx, cancelFunc := getContext()
+	defer cancelFunc()
+
+	client, err := openConnection()
+	if err != nil {
+		return false
+	}
+
+	defer closeConnection(client)
+
+	return client.Ping(ctx, readpref.Primary()) == nil
+}

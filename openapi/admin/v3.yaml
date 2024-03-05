@@ -395,6 +395,19 @@ paths:
       responses:
         "204":
           description: "Successful updated"
+  /api/admin/status:
+    get:
+      operationId: getStatus
+      security:
+        - accessToken: [ ]
+      description: "Gets the status of Jinya Fonts"
+      responses:
+        200:
+          description: "The status of Jinya Fonts"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/status"
 components:
   securitySchemes:
     accessToken:
@@ -525,3 +538,26 @@ components:
           type: boolean
         syncInterval:
           type: string
+    status:
+      title: "Status data"
+      type: "object"
+      required:
+        - jobIsScheduled
+        - mongoUp
+        - online
+        - redisUp
+        - servingWebsite
+      properties:
+        jobIsScheduled:
+          type: boolean
+        jobNextExecution:
+          type: string
+          format: date-time
+        online:
+          type: boolean
+        redisUp:
+          type: boolean
+        mongoUp:
+          type: boolean
+        servingWebsite:
+          type: boolean

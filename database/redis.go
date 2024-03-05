@@ -54,7 +54,26 @@ func ClearGoogleFontsCache() {
 	ctx, cancelFunc := getContext()
 	defer cancelFunc()
 
-	if client, err := getRedisClient(); err == nil {
-		_ = client.FlushDB(ctx).Err()
+	client, err := getRedisClient()
+	if err != nil {
+		return
 	}
+
+	cursor := uint64(0)
+	iter := client.Scan(ctx, cursor, "google*", 0).Iterator()
+	for iter.Next(ctx) {
+		_ = client.Del(ctx, iter.Val())
+	}
+}
+
+func CheckRedis() bool {
+	ctx, cancelFunc := getContext()
+	defer cancelFunc()
+
+	client, err := getRedisClient()
+	if err != nil {
+		return false
+	}
+
+	return client.Ping(ctx).Err() == nil
 }

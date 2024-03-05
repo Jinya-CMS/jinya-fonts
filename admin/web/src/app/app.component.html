@@ -21,12 +21,13 @@
           </a>
           <a
             class="cosmo-menu__item"
-            routerLink="/settings"
+            routerLink="/config"
             routerLinkActive="is--active"
             [routerLinkActiveOptions]="{ exact: false }"
+            #configMain="routerLinkActive"
             i18n
           >
-            Einstellungen
+            Konfiguration
           </a>
         </div>
         @if (fontMain.isActive) {
@@ -35,6 +36,25 @@
               Übersicht
             </a>
             <span class="cosmo-menu__item" [class.is--active]="router.url.includes('detail')" i18n>Details</span>
+          </div>
+        } @else if (configMain.isActive) {
+          <div class="cosmo-menu__row is--sub">
+            <a
+              class="cosmo-menu__item"
+              routerLink="/config/settings"
+              [class.is--active]="router.url.includes('settings')"
+              i18n
+            >
+              Einstellungen
+            </a>
+            <a
+              class="cosmo-menu__item"
+              routerLink="/config/status"
+              [class.is--active]="router.url.includes('status')"
+              i18n
+            >
+              Status
+            </a>
           </div>
         }
       </nav>
@@ -56,8 +76,13 @@
         @if (googleFontsSyncing) {
           <progress class="cosmo-progress-bar"></progress>
         } @else {
-          <progress class="cosmo-progress-bar" [class.is--negative]="googleFontsSyncFailure"
-                    [class.is--positive]="googleFontsSyncSuccess" value="1" max="1"></progress>
+          <progress
+            class="cosmo-progress-bar"
+            [class.is--negative]="googleFontsSyncFailure"
+            [class.is--positive]="googleFontsSyncSuccess"
+            value="1"
+            max="1"
+          ></progress>
         }
       </div>
     }

@@ -76,11 +76,8 @@ func getAllFonts(w http.ResponseWriter, r *http.Request) {
 
 	err = json.NewEncoder(w).Encode(convertWebfontListToApiFontList(availableFonts))
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+		http.Error(w, "Failed to encode body", http.StatusInternalServerError)
 	}
-
-	w.WriteHeader(http.StatusOK)
 }
 
 func getGoogleFonts(w http.ResponseWriter, r *http.Request) {
@@ -92,11 +89,8 @@ func getGoogleFonts(w http.ResponseWriter, r *http.Request) {
 
 	err = json.NewEncoder(w).Encode(convertWebfontListToApiFontList(availableFonts))
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+		http.Error(w, "Failed to encode body", http.StatusInternalServerError)
 	}
-
-	w.WriteHeader(http.StatusOK)
 }
 
 func getCustomFonts(w http.ResponseWriter, r *http.Request) {
@@ -108,11 +102,8 @@ func getCustomFonts(w http.ResponseWriter, r *http.Request) {
 
 	err = json.NewEncoder(w).Encode(convertWebfontListToApiFontList(availableFonts))
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+		http.Error(w, "Failed to encode body", http.StatusInternalServerError)
 	}
-
-	w.WriteHeader(http.StatusOK)
 }
 
 func getFontByName(w http.ResponseWriter, r *http.Request) {
@@ -126,11 +117,8 @@ func getFontByName(w http.ResponseWriter, r *http.Request) {
 
 	err = json.NewEncoder(w).Encode(convertWebfontToApiFont(font))
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+		http.Error(w, "Failed to encode body", http.StatusInternalServerError)
 	}
-
-	w.WriteHeader(http.StatusOK)
 }
 
 func createFont(w http.ResponseWriter, r *http.Request) {
@@ -158,9 +146,13 @@ func createFont(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	encoder := json.NewEncoder(w)
+	err = json.NewEncoder(w).Encode(font)
+	if err != nil {
+		http.Error(w, "Failed to encode body", http.StatusInternalServerError)
+		return
+	}
+
 	w.WriteHeader(http.StatusCreated)
-	_ = encoder.Encode(font)
 }
 
 func updateFont(w http.ResponseWriter, r *http.Request) {
@@ -186,7 +178,7 @@ func updateFont(w http.ResponseWriter, r *http.Request) {
 
 	err = database.UpdateFont(font)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		http.Error(w, "Failed to update font", http.StatusInternalServerError)
 		return
 	}
 
@@ -203,17 +195,17 @@ func deleteFont(w http.ResponseWriter, r *http.Request) {
 
 	err = database.DeleteFont(fontName)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		http.Error(w, "Failed to delete font", http.StatusInternalServerError)
 		return
 	}
 
 	w.WriteHeader(http.StatusNoContent)
 }
 
-func syncFonts(w http.ResponseWriter, r *http.Request) {
+func syncFonts(w http.ResponseWriter, _ *http.Request) {
 	err := fontsync.Sync()
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		http.Error(w, "Failed to sync fonts", http.StatusInternalServerError)
 		return
 	}
 

@@ -21,11 +21,8 @@ func getFontFiles(w http.ResponseWriter, r *http.Request) {
 
 	err = json.NewEncoder(w).Encode(files)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+		http.Error(w, "Failed to encode body", http.StatusInternalServerError)
 	}
-
-	w.WriteHeader(http.StatusOK)
 }
 
 func createFontFile(w http.ResponseWriter, r *http.Request) {

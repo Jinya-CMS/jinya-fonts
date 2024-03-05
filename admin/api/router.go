@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"crypto/rand"
 	"github.com/gorilla/mux"
 	"jinya-fonts/config"
 	"net/http"
@@ -22,9 +23,13 @@ func contentTypeJson() func(next http.Handler) http.Handler {
 
 func SetupAdminApiRouter(router *mux.Router) {
 	ctx := context.Background()
-	authN, err := authentication.New(ctx, zitadel.New(config.LoadedConfiguration.OpenIDDomain), config.LoadedConfiguration.EncryptionKey,
-		openid.DefaultAuthentication(config.LoadedConfiguration.OpenIDClientId, config.LoadedConfiguration.GetRedirectUrl(), config.LoadedConfiguration.EncryptionKey),
-	)
+	encryptionKey := make([]byte, 32)
+	_, err := rand.Read(encryptionKey)
+	if err != nil {
+		panic(err)
+	}
+
+	authN, err := authentication.New(ctx, zitadel.New(config.LoadedConfiguration.OpenIDDomain), string(encryptionKey), openid.DefaultAuthentication(config.LoadedConfiguration.OpenIDClientId, config.LoadedConfiguration.GetRedirectUrl(), string(encryptionKey)))
 	if err != nil {
 		panic(err)
 	}
@@ -51,4 +56,8 @@ func SetupAdminApiRouter(router *mux.Router) {
 
 	router.Methods("GET").Path("/api/admin/settings").Handler(mw.CheckAuthentication()(contentTypeJson()(http.HandlerFunc(getSettings))))
 	router.Methods("PUT").Path("/api/admin/settings").Handler(mw.CheckAuthentication()(contentTypeJson()(http.HandlerFunc(updateSettings))))
+
+	router.Methods("GET").Path("/api/admin/status").Handler(mw.CheckAuthentication()(contentTypeJson()(http.HandlerFunc(getStatus))))
+
+	router.Methods("GET").Path("/api/healthz").HandlerFunc(getHealth)
 }

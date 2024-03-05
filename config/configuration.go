@@ -13,7 +13,6 @@ type Configuration struct {
 	ServeWebsite   bool   `env:"SERVE_WEBSITE"`
 	OpenIDClientId string `env:"OPENID_CLIENT_ID"`
 	OpenIDDomain   string `env:"OPENID_DOMAIN"`
-	EncryptionKey  string `env:"ENCRYPTION_KEY"`
 	ServerUrl      string `env:"SERVER_URL"`
 }
 

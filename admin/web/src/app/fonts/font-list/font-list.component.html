@@ -83,16 +83,16 @@
     <div class="table-container">
       <table class="cosmo-table is--full-width">
         <thead>
-        <tr>
-          <th i18n>Name</th>
-          <th i18n>Kategorie</th>
-          <th i18n>Designer</th>
-          <th i18n>Lizenz</th>
-          @if (activeSideItem === ActiveSideItem.All) {
-            <th i18n>Google Font</th>
-          }
-          <th i18n>Aktionen</th>
-        </tr>
+          <tr>
+            <th i18n>Name</th>
+            <th i18n>Kategorie</th>
+            <th i18n>Designer</th>
+            <th i18n>Lizenz</th>
+            @if (activeSideItem === ActiveSideItem.All) {
+              <th i18n>Google Font</th>
+            }
+            <th i18n>Aktionen</th>
+          </tr>
         </thead>
         <tbody>
           @if (loading) {
@@ -111,7 +111,7 @@
                   @switch (font.license) {
                     @case ('apache2') {
                       <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0"
-                      >Apache License, Version 2.0</a
+                        >Apache License, Version 2.0</a
                       >
                     }
                     @case ('ofl') {

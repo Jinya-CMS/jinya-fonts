@@ -18,11 +18,8 @@ func getFontDesigners(w http.ResponseWriter, r *http.Request) {
 
 	err = json.NewEncoder(w).Encode(designers)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+		http.Error(w, "Failed to encode body", http.StatusInternalServerError)
 	}
-
-	w.WriteHeader(http.StatusOK)
 }
 
 func createFontDesigner(w http.ResponseWriter, r *http.Request) {
@@ -44,7 +41,7 @@ func createFontDesigner(w http.ResponseWriter, r *http.Request) {
 
 	err = json.NewEncoder(w).Encode(newDesigner)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		http.Error(w, "Failed to encode body", http.StatusInternalServerError)
 		return
 	}
 

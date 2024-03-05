@@ -3,6 +3,7 @@ package main
 import (
 	"embed"
 	"errors"
+	"github.com/bamzi/jobrunner"
 	"github.com/gorilla/mux"
 	_ "github.com/sakirsensoy/genv/dotenv/autoload"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -118,16 +119,26 @@ func main() {
 		panic(err)
 	}
 
-	_, err = database.GetSettings()
+	settings, err := database.GetSettings()
 	if errors.Is(err, mongo.ErrNoDocuments) {
-		settings := database.JinyaFontsSettings{
+		settings = &database.JinyaFontsSettings{
 			FilterByName: []string{},
 			SyncEnabled:  true,
 			SyncInterval: "0 0 1 * *",
 		}
-		err = database.UpdateSettings(&settings)
+
+		err = database.UpdateSettings(settings)
 		if err != nil {
 			panic(err)
+		}
+	}
+
+	jobrunner.Start()
+
+	if settings.SyncEnabled {
+		err = jobrunner.Schedule(settings.SyncInterval, fontsync.SyncJob{})
+		if err != nil {
+			log.Printf("Failed to schedule sync job %s", err.Error())
 		}
 	}
 

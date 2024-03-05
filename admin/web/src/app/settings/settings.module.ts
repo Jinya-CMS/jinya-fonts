@@ -6,15 +6,25 @@ import { SettingsComponent } from './settings/settings.component';
 import { UiModule } from '../ui/ui.module';
 import { LucideAngularModule } from 'lucide-angular';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StatusComponent } from './status/status.component';
 
 @NgModule({
-  declarations: [SettingsComponent],
+  declarations: [SettingsComponent, StatusComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
       {
-        path: 'settings',
+        path: 'config',
+        redirectTo: 'config/settings'
+      },
+      {
+        path: 'config/settings',
         component: SettingsComponent,
+        canActivate: [authGuard]
+      },
+      {
+        path: 'config/status',
+        component: StatusComponent,
         canActivate: [authGuard]
       }
     ]),
