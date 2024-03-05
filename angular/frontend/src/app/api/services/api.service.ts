@@ -40,7 +40,10 @@ export class ApiService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiFontGet$Response(params?: ApiFontGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Webfont>>> {
+  apiFontGet$Response(
+    params?: ApiFontGet$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<Array<Webfont>>> {
     return apiFontGet(this.http, this.rootUrl, params, context);
   }
 
@@ -73,7 +76,10 @@ export class ApiService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiFontFontNameGet$Response(params: ApiFontFontNameGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Webfont>> {
+  apiFontFontNameGet$Response(
+    params: ApiFontFontNameGet$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<Webfont>> {
     return apiFontFontNameGet(this.http, this.rootUrl, params, context);
   }
 
@@ -106,7 +112,10 @@ export class ApiService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiFontFontNameFileGet$Response(params: ApiFontFontNameFileGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Metadata>> {
+  apiFontFontNameFileGet$Response(
+    params: ApiFontFontNameFileGet$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<Metadata>> {
     return apiFontFontNameFileGet(this.http, this.rootUrl, params, context);
   }
 
@@ -139,7 +148,10 @@ export class ApiService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiFontFontNameDesignerGet$Response(params: ApiFontFontNameDesignerGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Designer>> {
+  apiFontFontNameDesignerGet$Response(
+    params: ApiFontFontNameDesignerGet$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<Designer>> {
     return apiFontFontNameDesignerGet(this.http, this.rootUrl, params, context);
   }
 
@@ -158,5 +170,4 @@ export class ApiService extends BaseService {
       map((r: StrictHttpResponse<Designer>): Designer => r.body)
     );
   }
-
 }

@@ -12,15 +12,18 @@ export interface ApiFontFontNameFileGet$Params {
   fontName: string;
 }
 
-export function apiFontFontNameFileGet(http: HttpClient, rootUrl: string, params: ApiFontFontNameFileGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Metadata>> {
+export function apiFontFontNameFileGet(
+  http: HttpClient,
+  rootUrl: string,
+  params: ApiFontFontNameFileGet$Params,
+  context?: HttpContext
+): Observable<StrictHttpResponse<Metadata>> {
   const rb = new RequestBuilder(rootUrl, apiFontFontNameFileGet.PATH, 'get');
   if (params) {
     rb.path('fontName', params.fontName, {});
   }
 
-  return http.request(
-    rb.build({ responseType: 'json', accept: 'application/json', context })
-  ).pipe(
+  return http.request(rb.build({ responseType: 'json', accept: 'application/json', context })).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
       return r as StrictHttpResponse<Metadata>;
