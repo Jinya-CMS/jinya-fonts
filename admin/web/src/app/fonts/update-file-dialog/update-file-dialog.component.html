@@ -1,0 +1,65 @@
+<div class="cosmo-modal__container" [class.is--closed]="!open">
+  <form class="cosmo-modal" [formGroup]="editFileForm" (ngSubmit)="updateFile()">
+    <h1 class="cosmo-modal__title" i18n>Datei hochladen</h1>
+    <div class="cosmo-modal__content">
+      <div class="cosmo-input__group">
+        <span class="cosmo-label" i18n>Stil</span>
+        <span class="cosmo-input">
+          @switch (file.style) {
+            @case ('normal') {
+              Normal
+            }
+            @case ('italic') {
+              Kursiv
+            }
+          }
+        </span>
+        <span class="cosmo-label" i18n>Stärke</span>
+        <span class="cosmo-input">
+          @switch (file.weight) {
+            @case ('100') {
+              Ultraleicht (100)
+            }
+            @case ('200') {
+              Extraleicht (200)
+            }
+            @case ('300') {
+              Mager (300)
+            }
+            @case ('400') {
+              Normal (400)
+            }
+            @case ('500') {
+              Leichthalbfett (500)
+            }
+            @case ('600') {
+              Fett (600)
+            }
+            @case ('700') {
+              Halbfett (700)
+            }
+            @case ('800') {
+              Extafett (800)
+            }
+            @case ('900') {
+              Ultrafett (900)
+            }
+          }
+        </span>
+        <label for="file" class="cosmo-label" i18n>Datei</label>
+        <input
+          required
+          type="file"
+          id="file"
+          class="cosmo-input"
+          [accept]="'font/' + file.type"
+          (change)="updateFilePicker($event)"
+        />
+      </div>
+    </div>
+    <div class="cosmo-modal__button-bar">
+      <button class="cosmo-button" (click)="open = false" i18n>Abbrechen</button>
+      <button class="cosmo-button" type="submit" i18n>Datei hochladen</button>
+    </div>
+  </form>
+</div>

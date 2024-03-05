@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         document.getElementById('font-html-link').innerText = `<link rel="stylesheet" type="text/css" href="${location.origin}/css2?family=${urlsearch.get('font')}">`;
         document.getElementById('font-css').innerText = `body {
-    font-family: ${urlsearch.get('font')}, ${font.fonts[0].category};
+    font-family: ${urlsearch.get('font')}, ${font.category.toLowerCase().replaceAll(' ', '-')};
 }`;
 
         let license = font.license;

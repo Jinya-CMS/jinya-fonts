@@ -8,3 +8,7 @@ updates:
     schedule:
       interval: daily
     package-ecosystem: npm
+  - directory: /admin/web
+    schedule:
+      interval: daily
+    package-ecosystem: npm
