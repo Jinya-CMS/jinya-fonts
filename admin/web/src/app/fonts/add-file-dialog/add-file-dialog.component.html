@@ -1,0 +1,39 @@
+<div class="cosmo-modal__container" [class.is--closed]="!open">
+  <form class="cosmo-modal" [formGroup]="createFileForm" (ngSubmit)="createFile()">
+    <h1 class="cosmo-modal__title" i18n>Datei hochladen</h1>
+    <div class="cosmo-modal__content">
+      <div class="cosmo-input__group">
+        <label for="style" class="cosmo-label" i18n>Stil</label>
+        <select class="cosmo-select" id="style" formControlName="style">
+          <option value="normal" i18n>Normal</option>
+          <option value="italic" i18n>Kursiv</option>
+        </select>
+        <label for="weight" class="cosmo-label" i18n>Stärke</label>
+        <select class="cosmo-select" id="weight" formControlName="weight">
+          <option value="100" i18n>Ultraleicht (100)</option>
+          <option value="200" i18n>Extraleicht (200)</option>
+          <option value="300" i18n>Mager (300)</option>
+          <option value="400" i18n>Normal (400)</option>
+          <option value="500" i18n>Leichthalbfett (500)</option>
+          <option value="600" i18n>Fett (600)</option>
+          <option value="700" i18n>Halbfett (700)</option>
+          <option value="800" i18n>Extafett (800)</option>
+          <option value="900" i18n>Ultrafett (900)</option>
+        </select>
+        <label for="file" class="cosmo-label" i18n>Datei</label>
+        <input
+          required
+          type="file"
+          id="file"
+          class="cosmo-input"
+          accept="font/woff2, font/ttf"
+          (change)="updateFile($event)"
+        />
+      </div>
+    </div>
+    <div class="cosmo-modal__button-bar">
+      <button class="cosmo-button" (click)="open = false" i18n>Abbrechen</button>
+      <button class="cosmo-button" type="submit" i18n>Datei hochladen</button>
+    </div>
+  </form>
+</div>

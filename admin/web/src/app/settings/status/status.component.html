@@ -1,0 +1,64 @@
+@if (loading) {
+  <app-loading-spinner />
+}
+@defer (when !loading) {
+  <span class="cosmo-title" i18n>Status</span>
+  <div class="container">
+    <dl class="cosmo-list is--key-value">
+      <dt i18n>Jinya Fonts online</dt>
+      <dd>
+        <span class="center-vertical" i18n>
+          @if (status.online) {
+            <lucide-icon [img]="CheckCircle" color="var(--positive-color)" /> Online
+          } @else {
+            <lucide-icon [img]="XCircle" color="var(--negative-color)" /> Offline
+          }
+        </span>
+      </dd>
+      <dt i18n>Öffentliche Website online</dt>
+      <dd>
+        <span class="center-vertical" i18n>
+          @if (status.servingWebsite) {
+            <lucide-icon [img]="CheckCircle" color="var(--positive-color)" /> Online
+          } @else {
+            <lucide-icon [img]="XCircle" color="var(--negative-color)" /> Offline
+          }
+        </span>
+      </dd>
+      <dt i18n>MongoDB</dt>
+      <dd>
+        <span class="center-vertical" i18n>
+          @if (status.mongoUp) {
+            <lucide-icon [img]="CheckCircle" color="var(--positive-color)" /> Online
+          } @else {
+            <lucide-icon [img]="XCircle" color="var(--negative-color)" /> Offline
+          }
+        </span>
+      </dd>
+      <dt i18n>Redis</dt>
+      <dd>
+        <span class="center-vertical" i18n>
+          @if (status.redisUp) {
+            <lucide-icon [img]="CheckCircle" color="var(--positive-color)" /> Online
+          } @else {
+            <lucide-icon [img]="XCircle" color="var(--negative-color)" /> Offline
+          }
+        </span>
+      </dd>
+      <dt i18n>Google Fonts Job aktiv</dt>
+      <dd>
+        <span class="center-vertical" i18n>
+          @if (status.jobIsScheduled) {
+            <lucide-icon [img]="CheckCircle" color="var(--positive-color)" /> Online
+          } @else {
+            <lucide-icon [img]="XCircle" color="var(--negative-color)" /> Offline
+          }
+        </span>
+      </dd>
+      @if (status.jobIsScheduled) {
+        <dt i18n>Nächste Jobausführung</dt>
+        <dd>{{ nextExecution.toLocaleString() }}</dd>
+      }
+    </dl>
+  </div>
+}

@@ -1,110 +1,192 @@
 package database
 
 import (
-	"gopkg.in/yaml.v3"
-	"jinya-fonts/config"
-	"os"
+	"fmt"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Webfont struct {
-	Name        string     `yaml:"name" json:"name"`
-	Fonts       []Metadata `yaml:"fonts" json:"fonts"`
-	Description string     `yaml:"description,omitempty" json:"description"`
-	Designers   []Designer `yaml:"designers,omitempty" json:"designers"`
-	License     string     `yaml:"license,omitempty" json:"license"`
-	Category    string     `yaml:"category,omitempty" json:"category"`
-	GoogleFont  bool       `yaml:"google_font" json:"googleFont"`
-}
-
-func writeFont(webfont Webfont) error {
-	yamlFileData, err := yaml.Marshal(&webfont)
-	if err != nil {
-		return err
-	}
-
-	return os.WriteFile(config.LoadedConfiguration.FontFileFolder+"/"+webfont.Name+".yaml", yamlFileData, 0644)
+	Name        string          `json:"name" bson:"name"`
+	Fonts       map[string]File `json:"fonts" bson:"fonts"`
+	Description string          `json:"description" bson:"description"`
+	Designers   []Designer      `json:"designers" bson:"designers"`
+	License     string          `json:"license" bson:"license"`
+	Category    string          `json:"category" bson:"category"`
+	GoogleFont  bool            `json:"googleFont" bson:"googleFont"`
 }
 
 func GetAllFonts() ([]Webfont, error) {
-	files, err := os.ReadDir(config.LoadedConfiguration.FontFileFolder)
+	client, err := openConnection()
 	if err != nil {
 		return nil, err
 	}
 
-	var availableFonts []Webfont
+	defer closeConnection(client)
 
-	for _, file := range files {
-		if file.IsDir() {
-			continue
-		}
+	ctx, cancelFunc := getContext()
+	defer cancelFunc()
 
-		yamlFileData, err := os.ReadFile(config.LoadedConfiguration.FontFileFolder + "/" + file.Name())
-		if err != nil {
-			continue
-		}
-
-		fontFile := new(Webfont)
-		err = yaml.Unmarshal(yamlFileData, fontFile)
-		if err != nil {
-			continue
-		}
-
-		availableFonts = append(availableFonts, *fontFile)
+	fontsCollection := getFontsCollection(client)
+	cursor, err := fontsCollection.Find(ctx, bson.D{}, options.Find().SetSort(bson.D{{"name", 1}}))
+	if err != nil {
+		return nil, err
 	}
 
-	return availableFonts, err
+	var fonts []Webfont
+	err = cursor.All(ctx, &fonts)
+	if err != nil {
+		return nil, err
+	}
+
+	return fonts, nil
+}
+
+func GetGoogleFonts() ([]Webfont, error) {
+	client, err := openConnection()
+	if err != nil {
+		return nil, err
+	}
+
+	defer closeConnection(client)
+
+	ctx, cancelFunc := getContext()
+	defer cancelFunc()
+
+	fontsCollection := getFontsCollection(client)
+	cursor, err := fontsCollection.Find(ctx, bson.D{{"googleFont", true}}, options.Find().SetSort(bson.D{{"name", 1}}))
+	if err != nil {
+		return nil, err
+	}
+
+	var fonts []Webfont
+	err = cursor.All(ctx, &fonts)
+	if err != nil {
+		return nil, err
+	}
+
+	return fonts, nil
+}
+
+func GetCustomFonts() ([]Webfont, error) {
+	client, err := openConnection()
+	if err != nil {
+		return nil, err
+	}
+
+	defer closeConnection(client)
+
+	ctx, cancelFunc := getContext()
+	defer cancelFunc()
+
+	fontsCollection := getFontsCollection(client)
+	cursor, err := fontsCollection.Find(ctx, bson.D{{"googleFont", false}}, options.Find().SetSort(bson.D{{"name", 1}}))
+	if err != nil {
+		return nil, err
+	}
+
+	var fonts []Webfont
+	err = cursor.All(ctx, &fonts)
+	if err != nil {
+		return nil, err
+	}
+
+	return fonts, nil
 }
 
 func GetFont(name string) (*Webfont, error) {
-	yamlFile := config.LoadedConfiguration.FontFileFolder + "/" + name + ".yaml"
-
-	if _, err := os.Stat(yamlFile); os.IsNotExist(err) {
-		return nil, err
-	}
-
-	yamlFileData, err := os.ReadFile(yamlFile)
+	client, err := openConnection()
 	if err != nil {
 		return nil, err
 	}
 
-	fontFile := new(Webfont)
-	err = yaml.Unmarshal(yamlFileData, fontFile)
+	defer closeConnection(client)
 
-	return fontFile, err
-}
+	ctx, cancelFunc := getContext()
+	defer cancelFunc()
 
-func CreateFont(name string, description string, license string, category string) (*Webfont, error) {
-	webfont := Webfont{
-		Name:        name,
-		License:     license,
-		Category:    category,
-		Description: description,
-		GoogleFont:  false,
-	}
+	fontsCollection := getFontsCollection(client)
 
-	if err := writeFont(webfont); err != nil {
+	font := new(Webfont)
+	err = fontsCollection.FindOne(ctx, bson.D{{"name", name}}).Decode(font)
+	if err != nil {
 		return nil, err
 	}
 
-	return &webfont, nil
+	return font, nil
 }
 
-func UpdateFont(name string, description string, license string) error {
-	webfont, err := GetFont(name)
+func CreateFont(webfont *Webfont) error {
+	client, err := openConnection()
 	if err != nil {
 		return err
 	}
 
-	webfont.Description = description
-	webfont.License = license
+	defer closeConnection(client)
 
-	return writeFont(*webfont)
+	ctx, cancelFunc := getContext()
+	defer cancelFunc()
+
+	fontsCollection := getFontsCollection(client)
+	count, err := fontsCollection.CountDocuments(ctx, bson.D{{"name", webfont.Name}})
+	if err != nil {
+		return err
+	}
+
+	if count > 0 {
+		return fmt.Errorf("font already exists")
+	}
+
+	_, err = fontsCollection.InsertOne(ctx, webfont)
+
+	return err
+}
+
+func UpdateFont(webfont *Webfont) error {
+	client, err := openConnection()
+	if err != nil {
+		return err
+	}
+
+	defer closeConnection(client)
+
+	ctx, cancelFunc := getContext()
+	defer cancelFunc()
+
+	fontsCollection := getFontsCollection(client)
+	err = fontsCollection.FindOneAndReplace(ctx, bson.D{{"name", webfont.Name}}, webfont).Err()
+
+	return err
 }
 
 func DeleteFont(name string) error {
-	return os.Remove(config.LoadedConfiguration.FontFileFolder + "/" + name + ".yaml")
+	client, err := openConnection()
+	if err != nil {
+		return err
+	}
+
+	defer closeConnection(client)
+
+	ctx, cancelFunc := getContext()
+	defer cancelFunc()
+
+	fontsCollection := getFontsCollection(client)
+	_, err = fontsCollection.DeleteOne(ctx, bson.D{{"name", name}})
+
+	return err
 }
 
-func CreateGoogleFont(webfont *Webfont) error {
-	return writeFont(*webfont)
+func ClearGoogleFonts() {
+	client, err := openConnection()
+	if err != nil {
+		return
+	}
+
+	defer closeConnection(client)
+
+	ctx, cancelFunc := getContext()
+	defer cancelFunc()
+
+	fontsCollection := getFontsCollection(client)
+	_, _ = fontsCollection.DeleteMany(ctx, bson.D{{"googleFont", true}})
 }

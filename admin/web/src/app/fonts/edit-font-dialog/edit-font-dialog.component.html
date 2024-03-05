@@ -1,0 +1,46 @@
+<div class="cosmo-modal__container" [class.is--closed]="!isOpen">
+  <form class="cosmo-modal" [formGroup]="editFontForm" (ngSubmit)="updateFont()">
+    <h1 class="cosmo-modal__title" i18n>{{ font.name }} bearbeiten</h1>
+    <div class="cosmo-modal__content">
+      <div class="cosmo-input__group">
+        <label for="category" class="cosmo-label" i18n>Kategorie</label>
+        <select class="cosmo-select" id="category" formControlName="category">
+          <option value="Sans Serif">Sans Serif</option>
+          <option value="Serif">Serif</option>
+          <option value="Monospace">Monospace</option>
+          <option value="Display">Display</option>
+          <option value="Handwriting">Handwriting</option>
+        </select>
+        <label for="license" class="cosmo-label" i18n>Lizenz</label>
+        <input
+          required
+          list="suggestedLicenses"
+          type="text"
+          id="license"
+          class="cosmo-input"
+          formControlName="license"
+        />
+        <span class="cosmo-input__message is--negative" [class.is--hidden]="!editFontForm.get('license')?.invalid" i18n
+          >Du musst eine Lizenz angeben</span
+        >
+        <datalist id="suggestedLicenses">
+          <option value="ufl"></option>
+          <option value="ofl"></option>
+          <option value="apache2"></option>
+          <option value="mit"></option>
+          <option value="cc0"></option>
+        </datalist>
+        <span class="cosmo-input__header" i18n>Beschreibung</span>
+        <editor
+          class="tiny-editor"
+          [init]="{ base_url: '/admin/tinymce', suffix: '.min', height: 250 }"
+          formControlName="description"
+        ></editor>
+      </div>
+    </div>
+    <div class="cosmo-modal__button-bar">
+      <button class="cosmo-button" (click)="isOpen = false" i18n>Änderungen verwerfen</button>
+      <button class="cosmo-button" type="submit" i18n>Font speichern</button>
+    </div>
+  </form>
+</div>
