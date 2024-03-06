@@ -8,17 +8,17 @@ import { RequestBuilder } from '../../request-builder';
 
 import { Metadata } from '../../models/metadata';
 
-export interface ApiFontFontNameFileGet$Params {
+export interface GetFontFilesByName$Params {
   fontName: string;
 }
 
-export function apiFontFontNameFileGet(
+export function getFontFilesByName(
   http: HttpClient,
   rootUrl: string,
-  params: ApiFontFontNameFileGet$Params,
+  params: GetFontFilesByName$Params,
   context?: HttpContext
 ): Observable<StrictHttpResponse<Metadata>> {
-  const rb = new RequestBuilder(rootUrl, apiFontFontNameFileGet.PATH, 'get');
+  const rb = new RequestBuilder(rootUrl, getFontFilesByName.PATH, 'get');
   if (params) {
     rb.path('fontName', params.fontName, {});
   }
@@ -31,4 +31,4 @@ export function apiFontFontNameFileGet(
   );
 }
 
-apiFontFontNameFileGet.PATH = '/api/font/{fontName}/file';
+getFontFilesByName.PATH = '/api/font/{fontName}/file';

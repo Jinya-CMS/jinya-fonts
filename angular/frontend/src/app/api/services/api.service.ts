@@ -9,15 +9,15 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { apiFontFontNameDesignerGet } from '../fn/operations/api-font-font-name-designer-get';
-import { ApiFontFontNameDesignerGet$Params } from '../fn/operations/api-font-font-name-designer-get';
-import { apiFontFontNameFileGet } from '../fn/operations/api-font-font-name-file-get';
-import { ApiFontFontNameFileGet$Params } from '../fn/operations/api-font-font-name-file-get';
-import { apiFontFontNameGet } from '../fn/operations/api-font-font-name-get';
-import { ApiFontFontNameGet$Params } from '../fn/operations/api-font-font-name-get';
-import { apiFontGet } from '../fn/operations/api-font-get';
-import { ApiFontGet$Params } from '../fn/operations/api-font-get';
 import { Designer } from '../models/designer';
+import { getFontByName } from '../fn/operations/get-font-by-name';
+import { GetFontByName$Params } from '../fn/operations/get-font-by-name';
+import { getFontDesignersByName } from '../fn/operations/get-font-designers-by-name';
+import { GetFontDesignersByName$Params } from '../fn/operations/get-font-designers-by-name';
+import { getFontFilesByName } from '../fn/operations/get-font-files-by-name';
+import { GetFontFilesByName$Params } from '../fn/operations/get-font-files-by-name';
+import { getFonts } from '../fn/operations/get-fonts';
+import { GetFonts$Params } from '../fn/operations/get-fonts';
 import { Metadata } from '../models/metadata';
 import { Webfont } from '../models/webfont';
 
@@ -27,8 +27,8 @@ export class ApiService extends BaseService {
     super(config, http);
   }
 
-  /** Path part for operation `apiFontGet()` */
-  static readonly ApiFontGetPath = '/api/font';
+  /** Path part for operation `getFonts()` */
+  static readonly GetFontsPath = '/api/font';
 
   /**
    * Gets all fonts.
@@ -36,15 +36,12 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiFontGet()` instead.
+   * To access only the response body, use `getFonts()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiFontGet$Response(
-    params?: ApiFontGet$Params,
-    context?: HttpContext
-  ): Observable<StrictHttpResponse<Array<Webfont>>> {
-    return apiFontGet(this.http, this.rootUrl, params, context);
+  getFonts$Response(params?: GetFonts$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Webfont>>> {
+    return getFonts(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -53,18 +50,18 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiFontGet$Response()` instead.
+   * To access the full response (for headers, for example), `getFonts$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiFontGet(params?: ApiFontGet$Params, context?: HttpContext): Observable<Array<Webfont>> {
-    return this.apiFontGet$Response(params, context).pipe(
+  getFonts(params?: GetFonts$Params, context?: HttpContext): Observable<Array<Webfont>> {
+    return this.getFonts$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<Webfont>>): Array<Webfont> => r.body)
     );
   }
 
-  /** Path part for operation `apiFontFontNameGet()` */
-  static readonly ApiFontFontNameGetPath = '/api/font/{fontName}';
+  /** Path part for operation `getFontByName()` */
+  static readonly GetFontByNamePath = '/api/font/{fontName}';
 
   /**
    * Gets the given font by name.
@@ -72,15 +69,12 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiFontFontNameGet()` instead.
+   * To access only the response body, use `getFontByName()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiFontFontNameGet$Response(
-    params: ApiFontFontNameGet$Params,
-    context?: HttpContext
-  ): Observable<StrictHttpResponse<Webfont>> {
-    return apiFontFontNameGet(this.http, this.rootUrl, params, context);
+  getFontByName$Response(params: GetFontByName$Params, context?: HttpContext): Observable<StrictHttpResponse<Webfont>> {
+    return getFontByName(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -89,18 +83,16 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiFontFontNameGet$Response()` instead.
+   * To access the full response (for headers, for example), `getFontByName$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiFontFontNameGet(params: ApiFontFontNameGet$Params, context?: HttpContext): Observable<Webfont> {
-    return this.apiFontFontNameGet$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Webfont>): Webfont => r.body)
-    );
+  getFontByName(params: GetFontByName$Params, context?: HttpContext): Observable<Webfont> {
+    return this.getFontByName$Response(params, context).pipe(map((r: StrictHttpResponse<Webfont>): Webfont => r.body));
   }
 
-  /** Path part for operation `apiFontFontNameFileGet()` */
-  static readonly ApiFontFontNameFileGetPath = '/api/font/{fontName}/file';
+  /** Path part for operation `getFontFilesByName()` */
+  static readonly GetFontFilesByNamePath = '/api/font/{fontName}/file';
 
   /**
    * Gets the files for the given font.
@@ -108,15 +100,15 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiFontFontNameFileGet()` instead.
+   * To access only the response body, use `getFontFilesByName()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiFontFontNameFileGet$Response(
-    params: ApiFontFontNameFileGet$Params,
+  getFontFilesByName$Response(
+    params: GetFontFilesByName$Params,
     context?: HttpContext
   ): Observable<StrictHttpResponse<Metadata>> {
-    return apiFontFontNameFileGet(this.http, this.rootUrl, params, context);
+    return getFontFilesByName(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -125,18 +117,18 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiFontFontNameFileGet$Response()` instead.
+   * To access the full response (for headers, for example), `getFontFilesByName$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiFontFontNameFileGet(params: ApiFontFontNameFileGet$Params, context?: HttpContext): Observable<Metadata> {
-    return this.apiFontFontNameFileGet$Response(params, context).pipe(
+  getFontFilesByName(params: GetFontFilesByName$Params, context?: HttpContext): Observable<Metadata> {
+    return this.getFontFilesByName$Response(params, context).pipe(
       map((r: StrictHttpResponse<Metadata>): Metadata => r.body)
     );
   }
 
-  /** Path part for operation `apiFontFontNameDesignerGet()` */
-  static readonly ApiFontFontNameDesignerGetPath = '/api/font/{fontName}/designer';
+  /** Path part for operation `getFontDesignersByName()` */
+  static readonly GetFontDesignersByNamePath = '/api/font/{fontName}/designer';
 
   /**
    * Gets the designers for the given font.
@@ -144,15 +136,15 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiFontFontNameDesignerGet()` instead.
+   * To access only the response body, use `getFontDesignersByName()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiFontFontNameDesignerGet$Response(
-    params: ApiFontFontNameDesignerGet$Params,
+  getFontDesignersByName$Response(
+    params: GetFontDesignersByName$Params,
     context?: HttpContext
   ): Observable<StrictHttpResponse<Designer>> {
-    return apiFontFontNameDesignerGet(this.http, this.rootUrl, params, context);
+    return getFontDesignersByName(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -161,12 +153,12 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiFontFontNameDesignerGet$Response()` instead.
+   * To access the full response (for headers, for example), `getFontDesignersByName$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiFontFontNameDesignerGet(params: ApiFontFontNameDesignerGet$Params, context?: HttpContext): Observable<Designer> {
-    return this.apiFontFontNameDesignerGet$Response(params, context).pipe(
+  getFontDesignersByName(params: GetFontDesignersByName$Params, context?: HttpContext): Observable<Designer> {
+    return this.getFontDesignersByName$Response(params, context).pipe(
       map((r: StrictHttpResponse<Designer>): Designer => r.body)
     );
   }

@@ -8,17 +8,17 @@ import { RequestBuilder } from '../../request-builder';
 
 import { Designer } from '../../models/designer';
 
-export interface ApiFontFontNameDesignerGet$Params {
+export interface GetFontDesignersByName$Params {
   fontName: string;
 }
 
-export function apiFontFontNameDesignerGet(
+export function getFontDesignersByName(
   http: HttpClient,
   rootUrl: string,
-  params: ApiFontFontNameDesignerGet$Params,
+  params: GetFontDesignersByName$Params,
   context?: HttpContext
 ): Observable<StrictHttpResponse<Designer>> {
-  const rb = new RequestBuilder(rootUrl, apiFontFontNameDesignerGet.PATH, 'get');
+  const rb = new RequestBuilder(rootUrl, getFontDesignersByName.PATH, 'get');
   if (params) {
     rb.path('fontName', params.fontName, {});
   }
@@ -31,4 +31,4 @@ export function apiFontFontNameDesignerGet(
   );
 }
 
-apiFontFontNameDesignerGet.PATH = '/api/font/{fontName}/designer';
+getFontDesignersByName.PATH = '/api/font/{fontName}/designer';

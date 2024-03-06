@@ -34,7 +34,7 @@ export class StartpageComponent implements OnInit {
   protected readonly Math = Math;
 
   ngOnInit(): void {
-    this.apiService.apiFontGet().subscribe((value) => {
+    this.apiService.getFonts().subscribe((value) => {
       this.webfonts = value;
       this.loading = false;
       this.filter({

@@ -3,11 +3,23 @@
   <div class="jinya-loader"></div>
 }
 @defer (when !loading) {
-  <div class="jinya-card__list" [class.jinya-card__list--empty]="filteredWebfonts.length > 0"
-       [class.jinya-card__list--loading]="loading" [style.--jinya-card-font-size.px]="size"
-       [style.--jinya-row-count]="filteredWebfonts.length / 4" [style.--jinya-row-count-full]="filteredWebfonts.length">
+  <div
+    class="jinya-card__list"
+    [class.jinya-card__list--empty]="filteredWebfonts.length > 0"
+    [class.jinya-card__list--loading]="loading"
+    [style.--jinya-card-font-size.px]="size"
+    [style.--jinya-row-count]="filteredWebfonts.length / 4"
+    [style.--jinya-row-count-full]="filteredWebfonts.length"
+  >
     @for (font of fontsToShow; track font) {
-      <app-font-card [style.--jinya-row-start-full]="font.rowStartFull" [style.--jinya-row-end-full]="font.rowEndFull"  [style.--jinya-row-start]="font.rowStart" [style.--jinya-row-end]="font.rowEnd" [font]="font">{{ text }}</app-font-card>
+      <app-font-card
+        [style.--jinya-row-start-full]="font.rowStartFull"
+        [style.--jinya-row-end-full]="font.rowEndFull"
+        [style.--jinya-row-start]="font.rowStart"
+        [style.--jinya-row-end]="font.rowEnd"
+        [font]="font"
+        >{{ text }}</app-font-card
+      >
     } @empty {
       <div class="jinya-no-fonts" i18n>Sadly no fonts match your criteria</div>
     }

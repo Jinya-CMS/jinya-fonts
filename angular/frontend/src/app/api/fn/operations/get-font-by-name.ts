@@ -8,24 +8,27 @@ import { RequestBuilder } from '../../request-builder';
 
 import { Webfont } from '../../models/webfont';
 
-export interface ApiFontGet$Params {}
+export interface GetFontByName$Params {
+  fontName: string;
+}
 
-export function apiFontGet(
+export function getFontByName(
   http: HttpClient,
   rootUrl: string,
-  params?: ApiFontGet$Params,
+  params: GetFontByName$Params,
   context?: HttpContext
-): Observable<StrictHttpResponse<Array<Webfont>>> {
-  const rb = new RequestBuilder(rootUrl, apiFontGet.PATH, 'get');
+): Observable<StrictHttpResponse<Webfont>> {
+  const rb = new RequestBuilder(rootUrl, getFontByName.PATH, 'get');
   if (params) {
+    rb.path('fontName', params.fontName, {});
   }
 
   return http.request(rb.build({ responseType: 'json', accept: 'application/json', context })).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Webfont>>;
+      return r as StrictHttpResponse<Webfont>;
     })
   );
 }
 
-apiFontGet.PATH = '/api/font';
+getFontByName.PATH = '/api/font/{fontName}';
