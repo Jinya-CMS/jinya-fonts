@@ -2,14 +2,29 @@
 
 :host {
   grid-row: body;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100%;
+}
+
+.jinya-loader__container {
+  height: 100%;
 }
 
 .jinya-card__list {
+  --column-width: calc((80vw - 3rem) / 4);
+
   min-height: auto;
-  display: flex;
-  flex-flow: row wrap;
+  display: grid;
   gap: 1rem;
   margin-bottom: 1rem;
+  grid-template-columns: repeat(4, var(--column-width));
+  grid-template-rows: repeat(var(--jinya-row-count), 13rem);
+
+  @media screen and (max-width: 786px) {
+    grid-template-columns: 98%;
+    grid-template-rows: repeat(var(--jinya-row-count-full), 13rem);
+  }
 }
 
 .jinya-card__list--loading {

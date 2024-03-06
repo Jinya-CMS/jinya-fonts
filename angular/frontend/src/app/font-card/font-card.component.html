@@ -3,7 +3,9 @@
     <span class="jinya-card__title">{{ font.name }}</span>
     <span class="jinya-card__subtitle">{{ designer() }}</span>
   </div>
-  <div class="jinya-card__body" [style.font-family]="font.name">{{ text }}</div>
+  <div class="jinya-card__body" [style.font-family]="font.name">
+    <ng-content />
+  </div>
 </a>
 @defer (when styleUrl !== '') {
   <link [href]="styleUrl" rel="stylesheet" type="text/css" />

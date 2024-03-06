@@ -1,2 +1,8 @@
 @import '../../scss/form';
 @import '../../scss/settingspanel';
+
+:host {
+  position: sticky;
+  top: 0;
+  background: var(--white);
+}

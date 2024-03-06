@@ -1,13 +1,16 @@
 :host {
-  flex: 0 0 100%;
   border: 0.0625rem solid var(--border-color);
   box-sizing: border-box;
   padding: 1rem;
   border-radius: 0.25rem;
   color: var(--text-color);
+  height: 13rem;
+  grid-row-start: var(--jinya-row-start);
+  grid-row-end: var(--jinya-row-end);
 
-  @media screen and (min-width: 768px) {
-    flex-basis: calc(25% - 3rem / 4);
+  @media screen and (max-width: 768px) {
+    grid-row-start: var(--jinya-row-start-full);
+    grid-row-end: var(--jinya-row-end-full);
   }
 }
 
@@ -24,12 +27,17 @@ a {
 }
 
 .jinya-card__subtitle {
-  font-weight: var(--font-weight-title);
-  font-family: var(--font-family-card-display);
+  font-family: var(--font-family-display);
+  font-weight: var(--font-weight-card-title);
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  white-space: nowrap;
 }
 
 .jinya-card__body {
-  max-height: 10rem;
+  max-height: 7.75rem;
   overflow: hidden;
   word-wrap: anywhere;
   word-break: break-all;
