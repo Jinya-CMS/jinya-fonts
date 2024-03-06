@@ -49,7 +49,7 @@ type SpaHandler struct {
 	templateData any
 }
 
-func (handler SpaHandler) serveTemplated(w http.ResponseWriter, r *http.Request) {
+func (handler SpaHandler) serveTemplated(w http.ResponseWriter, _ *http.Request) {
 	tmpl, err := template.ParseFS(handler.embedFS, handler.indexPath)
 	if err != nil {
 		http.Error(w, "Failed to get admin page", http.StatusInternalServerError)
@@ -89,28 +89,6 @@ func (handler SpaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.ServeFileFS(w, r, handler.embedFS, fullPath)
-}
-
-func getWebApp(w http.ResponseWriter, r *http.Request) {
-	page, ok := pages[r.URL.Path]
-	if !ok {
-		w.WriteHeader(http.StatusNotFound)
-		return
-	}
-
-	tpl, err := template.New("layout").ParseFS(frontend, "frontend/layout.gohtml", page)
-	if err != nil {
-		log.Printf("page %s not found in pages cache...", r.RequestURI)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "text/html")
-	w.WriteHeader(http.StatusOK)
-
-	if err := tpl.Execute(w, nil); err != nil {
-		return
-	}
 }
 
 func main() {
@@ -177,15 +155,13 @@ func main() {
 		}))
 
 		if config.LoadedConfiguration.ServeWebsite {
-			router.PathPrefix("/v3").Handler(http.StripPrefix("/v3", SpaHandler{
+			router.PathPrefix("/static/").Handler(http.FileServerFS(static))
+			router.PathPrefix("/").Handler(SpaHandler{
 				embedFS:      angular,
 				indexPath:    "angular/frontend/dist/browser/index.html",
 				fsPrefixPath: "angular/frontend/dist/browser",
 				templated:    false,
-			}))
-
-			router.PathPrefix("/static/").Handler(http.FileServerFS(static))
-			router.PathPrefix("/").HandlerFunc(getWebApp)
+			})
 		}
 
 		log.Println("Serving at localhost:8090...")
