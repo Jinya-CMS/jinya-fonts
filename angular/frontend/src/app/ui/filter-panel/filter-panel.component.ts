@@ -1,14 +1,6 @@
 import { Component, EventEmitter, input, Output } from '@angular/core';
-import { SearchbarComponent } from '../searchbar/searchbar.component';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { FontCardComponent } from '../font-card/font-card.component';
-
-export const previewTexts = {
-  lorem:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-  alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz',
-  numbers: '0123456789'
-};
+import { FormControl } from '@angular/forms';
+import { previewTexts } from '../preview-panel/preview-panel.component';
 
 export interface WebfontFilter {
   searchText: string;
@@ -21,12 +13,10 @@ export interface WebfontFilter {
 
 @Component({
   selector: 'app-settings-panel',
-  standalone: true,
-  imports: [SearchbarComponent, ReactiveFormsModule, FontCardComponent],
-  templateUrl: './settings-panel.component.html',
-  styleUrl: './settings-panel.component.scss'
+  templateUrl: './filter-panel.component.html',
+  styleUrl: './filter-panel.component.scss'
 })
-export class SettingsPanelComponent {
+export class FilterPanelComponent {
   @Output() previewSizeChange = new EventEmitter<number>();
   @Output() previewTextChange = new EventEmitter<string>();
   @Output() filter = new EventEmitter<WebfontFilter>();

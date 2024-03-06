@@ -154,6 +154,7 @@ func main() {
 
 		fonts.SetupFontsRouter(router)
 		admin.SetupAdminApiRouter(router)
+		api.SetupApiRouter(router)
 
 		router.PathPrefix("/openapi/admin").Handler(SpaHandler{
 			embedFS:      adminOpenapi,
@@ -176,8 +177,6 @@ func main() {
 		}))
 
 		if config.LoadedConfiguration.ServeWebsite {
-			api.SetupApiRouter(router)
-
 			router.PathPrefix("/v3").Handler(http.StripPrefix("/v3", SpaHandler{
 				embedFS:      angular,
 				indexPath:    "angular/frontend/dist/browser/index.html",

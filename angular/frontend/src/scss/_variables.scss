@@ -23,18 +23,20 @@
   --font-family-display: Urbanist, display;
   --font-family-monospace: 'Oxygen Mono', monospace;
 
+  --font-weight-button: 200;
   --font-weight-title: 200;
   --font-weight-hint: 300;
   --font-weight-card-title: 300;
-  --font-weight-style-title: 700;
+  --font-weight-style-title: 200;
   --font-weight-designer-name: 400;
+  --font-weight-default: 300;
 
   @media screen and (prefers-color-scheme: dark) {
     --primary-color: #0f1e2e;
     --text-color: #ccc;
     --white: #000;
     --control-border-color: #333;
-    --code-color: #666;
+    --code-color: #333;
     --border-color: var(--control-border-color);
     --checkmark-color: #fff;
     --no-match-color: var(--text-color);

@@ -24,7 +24,7 @@ func downloadFont(w http.ResponseWriter, r *http.Request) {
 
 	buffer := bytes.NewBuffer([]byte{})
 	zipWriter := zip.NewWriter(buffer)
-	zipCssFileWriter, err := zipWriter.Create(slug.Make(font) + ".css")
+	css := ""
 
 	for _, item := range webfont.Fonts {
 		convertedCss, err := convertTemplateDataToCss(templateData{
@@ -36,6 +36,8 @@ func downloadFont(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 
+		css = css + "\n" + convertedCss
+
 		fileName := database.GetFontFileName(webfont.Name, item.Weight, item.Style, item.Type, webfont.GoogleFont)
 		file, _, err := getFontFile(fileName)
 		if err != nil {
@@ -43,12 +45,6 @@ func downloadFont(w http.ResponseWriter, r *http.Request) {
 		}
 		if err != nil {
 			continue
-		}
-
-		_, err = zipCssFileWriter.Write([]byte(convertedCss))
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			return
 		}
 
 		zipFontFileWriter, err := zipWriter.Create(fileName)
@@ -62,6 +58,13 @@ func downloadFont(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
+	}
+
+	zipCssFileWriter, err := zipWriter.Create(slug.Make(font) + ".css")
+	_, err = zipCssFileWriter.Write([]byte(css))
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	w.Header().Set("Content-Disposition", "attachment; filename=\""+slug.Make(font)+".zip\"")

@@ -6,6 +6,7 @@ import (
 	"jinya-fonts/database"
 	"net/http"
 	"net/url"
+	"slices"
 	"strings"
 	"text/template"
 )
@@ -118,6 +119,20 @@ func getCss2(w http.ResponseWriter, r *http.Request) {
 			splitFamily := strings.Split(trimmed, ":")
 			if len(splitFamily) == 1 {
 				families = append(families, family{splitFamily[0], false, "400"})
+			} else if len(splitFamily) == 2 && slices.Contains(splitFamily, "all") {
+				font, err := database.GetFont(splitFamily[0])
+				if err != nil {
+					http.NotFound(w, r)
+					return
+				}
+
+				for _, file := range font.Fonts {
+					families = append(families, family{
+						Name:   font.Name,
+						Italic: file.Style == "italic",
+						Weight: file.Weight,
+					})
+				}
 			} else if len(splitFamily) >= 2 {
 				weightAndItalic := strings.ReplaceAll(strings.ReplaceAll(splitFamily[1], ";", "\n"), "@", "\n")
 				reader := csv.NewReader(bytes.NewBufferString(weightAndItalic))

@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ApiConfiguration {
-  rootUrl: string = 'https://fonts.jinya.de';
+  rootUrl: string = '';
 }
 
 /**

@@ -14,3 +14,15 @@
 .is--hidden {
   display: none;
 }
+
+p {
+  margin-top: 0;
+}
+
+a {
+  color: var(--primary-color);
+
+  @media screen and (prefers-color-scheme: dark) {
+    color: var(--text-color);
+  }
+}

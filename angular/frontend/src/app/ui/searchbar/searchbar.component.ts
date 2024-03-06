@@ -1,10 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-searchbar',
-  standalone: true,
-  imports: [ReactiveFormsModule],
   templateUrl: './searchbar.component.html',
   styleUrl: './searchbar.component.scss'
 })

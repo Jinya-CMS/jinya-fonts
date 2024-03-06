@@ -1,10 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ApiModule } from '../api/api.module';
-import { ApiService } from '../api/services/api.service';
-import { previewTexts, SettingsPanelComponent, WebfontFilter } from '../settings-panel/settings-panel.component';
-import { HttpClientModule } from '@angular/common/http';
-import { Webfont } from '../api/models/webfont';
-import { FontCardComponent } from '../font-card/font-card.component';
+import { ApiService } from '../../api/services/api.service';
+import { Webfont } from '../../api/models/webfont';
+import { previewTexts } from '../../ui/preview-panel/preview-panel.component';
+import { WebfontFilter } from '../../ui/filter-panel/filter-panel.component';
 
 interface WebfontWithRow extends Webfont {
   rowStart: number;
@@ -15,12 +13,10 @@ interface WebfontWithRow extends Webfont {
 
 @Component({
   selector: 'app-startpage',
-  standalone: true,
-  imports: [ApiModule, HttpClientModule, SettingsPanelComponent, FontCardComponent],
-  templateUrl: './startpage.component.html',
-  styleUrl: './startpage.component.scss'
+  templateUrl: './start-page.component.html',
+  styleUrl: './start-page.component.scss'
 })
-export class StartpageComponent implements OnInit {
+export class StartPageComponent implements OnInit {
   constructor(private apiService: ApiService) {}
 
   webfonts: Webfont[] = [];

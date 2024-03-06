@@ -1,0 +1,33 @@
+<select
+  (input)="updateText($event)"
+  [value]="previewTextType"
+  aria-label="Preview type"
+  class="jinya-preview__type"
+  i18n-aria-label
+>
+  <option i18n value="custom">Custom</option>
+  <option i18n value="alphabet">Alphabet</option>
+  <option i18n value="lorem">Lorem Ipsum</option>
+  <option i18n value="numbers">Numbers</option>
+</select>
+<input
+  (input)="updatePreviewText($event)"
+  [value]="previewText.value"
+  aria-label="Preview text"
+  class="jinya-preview__text"
+  i18n-aria-label
+  i18n-placeholder
+  placeholder="Type text to preview..."
+  type="text"
+/>
+<span class="jinya-preview__size-text">{{ previewSize.value }}px</span>
+<input
+  (input)="previewSizeChange.emit(previewSize.value ?? 24)"
+  [formControl]="previewSize"
+  aria-label="Preview size"
+  class="jinya-preview__size"
+  i18n-aria-label
+  max="240"
+  min="8"
+  type="range"
+/>
