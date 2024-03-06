@@ -87,9 +87,10 @@
     box-sizing: border-box;
     cursor: pointer;
     border-radius: 0.25rem;
-    transition: background-color 0.3s,
-    border-color 0.3s,
-    color 0.3s;
+    transition:
+      background-color 0.3s,
+      border-color 0.3s,
+      color 0.3s;
     font-weight: var(--font-weight-button);
     background: var(--white);
     color: var(--text-color);
@@ -101,9 +102,10 @@
   text-decoration: none;
   width: auto;
   border-radius: 0.25rem;
-  transition: background-color 0.3s,
-  border-color 0.3s,
-  color 0.3s;
+  transition:
+    background-color 0.3s,
+    border-color 0.3s,
+    color 0.3s;
 }
 
 .jinya-font-links__download {
