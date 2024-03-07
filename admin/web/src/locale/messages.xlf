@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="de" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="2361265238320887165" datatype="html">
+        <source>Abmelden</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1383708357421423824" datatype="html">
+        <source> Fonts </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6954504112156430244" datatype="html">
+        <source> Konfiguration </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3741296726570704707" datatype="html">
+        <source> Übersicht </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5028777105388019087" datatype="html">
+        <source>Details</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">38,39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">140,141</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8781715147716422669" datatype="html">
+        <source> Einstellungen </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4282587102956396340" datatype="html">
+        <source> Status </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1366046859532871486" datatype="html">
+        <source><x id="START_BLOCK_IF" equiv-text="@if (googleFontsSyncing) {"/> Google Fonts werden synchronisiert <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE_IF" equiv-text="@else if (googleFontsSyncSuccess) {"/> Synchronisierung erfolgreich <x id="CLOSE_BLOCK_ELSE_IF" equiv-text="}"/><x id="START_BLOCK_ELSE_IF_1" equiv-text="@else if (googleFontsSyncFailure) {"/> Fehler beim Synchronisieren <x id="CLOSE_BLOCK_ELSE_IF" equiv-text="}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">68,76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5181690192053543822" datatype="html">
+        <source>Anmelden</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/authentication/login/login.component.html</context>
+          <context context-type="linenumber">3,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7182841145050234146" datatype="html">
+        <source>Anmelden mit OpenID</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/authentication/login/login.component.html</context>
+          <context context-type="linenumber">4,5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="472335994569796287" datatype="html">
+        <source>Datei hochladen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">3,4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">36,37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">164,165</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/update-file-dialog/update-file-dialog.component.html</context>
+          <context context-type="linenumber">3,4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/update-file-dialog/update-file-dialog.component.html</context>
+          <context context-type="linenumber">62,63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1051502027853903815" datatype="html">
+        <source>Stil</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">171,172</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/update-file-dialog/update-file-dialog.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3080483882937310852" datatype="html">
+        <source>Normal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3967248052556235031" datatype="html">
+        <source>Kursiv</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">9,10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5867832126711248994" datatype="html">
+        <source>Stärke</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">11,12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">172,173</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/update-file-dialog/update-file-dialog.component.html</context>
+          <context context-type="linenumber">17,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5372519974778406240" datatype="html">
+        <source>Ultraleicht (100)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4398130763402737286" datatype="html">
+        <source>Extraleicht (200)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4178790390948779079" datatype="html">
+        <source>Mager (300)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">15,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7552760551350828683" datatype="html">
+        <source>Normal (400)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7002895957560737282" datatype="html">
+        <source>Leichthalbfett (500)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">17,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3629401965423153775" datatype="html">
+        <source>Halbfett (600)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">18,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4771449564601092939" datatype="html">
+        <source>Fett (700)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2454392789295625558" datatype="html">
+        <source>Extrafett (800)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">20,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7117619798952678730" datatype="html">
+        <source>Ultrafett (900)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">21,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="323296961323364638" datatype="html">
+        <source>Datei</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">23,24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/update-file-dialog/update-file-dialog.component.html</context>
+          <context context-type="linenumber">49,50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7624133960269641605" datatype="html">
+        <source>Abbrechen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/add-file-dialog/add-file-dialog.component.html</context>
+          <context context-type="linenumber">35,36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/create-font-dialog/create-font-dialog.component.html</context>
+          <context context-type="linenumber">50,51</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/update-file-dialog/update-file-dialog.component.html</context>
+          <context context-type="linenumber">61,62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6945011362355995389" datatype="html">
+        <source>Font erstellen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/create-font-dialog/create-font-dialog.component.html</context>
+          <context context-type="linenumber">3,4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/create-font-dialog/create-font-dialog.component.html</context>
+          <context context-type="linenumber">51,52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="662914119065503050" datatype="html">
+        <source>Familie</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/create-font-dialog/create-font-dialog.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/settings/settings.component.html</context>
+          <context context-type="linenumber">61,62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1279337347531887948" datatype="html">
+        <source>Du musst eine Familie angeben</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/create-font-dialog/create-font-dialog.component.html</context>
+          <context context-type="linenumber">9,10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8729559752409102379" datatype="html">
+        <source>Kategorie</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/create-font-dialog/create-font-dialog.component.html</context>
+          <context context-type="linenumber">11,12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/edit-font-dialog/edit-font-dialog.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">62,63</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">88,89</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3912442821960396254" datatype="html">
+        <source>Sans Serif</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/create-font-dialog/create-font-dialog.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5880204481906632204" datatype="html">
+        <source>Serif</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/create-font-dialog/create-font-dialog.component.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4420178471760514359" datatype="html">
+        <source>Monospace</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/create-font-dialog/create-font-dialog.component.html</context>
+          <context context-type="linenumber">15,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6812930637022637485" datatype="html">
+        <source>Display</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/create-font-dialog/create-font-dialog.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1050795021259585554" datatype="html">
+        <source>Handwriting</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/create-font-dialog/create-font-dialog.component.html</context>
+          <context context-type="linenumber">17,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5586655612985464270" datatype="html">
+        <source>Lizenz</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/create-font-dialog/create-font-dialog.component.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/edit-font-dialog/edit-font-dialog.component.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">45,46</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">90,91</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2387474863561734201" datatype="html">
+        <source>Du musst eine Lizenz angeben</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/create-font-dialog/create-font-dialog.component.html</context>
+          <context context-type="linenumber">32,33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/edit-font-dialog/edit-font-dialog.component.html</context>
+          <context context-type="linenumber">24,25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3282235563480269560" datatype="html">
+        <source>Beschreibung</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/create-font-dialog/create-font-dialog.component.html</context>
+          <context context-type="linenumber">41,42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/edit-font-dialog/edit-font-dialog.component.html</context>
+          <context context-type="linenumber">33,34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">72,73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6963328844802820500" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ font.name }}"/> bearbeiten</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/edit-font-dialog/edit-font-dialog.component.html</context>
+          <context context-type="linenumber">3,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7081753458857507682" datatype="html">
+        <source>Änderungen verwerfen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/edit-font-dialog/edit-font-dialog.component.html</context>
+          <context context-type="linenumber">42,43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8079991908843784545" datatype="html">
+        <source>Font speichern</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/edit-font-dialog/edit-font-dialog.component.html</context>
+          <context context-type="linenumber">43,44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7312779405300458541" datatype="html">
+        <source>Designer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">21,22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">89,90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4302517564974172921" datatype="html">
+        <source>Dateien</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1408504081201671596" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ font.name }}"/> – Details</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">35,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6920196637619975735" datatype="html">
+        <source>Bearbeiten</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">39,40</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">187,188</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4580399730639224598" datatype="html">
+        <source>Löschen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">40,41</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">108,109</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">188,189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7410497943274974802" datatype="html">
+        <source>Google Font</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">64,65</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">92,93</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1433273777065457109" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ font.name }}"/> – Designer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">77,78</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="985799125029483579" datatype="html">
+        <source>Neuer Designer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">96,97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8421747777906229614" datatype="html">
+        <source> Bearbeiten </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3608883971846563044" datatype="html">
+        <source>Du musst einen Namen angeben</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">140,141</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7100423091242631117" datatype="html">
+        <source>Über den Designer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">142,143</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8563537710036611214" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ font.name }}"/> – Dateien</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">160,161</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4261449051643468878" datatype="html">
+        <source>Dateityp</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">173,174</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1969070268204504205" datatype="html">
+        <source>Aktionen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">174,175</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">94,95</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3099741642167775297" datatype="html">
+        <source>Download</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">185,186</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5170216782068294458" datatype="html">
+        <source>Font löschen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">207,208</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">208,209</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">175,176</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4628012144730474815" datatype="html">
+        <source>Font nicht löschen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">209,210</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8482734235226972373" datatype="html">
+        <source> Soll der Font <x id="INTERPOLATION" equiv-text="{{ font.name }}"/> wirklich gelöscht werden? </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">218,220</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8811946756068649553" datatype="html">
+        <source>Designer entfernen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">222,223</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">223,224</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2952180597393974156" datatype="html">
+        <source>Designer nicht entfernen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">224,225</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3613712896655745186" datatype="html">
+        <source> Soll der Designer <x id="INTERPOLATION" equiv-text="{{ activeDesigner?.name }}"/> wirklich entfernt werden? </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">233,235</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="91186508822137257" datatype="html">
+        <source>Datei entfernen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">237,238</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">238,239</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="258267861698514960" datatype="html">
+        <source>Datei nicht entfernen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">239,240</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2397896738037613511" datatype="html">
+        <source> Soll die <x id="INTERPOLATION" equiv-text="{{ activeFile?.type?.toUpperCase() }}"/>-Datei mit der Stärke <x id="START_BLOCK_CASE" equiv-text="@case (&apos;100&apos;) {"/> Ultraleicht (100) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_1" equiv-text="@case (&apos;200&apos;) {"/> Extraleicht (200) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_2" equiv-text="@case (&apos;300&apos;) {"/> Mager (300) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_3" equiv-text="@case (&apos;400&apos;) {"/> Normal (400) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_4" equiv-text="@case (&apos;500&apos;) {"/> Leichthalbfett (500) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_5" equiv-text="@case (&apos;600&apos;) {"/> Fett (600) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_6" equiv-text="@case (&apos;700&apos;) {"/> Halbfett (700) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_7" equiv-text="@case (&apos;800&apos;) {"/> Extrafett (800) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_8" equiv-text="@case (&apos;900&apos;) {"/> Ultrafett (900) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_DEFAULT" equiv-text="@default {"/> <x id="INTERPOLATION_1" equiv-text="{{ activeFile?.weight }}"/> <x id="CLOSE_BLOCK_DEFAULT" equiv-text="}
+    }"/> im Stil <x id="START_BLOCK_IF" equiv-text="@if (activeFile?.style === &apos;italic&apos;) {"/> Kursiv <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE" equiv-text="@else {"/> Normal <x id="CLOSE_BLOCK_ELSE" equiv-text="}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-details/font-details.component.html</context>
+          <context context-type="linenumber">248,289</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3537305645494566891" datatype="html">
+        <source> Alle Fonts </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">10,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4275493936840238440" datatype="html">
+        <source> Google Fonts </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1187622928020242439" datatype="html">
+        <source> Custom Fonts </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">28,29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2023915378745687512" datatype="html">
+        <source><x id="START_BLOCK_CASE" equiv-text="@case (ActiveSideItem.All) {"/> Alle Fonts <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_1" equiv-text="@case (ActiveSideItem.Google) {"/> Google Fonts <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_2" equiv-text="@case (ActiveSideItem.Custom) {"/> Eigene Fonts <x id="CLOSE_BLOCK_CASE" equiv-text="}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">33,45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7998669648533144349" datatype="html">
+        <source>Neuer Font</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">48,49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6877556796830028695" datatype="html">
+        <source>Google Fonts synchronisieren</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">51,52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="896852977029257740" datatype="html">
+        <source>Nach Name filtern</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">55,56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2074967891954420586" datatype="html">
+        <source>Nach Kategorie filtern</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">66,67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8953033926734869941" datatype="html">
+        <source>Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">87,88</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1621129056100618059" datatype="html">
+        <source>Download ZIP</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">139,140</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7783139231497081140" datatype="html">
+        <source> Löschen </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">143</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1822300190482931229" datatype="html">
+        <source> Soll der Font <x id="INTERPOLATION" equiv-text="{{ selectedFont?.name }}"/> wirklich gelöscht werden?
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/font-list/font-list.component.html</context>
+          <context context-type="linenumber">184,186</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6981796401977435709" datatype="html">
+        <source><x id="START_BLOCK_CASE" equiv-text="@case (&apos;100&apos;) {"/> Ultraleicht (100) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_1" equiv-text="@case (&apos;200&apos;) {"/> Extraleicht (200) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_2" equiv-text="@case (&apos;300&apos;) {"/> Mager (300) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_3" equiv-text="@case (&apos;400&apos;) {"/> Normal (400) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_4" equiv-text="@case (&apos;500&apos;) {"/> Leichthalbfett (500) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_5" equiv-text="@case (&apos;600&apos;) {"/> Halbfett (600) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_6" equiv-text="@case (&apos;700&apos;) {"/> Fett (700) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_7" equiv-text="@case (&apos;800&apos;) {"/> Extrafett (800) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/><x id="START_BLOCK_CASE_8" equiv-text="@case (&apos;900&apos;) {"/> Ultrafett (900) <x id="CLOSE_BLOCK_CASE" equiv-text="}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/fonts/update-file-dialog/update-file-dialog.component.html</context>
+          <context context-type="linenumber">19,48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4435703504669117699" datatype="html">
+        <source>Einstellungen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/settings/settings.component.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8283522686080758826" datatype="html">
+        <source>Synchronisation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/settings/settings.component.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7712550218808865676" datatype="html">
+        <source>Einstellungen für die Synchronisation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/settings/settings.component.html</context>
+          <context context-type="linenumber">10,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4661087627763531945" datatype="html">
+        <source> Hier kannst du einstellen wie oft die Synchronisation ausgeführt werden soll und ob sie überhaupt ausgeführt werden soll. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/settings/settings.component.html</context>
+          <context context-type="linenumber">12,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7309707137729680417" datatype="html">
+        <source>Automatische Synchronisation aktiv</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/settings/settings.component.html</context>
+          <context context-type="linenumber">20,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1435968330503951997" datatype="html">
+        <source>Font Filter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/settings/settings.component.html</context>
+          <context context-type="linenumber">32,33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8578423930329588572" datatype="html">
+        <source>Fonts die abgerufen werden sollen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/settings/settings.component.html</context>
+          <context context-type="linenumber">34,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6562528176640364665" datatype="html">
+        <source> Hier kannst du einstellen welche Fonts von Google Fonts abgerufen werden sollen. Wenn die Liste leer ist, werden alle Fonts synchronisiert. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/settings/settings.component.html</context>
+          <context context-type="linenumber">36,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8013009660349605206" datatype="html">
+        <source>Filter hinzufügen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/settings/settings.component.html</context>
+          <context context-type="linenumber">65,66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4148353123071676032" datatype="html">
+        <source>Zurücksetzen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/settings/settings.component.html</context>
+          <context context-type="linenumber">71,72</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2090401476686833853" datatype="html">
+        <source>Einstellungen speichern</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/settings/settings.component.html</context>
+          <context context-type="linenumber">72,73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5611592591303869712" datatype="html">
+        <source>Status</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/status/status.component.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2926524066507689121" datatype="html">
+        <source>Jinya Fonts online</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/status/status.component.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6605717565300609511" datatype="html">
+        <source><x id="START_BLOCK_IF" equiv-text="@if (status.online) {"/><x id="START_TAG_LUCIDE_ICON" ctype="x-lucide_icon" equiv-text="&lt;lucide-icon [img]=&quot;CheckCircle&quot; color=&quot;var(--positive-color)&quot; /&gt;"/><x id="CLOSE_TAG_LUCIDE_ICON" ctype="x-lucide_icon" equiv-text="&lt;lucide-icon [img]=&quot;XCircle&quot; color=&quot;var(--negative-color)&quot; /&gt;"/> Online <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE" equiv-text="@else {"/><x id="START_TAG_LUCIDE_ICON_1" ctype="x-lucide_icon_1" equiv-text="&lt;lucide-icon [img]=&quot;XCircle&quot; color=&quot;var(--negative-color)&quot; /&gt;"/><x id="CLOSE_TAG_LUCIDE_ICON" ctype="x-lucide_icon" equiv-text="&lt;lucide-icon [img]=&quot;XCircle&quot; color=&quot;var(--negative-color)&quot; /&gt;"/> Offline <x id="CLOSE_BLOCK_ELSE" equiv-text="}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/status/status.component.html</context>
+          <context context-type="linenumber">11,17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/status/status.component.html</context>
+          <context context-type="linenumber">21,27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/status/status.component.html</context>
+          <context context-type="linenumber">31,37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/status/status.component.html</context>
+          <context context-type="linenumber">41,47</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/status/status.component.html</context>
+          <context context-type="linenumber">51,57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3959335497290326320" datatype="html">
+        <source>Öffentliche Website online</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/status/status.component.html</context>
+          <context context-type="linenumber">18,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="382139809711684480" datatype="html">
+        <source>MongoDB</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/status/status.component.html</context>
+          <context context-type="linenumber">28,29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1496987427505257425" datatype="html">
+        <source>Redis</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/status/status.component.html</context>
+          <context context-type="linenumber">38,39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2196840290467800239" datatype="html">
+        <source>Google Fonts Job aktiv</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/status/status.component.html</context>
+          <context context-type="linenumber">48,49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7121310633923465722" datatype="html">
+        <source>Nächste Jobausführung</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/settings/status/status.component.html</context>
+          <context context-type="linenumber">59,60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="187187500641108332" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ title }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ui/confirm/confirm.component.html</context>
+          <context context-type="linenumber">3,4</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

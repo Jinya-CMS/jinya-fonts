@@ -37,9 +37,8 @@ var (
 )
 
 type LanguageHandler struct {
-	defaultPath string
-	dePath      string
-	enPath      string
+	defaultLang     language.Tag
+	langPathMapping map[language.Tag]string
 }
 
 type SpaHandler struct {
@@ -93,25 +92,28 @@ func (handler SpaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (handler LanguageHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	oldPath := "/" + r.URL.Path + "?" + r.URL.RawQuery
 	acceptLanguage, _, err := language.ParseAcceptLanguage(r.Header.Get("Accept-Language"))
 	if err != nil {
-		http.Redirect(w, r, handler.defaultPath, http.StatusFound)
+		http.Redirect(w, r, handler.langPathMapping[handler.defaultLang]+oldPath, http.StatusFound)
 		return
 	}
 
-	de, _ := language.German.Base()
-	en, _ := language.English.Base()
+	localMap := map[string]string{}
+	for tag, p := range handler.langPathMapping {
+		b, _ := tag.Base()
+		localMap[b.ISO3()] = p
+	}
+
 	for _, lang := range acceptLanguage {
-		if b, _ := lang.Base(); b.ISO3() == de.ISO3() {
-			http.Redirect(w, r, handler.dePath, http.StatusFound)
-			return
-		} else if b.ISO3() == en.ISO3() {
-			http.Redirect(w, r, handler.enPath, http.StatusFound)
+		b, _ := lang.Base()
+		if p, exists := localMap[b.ISO3()]; exists {
+			http.Redirect(w, r, p+oldPath, http.StatusFound)
 			return
 		}
 	}
 
-	http.Redirect(w, r, handler.defaultPath, http.StatusFound)
+	http.Redirect(w, r, handler.langPathMapping[handler.defaultLang]+oldPath, http.StatusFound)
 }
 
 func main() {
@@ -169,12 +171,26 @@ func main() {
 			fsPrefixPath: "",
 			templated:    false,
 		})
-		router.PathPrefix("/admin").Handler(http.StripPrefix("/admin", SpaHandler{
+		router.PathPrefix("/admin/de").Handler(http.StripPrefix("/admin/de", SpaHandler{
 			embedFS:      angularAdmin,
-			indexPath:    "admin/web/dist/browser/index.html",
-			fsPrefixPath: "admin/web/dist/browser",
+			indexPath:    "admin/web/dist/browser/de/index.html",
+			fsPrefixPath: "admin/web/dist/browser/de",
 			templated:    true,
 			templateData: config.LoadedConfiguration,
+		}))
+		router.PathPrefix("/admin/en").Handler(http.StripPrefix("/admin/en", SpaHandler{
+			embedFS:      angularAdmin,
+			indexPath:    "admin/web/dist/browser/en/index.html",
+			fsPrefixPath: "admin/web/dist/browser/en",
+			templated:    true,
+			templateData: config.LoadedConfiguration,
+		}))
+		router.PathPrefix("/admin").Handler(http.StripPrefix("/admin", LanguageHandler{
+			defaultLang: language.English,
+			langPathMapping: map[language.Tag]string{
+				language.English: "/admin/en",
+				language.German:  "/admin/de",
+			},
 		}))
 
 		if config.LoadedConfiguration.ServeWebsite {
@@ -192,9 +208,11 @@ func main() {
 				templated:    false,
 			}))
 			router.PathPrefix("/").Handler(LanguageHandler{
-				defaultPath: "/en",
-				dePath:      "/de",
-				enPath:      "/en",
+				defaultLang: language.English,
+				langPathMapping: map[language.Tag]string{
+					language.English: "/en",
+					language.German:  "/de",
+				},
 			})
 		}
 

@@ -10,6 +10,15 @@
           "style": "scss"
         }
       },
+      "i18n": {
+        "sourceLocale": "de",
+        "locales": {
+          "en": {
+            "translation": "src/locale/messages.en.xlf",
+            "baseHref": "/en/"
+          }
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -17,12 +26,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "baseHref": "/admin",
             "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
+            "i18nMissingTranslation": "error",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -35,7 +46,8 @@
             ],
             "scripts": [
               "node_modules/tinymce/tinymce.min.js"
-            ]
+            ],
+            "localize": true
           },
           "configurations": {
             "production": {
