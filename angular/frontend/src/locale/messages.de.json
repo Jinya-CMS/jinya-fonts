@@ -1,0 +1,33 @@
+{
+  "locale": "de",
+  "translations": {
+    "footer-row-one": "Web design – © Jinya Developers 2024",
+    "footer-row-two": "Jinya Fonts benutzt die Schriften von fonts.google.com. Bitte stell sicher, dass die Lizenz zu deinem Projekt passt",
+    "detail-designed-by": "Fontdesigner {$INTERPOLATION}",
+    "detail-about": "Über {$INTERPOLATION}",
+    "license": "Lizenz",
+    "usage-in-html": "Verwendung in HTML",
+    "usage-in-css": "Schriftfamilie in CSS",
+    "download-title": "CSS und Dateien herunterladen",
+    "download-button": "Download",
+    "font-preview-title": "Schriftvorschau",
+    "font-preview-add-to-code": "Zum Code hinzufügen",
+    "designers": "Designer",
+    "no-fonts": "Leider gibt es keine Schriften die deinen Filtern entsprechen",
+    "style-sans-serif": "Sans-Serif",
+    "style-serif": "Serif",
+    "style-handwriting": "Handschrift",
+    "style-display": "Display",
+    "style-monospace": "Feste Breite",
+    "preview-panel-preview-type": "Vorschautyp",
+    "preview-type-custom": "Eigener Text",
+    "preview-type-alphabet": "Alphabet",
+    "preview-type-lorem": "Lorem Ipsum",
+    "preview-type-numbers": "Zahlen",
+    "preview-type-label": "Vorschautext",
+    "preview-type-text-placeholder": "Vorschautext eingeben…",
+    "preview-type-size-label": "Vorschaugröße",
+    "searchbar-label": "Nach Schriften suchen",
+    "searchbar-placeholder": "Suchen…"
+  }
+}

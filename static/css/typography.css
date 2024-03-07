@@ -1,9 +1,0 @@
-a {
-    color: var(--primary-color);
-}
-
-hr {
-    border: none;
-    border-bottom: 1px solid var(--primary-color);
-    width: 100%;
-}

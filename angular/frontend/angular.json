@@ -10,6 +10,15 @@
           "style": "scss"
         }
       },
+      "i18n": {
+        "sourceLocale": "en",
+        "locales": {
+          "de": {
+            "translation": "src/locale/messages.de.json",
+            "baseHref": "/de/"
+          }
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -20,6 +29,7 @@
             "outputPath": "dist/",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "i18nMissingTranslation": "error",
             "polyfills": [
               "zone.js"
             ],
@@ -32,7 +42,8 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "localize": true
           },
           "configurations": {
             "production": {
@@ -75,8 +86,22 @@
           "options": {
             "buildTarget": "jinya-fonts:build"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

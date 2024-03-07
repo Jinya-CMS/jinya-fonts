@@ -1,0 +1,84 @@
+:host {
+  position: sticky;
+  top: 0;
+  background: var(--white);
+}
+
+.jinya-font-type-panel {
+  display: none;
+
+  @media screen and (min-width: 786px) {
+    padding-bottom: 1rem;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.jinya-settings-panel {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background: var(--white);
+
+  @media screen and (min-width: 768px) {
+    display: grid;
+    grid-template-columns: 30rem 1fr;
+    align-items: center;
+  }
+}
+
+.jinya-checkbox {
+  --border-indicator-color: var(--control-border-color);
+
+  appearance: none;
+  margin: 0;
+  display: inline-flex;
+  position: relative;
+  outline: none;
+  border: none;
+  box-shadow: none;
+
+  &::after,
+  &::before {
+    transition:
+      border-color var(--transition-duration),
+      background-color var(--transition-duration);
+  }
+
+  &::before {
+    content: '';
+    display: inline-block;
+    border: var(--input-border-width) solid var(--border-indicator-color);
+    height: var(--checkbox-size);
+    width: var(--checkbox-size);
+    margin-right: calc(var(--checkbox-size) / 2);
+    border-radius: var(--border-radius);
+    background: var(--white);
+  }
+
+  &:checked {
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      height: var(--checkbox-mark-shortarm);
+      width: var(--checkbox-mark-longarm);
+      border-right: var(--checkbox-mark-stroke-width) solid var(--checkmark-color);
+      border-top: var(--checkbox-mark-stroke-width) solid var(--checkmark-color);
+      transform: rotate(135deg);
+      top: calc(var(--checkbox-mark-longarm) - var(--checkbox-mark-shortarm));
+      left: calc(var(--checkbox-mark-longarm) / 2 + 0.0625rem);
+      box-sizing: content-box;
+    }
+
+    &::before {
+      --border-indicator-color: var(--primary-color);
+
+      background: var(--border-indicator-color);
+      color: var(--white);
+    }
+  }
+
+  + label {
+    margin-right: 1.5rem;
+  }
+}

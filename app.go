@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/mux"
 	_ "github.com/sakirsensoy/genv/dotenv/autoload"
 	"go.mongodb.org/mongo-driver/mongo"
+	"golang.org/x/text/language"
 	"html/template"
 	admin "jinya-fonts/admin/api"
 	"jinya-fonts/api"
@@ -23,8 +24,6 @@ import (
 )
 
 var (
-	//go:embed frontend
-	frontend embed.FS
 	//go:embed angular/frontend/dist/browser
 	angular embed.FS
 	//go:embed admin/web/dist/browser
@@ -35,11 +34,12 @@ var (
 	adminOpenapi embed.FS
 	//go:embed static
 	static embed.FS
-	pages  = map[string]string{
-		"/":     "frontend/index.gohtml",
-		"/font": "frontend/font.gohtml",
-	}
 )
+
+type LanguageHandler struct {
+	defaultLang     language.Tag
+	langPathMapping map[language.Tag]string
+}
 
 type SpaHandler struct {
 	embedFS      embed.FS
@@ -49,7 +49,7 @@ type SpaHandler struct {
 	templateData any
 }
 
-func (handler SpaHandler) serveTemplated(w http.ResponseWriter, r *http.Request) {
+func (handler SpaHandler) serveTemplated(w http.ResponseWriter, _ *http.Request) {
 	tmpl, err := template.ParseFS(handler.embedFS, handler.indexPath)
 	if err != nil {
 		http.Error(w, "Failed to get admin page", http.StatusInternalServerError)
@@ -91,26 +91,29 @@ func (handler SpaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	http.ServeFileFS(w, r, handler.embedFS, fullPath)
 }
 
-func getWebApp(w http.ResponseWriter, r *http.Request) {
-	page, ok := pages[r.URL.Path]
-	if !ok {
-		w.WriteHeader(http.StatusNotFound)
-		return
-	}
-
-	tpl, err := template.New("layout").ParseFS(frontend, "frontend/layout.gohtml", page)
+func (handler LanguageHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	oldPath := "/" + r.URL.Path + "?" + r.URL.RawQuery
+	acceptLanguage, _, err := language.ParseAcceptLanguage(r.Header.Get("Accept-Language"))
 	if err != nil {
-		log.Printf("page %s not found in pages cache...", r.RequestURI)
-		w.WriteHeader(http.StatusInternalServerError)
+		http.Redirect(w, r, handler.langPathMapping[handler.defaultLang]+oldPath, http.StatusFound)
 		return
 	}
 
-	w.Header().Set("Content-Type", "text/html")
-	w.WriteHeader(http.StatusOK)
-
-	if err := tpl.Execute(w, nil); err != nil {
-		return
+	localMap := map[string]string{}
+	for tag, p := range handler.langPathMapping {
+		b, _ := tag.Base()
+		localMap[b.ISO3()] = p
 	}
+
+	for _, lang := range acceptLanguage {
+		b, _ := lang.Base()
+		if p, exists := localMap[b.ISO3()]; exists {
+			http.Redirect(w, r, p+oldPath, http.StatusFound)
+			return
+		}
+	}
+
+	http.Redirect(w, r, handler.langPathMapping[handler.defaultLang]+oldPath, http.StatusFound)
 }
 
 func main() {
@@ -154,6 +157,7 @@ func main() {
 
 		fonts.SetupFontsRouter(router)
 		admin.SetupAdminApiRouter(router)
+		api.SetupApiRouter(router)
 
 		router.PathPrefix("/openapi/admin").Handler(SpaHandler{
 			embedFS:      adminOpenapi,
@@ -167,26 +171,49 @@ func main() {
 			fsPrefixPath: "",
 			templated:    false,
 		})
-		router.PathPrefix("/admin").Handler(http.StripPrefix("/admin", SpaHandler{
+		router.PathPrefix("/admin/de").Handler(http.StripPrefix("/admin/de", SpaHandler{
 			embedFS:      angularAdmin,
-			indexPath:    "admin/web/dist/browser/index.html",
-			fsPrefixPath: "admin/web/dist/browser",
+			indexPath:    "admin/web/dist/browser/de/index.html",
+			fsPrefixPath: "admin/web/dist/browser/de",
 			templated:    true,
 			templateData: config.LoadedConfiguration,
 		}))
+		router.PathPrefix("/admin/en").Handler(http.StripPrefix("/admin/en", SpaHandler{
+			embedFS:      angularAdmin,
+			indexPath:    "admin/web/dist/browser/en/index.html",
+			fsPrefixPath: "admin/web/dist/browser/en",
+			templated:    true,
+			templateData: config.LoadedConfiguration,
+		}))
+		router.PathPrefix("/admin").Handler(http.StripPrefix("/admin", LanguageHandler{
+			defaultLang: language.English,
+			langPathMapping: map[language.Tag]string{
+				language.English: "/admin/en",
+				language.German:  "/admin/de",
+			},
+		}))
 
 		if config.LoadedConfiguration.ServeWebsite {
-			api.SetupApiRouter(router)
-
-			router.PathPrefix("/v3").Handler(http.StripPrefix("/v3", SpaHandler{
+			router.PathPrefix("/static/").Handler(http.FileServerFS(static))
+			router.PathPrefix("/de").Handler(http.StripPrefix("/de", SpaHandler{
 				embedFS:      angular,
-				indexPath:    "angular/frontend/dist/browser/index.html",
-				fsPrefixPath: "angular/frontend/dist/browser",
+				indexPath:    "angular/frontend/dist/browser/de/index.html",
+				fsPrefixPath: "angular/frontend/dist/browser/de",
 				templated:    false,
 			}))
-
-			router.PathPrefix("/static/").Handler(http.FileServerFS(static))
-			router.PathPrefix("/").HandlerFunc(getWebApp)
+			router.PathPrefix("/en").Handler(http.StripPrefix("/en", SpaHandler{
+				embedFS:      angular,
+				indexPath:    "angular/frontend/dist/browser/en/index.html",
+				fsPrefixPath: "angular/frontend/dist/browser/en",
+				templated:    false,
+			}))
+			router.PathPrefix("/").Handler(LanguageHandler{
+				defaultLang: language.English,
+				langPathMapping: map[language.Tag]string{
+					language.English: "/en",
+					language.German:  "/de",
+				},
+			})
 		}
 
 		log.Println("Serving at localhost:8090...")
