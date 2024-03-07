@@ -18,10 +18,11 @@
         [style.--jinya-row-start]="font.rowStart"
         [style.--jinya-row-end]="font.rowEnd"
         [font]="font"
-        >{{ text }}</app-font-card
       >
+        {{ text }}
+      </app-font-card>
     } @empty {
-      <div class="jinya-no-fonts" i18n>Sadly no fonts match your criteria</div>
+      <div class="jinya-no-fonts" i18n="@@no-fonts">Sadly no fonts match your criteria</div>
     }
   </div>
 }

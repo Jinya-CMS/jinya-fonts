@@ -11,11 +11,11 @@
         }
       },
       "i18n": {
-        "sourceLocale": "de",
+        "sourceLocale": "en",
         "locales": {
-          "en": {
-            "translation": "src/locale/messages.en.xlf",
-            "baseHref": "/en/"
+          "de": {
+            "translation": "src/locale/messages.de.json",
+            "baseHref": "/de/"
           }
         }
       },

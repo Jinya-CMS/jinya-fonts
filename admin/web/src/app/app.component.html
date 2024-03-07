@@ -3,10 +3,16 @@
     <div class="cosmo-menu is--top">
       <div class="cosmo-menu__row"></div>
       <div class="cosmo-profile-picture"></div>
-      <a href="#" (click)="authService.logout()" class="cosmo-menu__item is--right" i18n>Abmelden</a>
+      <a href="#" (click)="authService.logout()" class="cosmo-menu__item is--right" i18n="@@logout">Logout</a>
     </div>
     <div class="cosmo-menu">
-      <button aria-label="Zurück" class="cosmo-back-button" (click)="location.back()" type="button" i18n></button>
+      <button
+        aria-label="Back"
+        class="cosmo-back-button"
+        (click)="location.back()"
+        type="button"
+        i18n-aria-label="@@back"
+      ></button>
       <nav class="cosmo-menu__collection">
         <div class="cosmo-menu__row is--main">
           <a
@@ -15,7 +21,7 @@
             routerLinkActive="is--active"
             [routerLinkActiveOptions]="{ exact: false }"
             #fontMain="routerLinkActive"
-            i18n
+            i18n="@@fonts"
           >
             Fonts
           </a>
@@ -25,17 +31,24 @@
             routerLinkActive="is--active"
             [routerLinkActiveOptions]="{ exact: false }"
             #configMain="routerLinkActive"
-            i18n
+            i18n="@@configuration"
           >
-            Konfiguration
+            Configuration
           </a>
         </div>
         @if (fontMain.isActive) {
           <div class="cosmo-menu__row is--sub">
-            <a class="cosmo-menu__item" routerLink="/font" [class.is--active]="!router.url.includes('detail')" i18n>
-              Übersicht
+            <a
+              class="cosmo-menu__item"
+              routerLink="/font"
+              [class.is--active]="!router.url.includes('detail')"
+              i18n="@@overview"
+            >
+              Overview
             </a>
-            <span class="cosmo-menu__item" [class.is--active]="router.url.includes('detail')" i18n>Details</span>
+            <span class="cosmo-menu__item" [class.is--active]="router.url.includes('detail')" i18n="@@details">
+              Details
+            </span>
           </div>
         } @else if (configMain.isActive) {
           <div class="cosmo-menu__row is--sub">
@@ -43,15 +56,15 @@
               class="cosmo-menu__item"
               routerLink="/config/settings"
               [class.is--active]="router.url.includes('settings')"
-              i18n
+              i18n="@@settings"
             >
-              Einstellungen
+              Settings
             </a>
             <a
               class="cosmo-menu__item"
               routerLink="/config/status"
               [class.is--active]="router.url.includes('status')"
-              i18n
+              i18n="@@status"
             >
               Status
             </a>
@@ -64,13 +77,13 @@
     </div>
     @if (googleFontsSyncing || googleFontsSyncSuccess || googleFontsSyncFailure) {
       <div class="cosmo-bottom-bar">
-        <span class="cosmo-progress-bar__label" i18n>
+        <span class="cosmo-progress-bar__label">
           @if (googleFontsSyncing) {
-            Google Fonts werden synchronisiert
+            <ng-container i18n="@@synchronizing-google-fonts">Google Fonts are synchronizing</ng-container>
           } @else if (googleFontsSyncSuccess) {
-            Synchronisierung erfolgreich
+            <ng-container i18n="@@synchronization-success">Synchronization enabled</ng-container>
           } @else if (googleFontsSyncFailure) {
-            Fehler beim Synchronisieren
+            <ng-container i18n="@@synchronization-error">Error during synchronization</ng-container>
           }
         </span>
         @if (googleFontsSyncing) {

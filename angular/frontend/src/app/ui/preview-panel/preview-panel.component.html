@@ -3,20 +3,20 @@
   [value]="previewTextType"
   aria-label="Preview type"
   class="jinya-preview__type"
-  i18n-aria-label
+  i18n-aria-label="@@preview-panel-preview-type"
 >
-  <option i18n value="custom">Custom</option>
-  <option i18n value="alphabet">Alphabet</option>
-  <option i18n value="lorem">Lorem Ipsum</option>
-  <option i18n value="numbers">Numbers</option>
+  <option i18n="@@preview-type-custom" value="custom">Custom</option>
+  <option i18n="@@preview-type-alphabet" value="alphabet">Alphabet</option>
+  <option i18n="@@preview-type-lorem" value="lorem">Lorem Ipsum</option>
+  <option i18n="@@preview-type-numbers" value="numbers">Numbers</option>
 </select>
 <input
   (input)="updatePreviewText($event)"
   [value]="previewText.value"
   aria-label="Preview text"
   class="jinya-preview__text"
-  i18n-aria-label
-  i18n-placeholder
+  i18n-aria-label="@@preview-type-label"
+  i18n-placeholder="@@preview-type-text-placeholder"
   placeholder="Type text to preview..."
   type="text"
 />
@@ -26,7 +26,7 @@
   [formControl]="previewSize"
   aria-label="Preview size"
   class="jinya-preview__size"
-  i18n-aria-label
+  i18n-aria-label="@@preview-type-size-label"
   max="240"
   min="8"
   type="range"

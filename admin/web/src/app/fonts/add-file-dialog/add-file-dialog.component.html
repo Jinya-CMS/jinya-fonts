@@ -1,26 +1,26 @@
 <div class="cosmo-modal__container" [class.is--closed]="!open">
   <form class="cosmo-modal" [formGroup]="createFileForm" (ngSubmit)="createFile()">
-    <h1 class="cosmo-modal__title" i18n>Datei hochladen</h1>
+    <h1 class="cosmo-modal__title" i18n="@@create-file-title">Upload file</h1>
     <div class="cosmo-modal__content">
       <div class="cosmo-input__group">
-        <label for="style" class="cosmo-label" i18n>Stil</label>
+        <label for="style" class="cosmo-label" i18n="@@font-style-label">Style</label>
         <select class="cosmo-select" id="style" formControlName="style">
-          <option value="normal" i18n>Normal</option>
-          <option value="italic" i18n>Kursiv</option>
+          <option value="normal" i18n="@@font-style-normal">Normal</option>
+          <option value="italic" i18n="@@font-style-italic">Italic</option>
         </select>
-        <label for="weight" class="cosmo-label" i18n>Stärke</label>
+        <label for="weight" class="cosmo-label" i18n="@@font-weight-label">Weight</label>
         <select class="cosmo-select" id="weight" formControlName="weight">
-          <option value="100" i18n>Ultraleicht (100)</option>
-          <option value="200" i18n>Extraleicht (200)</option>
-          <option value="300" i18n>Mager (300)</option>
-          <option value="400" i18n>Normal (400)</option>
-          <option value="500" i18n>Leichthalbfett (500)</option>
-          <option value="600" i18n>Halbfett (600)</option>
-          <option value="700" i18n>Fett (700)</option>
-          <option value="800" i18n>Extafett (800)</option>
-          <option value="900" i18n>Ultrafett (900)</option>
+          <option value="100" i18n="@@font-weight-100">Thin (100)</option>
+          <option value="200" i18n="@@font-weight-200">Extra light (200)</option>
+          <option value="300" i18n="@@font-weight-300">Light (300)</option>
+          <option value="400" i18n="@@font-weight-400">Normal (400)</option>
+          <option value="500" i18n="@@font-weight-500">Medium (500)</option>
+          <option value="600" i18n="@@font-weight-600">Semi bold (600)</option>
+          <option value="700" i18n="@@font-weight-700">Bold (700)</option>
+          <option value="800" i18n="@@font-weight-800">Extra bold (800)</option>
+          <option value="900" i18n="@@font-weight-900">Black (900)</option>
         </select>
-        <label for="file" class="cosmo-label" i18n>Datei</label>
+        <label for="file" class="cosmo-label" i18n="@@font-file">File</label>
         <input
           required
           type="file"
@@ -32,8 +32,8 @@
       </div>
     </div>
     <div class="cosmo-modal__button-bar">
-      <button class="cosmo-button" (click)="open = false" i18n>Abbrechen</button>
-      <button class="cosmo-button" type="submit" i18n>Datei hochladen</button>
+      <button class="cosmo-button" (click)="open = false" i18n="@@cancel">Cancel</button>
+      <button class="cosmo-button" type="submit" i18n="@@upload-file">Upload file</button>
     </div>
   </form>
 </div>
