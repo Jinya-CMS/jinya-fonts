@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/mux"
 	_ "github.com/sakirsensoy/genv/dotenv/autoload"
 	"go.mongodb.org/mongo-driver/mongo"
+	"golang.org/x/text/language"
 	"html/template"
 	admin "jinya-fonts/admin/api"
 	"jinya-fonts/api"
@@ -23,8 +24,6 @@ import (
 )
 
 var (
-	//go:embed frontend
-	frontend embed.FS
 	//go:embed angular/frontend/dist/browser
 	angular embed.FS
 	//go:embed admin/web/dist/browser
@@ -35,11 +34,13 @@ var (
 	adminOpenapi embed.FS
 	//go:embed static
 	static embed.FS
-	pages  = map[string]string{
-		"/":     "frontend/index.gohtml",
-		"/font": "frontend/font.gohtml",
-	}
 )
+
+type LanguageHandler struct {
+	defaultPath string
+	dePath      string
+	enPath      string
+}
 
 type SpaHandler struct {
 	embedFS      embed.FS
@@ -89,6 +90,28 @@ func (handler SpaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.ServeFileFS(w, r, handler.embedFS, fullPath)
+}
+
+func (handler LanguageHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	acceptLanguage, _, err := language.ParseAcceptLanguage(r.Header.Get("Accept-Language"))
+	if err != nil {
+		http.Redirect(w, r, handler.defaultPath, http.StatusFound)
+		return
+	}
+
+	de, _ := language.German.Base()
+	en, _ := language.English.Base()
+	for _, lang := range acceptLanguage {
+		if b, _ := lang.Base(); b.ISO3() == de.ISO3() {
+			http.Redirect(w, r, handler.dePath, http.StatusFound)
+			return
+		} else if b.ISO3() == en.ISO3() {
+			http.Redirect(w, r, handler.enPath, http.StatusFound)
+			return
+		}
+	}
+
+	http.Redirect(w, r, handler.defaultPath, http.StatusFound)
 }
 
 func main() {
@@ -156,11 +179,22 @@ func main() {
 
 		if config.LoadedConfiguration.ServeWebsite {
 			router.PathPrefix("/static/").Handler(http.FileServerFS(static))
-			router.PathPrefix("/").Handler(SpaHandler{
+			router.PathPrefix("/de").Handler(http.StripPrefix("/de", SpaHandler{
 				embedFS:      angular,
-				indexPath:    "angular/frontend/dist/browser/index.html",
-				fsPrefixPath: "angular/frontend/dist/browser",
+				indexPath:    "angular/frontend/dist/browser/de/index.html",
+				fsPrefixPath: "angular/frontend/dist/browser/de",
 				templated:    false,
+			}))
+			router.PathPrefix("/en").Handler(http.StripPrefix("/en", SpaHandler{
+				embedFS:      angular,
+				indexPath:    "angular/frontend/dist/browser/en/index.html",
+				fsPrefixPath: "angular/frontend/dist/browser/en",
+				templated:    false,
+			}))
+			router.PathPrefix("/").Handler(LanguageHandler{
+				defaultPath: "/en",
+				dePath:      "/de",
+				enPath:      "/en",
 			})
 		}
 
