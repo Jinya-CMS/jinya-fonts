@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../api/services/api.service';
 import { Webfont } from '../../api/models/webfont';
 import { previewTexts } from '../../ui/preview-panel/preview-panel.component';
@@ -25,7 +25,9 @@ export class StartPageComponent implements OnInit {
   loading = true;
   text = previewTexts.lorem;
   size = 24;
-  pageSize = Math.floor(window.innerHeight / (13 * 16));
+
+  @ViewChild('styleTester')
+  styleTester!: ElementRef<HTMLDivElement>;
 
   protected readonly Math = Math;
 
@@ -82,14 +84,30 @@ export class StartPageComponent implements OnInit {
   }
 
   setFontsToShow() {
-    let page = Math.floor((window.scrollY + window.innerHeight) / window.innerHeight) - 1;
+    const isSmall = matchMedia('screen and (max-width: 768px)');
+
+    let fontListHeight =
+      window.innerHeight -
+      (this.styleTester.nativeElement.clientHeight * 4.5 + this.styleTester.nativeElement.clientHeight * 6.5);
+    if (isSmall) {
+      fontListHeight = window.innerHeight;
+    }
+
+    const pageSize = Math.floor(fontListHeight / (this.styleTester.nativeElement.clientHeight * 13));
+
+    let page = Math.floor((window.scrollY + window.innerHeight) / fontListHeight) - 1;
     if (page < 0) {
       page = 0;
     }
 
-    const startIndex = page * this.pageSize;
-    const endIndex = startIndex * 4 + this.pageSize * 4 * 2 * 2;
-    this.fontsToShow = this.filteredWebfonts.slice(startIndex * 4, endIndex);
+    let startIndex = (page - 2) * pageSize;
+    if (startIndex < 0) {
+      startIndex = 0;
+    }
+
+    const itemsPerLine = isSmall ? 1 : 4;
+    const endIndex = page * pageSize * itemsPerLine + pageSize * 32;
+    this.fontsToShow = this.filteredWebfonts.slice(startIndex * itemsPerLine, endIndex);
   }
 
   @HostListener('window:scroll')

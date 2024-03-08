@@ -134,6 +134,8 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
+	} else if err != nil {
+		panic(err)
 	}
 
 	jobrunner.Start()

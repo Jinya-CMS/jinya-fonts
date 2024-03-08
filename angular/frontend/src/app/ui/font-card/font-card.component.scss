@@ -11,6 +11,7 @@
   @media screen and (max-width: 768px) {
     grid-row-start: var(--jinya-row-start-full);
     grid-row-end: var(--jinya-row-end-full);
+    max-width: 98vw;
   }
 }
 
@@ -24,6 +25,10 @@ a {
   display: block;
   font-family: var(--font-family-display);
   font-weight: var(--font-weight-card-title);
+
+  @media screen and (max-width: 768px) {
+    max-width: 98vw;
+  }
 }
 
 .jinya-card__subtitle {
@@ -34,6 +39,10 @@ a {
   text-overflow: ellipsis;
   display: block;
   white-space: nowrap;
+
+  @media screen and (max-width: 768px) {
+    max-width: 98vw;
+  }
 }
 
 .jinya-card__body {
@@ -42,4 +51,8 @@ a {
   word-wrap: anywhere;
   word-break: break-all;
   font-size: var(--jinya-card-font-size);
+
+  @media screen and (max-width: 768px) {
+    max-width: 98vw;
+  }
 }

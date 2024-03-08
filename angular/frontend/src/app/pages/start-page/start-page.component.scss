@@ -21,7 +21,7 @@
   grid-template-columns: repeat(4, var(--column-width));
   grid-template-rows: repeat(var(--jinya-row-count), 13rem);
 
-  @media screen and (max-width: 786px) {
+  @media screen and (max-width: 768px) {
     grid-template-columns: 98%;
     grid-template-rows: repeat(var(--jinya-row-count-full), 13rem);
   }
