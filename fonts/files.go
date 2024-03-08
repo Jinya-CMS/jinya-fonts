@@ -1,7 +1,9 @@
 package fonts
 
 import (
+	"bytes"
 	"fmt"
+	"io"
 	"jinya-fonts/database"
 	"net/http"
 	"strings"
@@ -21,7 +23,8 @@ func getMetadataFromFile(filename string) (name, weight, style, fileType string)
 	return
 }
 
-func getFontFile(path string) (data []byte, fontType string, err error) {
+func getFontFile(path string) (stream io.Reader, fontType string, err error) {
+	var data []byte
 	data, err = database.GetCachedFontFile(path)
 	if err != nil {
 		file, weight, style, fileType := getMetadataFromFile(path)
@@ -37,11 +40,25 @@ func getFontFile(path string) (data []byte, fontType string, err error) {
 			return
 		}
 
-		_ = database.AddCachedFontFile(file, weight, style, fileType, fileFromDatabase.Data, font.GoogleFont)
+		stream, err = database.GetFontFileData(fileFromDatabase)
+		if err != nil {
+			return
+		}
 
-		data = fileFromDatabase.Data
 		fontType = "font/" + fileFromDatabase.Type
+
+		go func(file, weight, style, fileType string, googleFont bool) {
+			stream, err := database.GetFontFileData(fileFromDatabase)
+			if err == nil {
+				buffer := bytes.Buffer{}
+				_, err = io.Copy(&buffer, stream)
+				if err == nil {
+					_ = database.AddCachedFontFile(file, weight, style, fileType, buffer.Bytes(), googleFont)
+				}
+			}
+		}(file, weight, style, fileType, font.GoogleFont)
 	} else {
+		stream = bytes.NewBuffer(data)
 		if strings.HasSuffix(path, "woff2") {
 			fontType = "font/woff2"
 		} else if strings.HasSuffix(path, "ttf") {
@@ -68,5 +85,5 @@ func (h fileHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", fileType)
 	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write(fontFile)
+	_, _ = io.Copy(w, fontFile)
 }

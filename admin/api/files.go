@@ -43,7 +43,7 @@ func createFontFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = database.SetFontFile(name, weight, style, fontType, fileBuffer.Bytes())
+	_, err = database.SetFontFile(name, weight, style, fontType, fileBuffer.Bytes(), false)
 	if err != nil {
 		http.Error(w, "Failed to create font file", http.StatusInternalServerError)
 		return
@@ -70,7 +70,7 @@ func updateFontFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = database.SetFontFile(name, weight, style, fontType, fileBuffer.Bytes())
+	_, err = database.SetFontFile(name, weight, style, fontType, fileBuffer.Bytes(), false)
 	if err != nil {
 		return
 	}

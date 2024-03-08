@@ -2,6 +2,7 @@ package database
 
 import (
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/gridfs"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"jinya-fonts/config"
@@ -41,6 +42,10 @@ func getFontsCollection(client *mongo.Client) *mongo.Collection {
 
 func getSettingsCollection(client *mongo.Client) *mongo.Collection {
 	return getDatabase(client).Collection("settings")
+}
+
+func getFontFileBucket(client *mongo.Client) (*gridfs.Bucket, error) {
+	return gridfs.NewBucket(getDatabase(client), options.GridFSBucket().SetName("font-files"))
 }
 
 func CheckMongo() bool {

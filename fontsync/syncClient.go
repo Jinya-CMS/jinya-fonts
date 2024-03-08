@@ -77,8 +77,9 @@ func downloadWoff2FontList() ([]GoogleWebfont, error) {
 	return webFontList.Items, nil
 }
 
-func downloadFontFiles(ttf bool, font GoogleWebfont, cpu int) (map[string]database.File, error) {
-	fontFiles := map[string]database.File{}
+func downloadFontFiles(ttf bool, font GoogleWebfont, cpu int) (fontFiles map[string]database.File, fontData map[string][]byte, err error) {
+	fontFiles = map[string]database.File{}
+	fontData = map[string][]byte{}
 
 	fileType := "woff2"
 	if ttf == true {
@@ -106,20 +107,20 @@ func downloadFontFiles(ttf bool, font GoogleWebfont, cpu int) (map[string]databa
 			continue
 		}
 
-		data, err := io.ReadAll(response.Body)
+		fileName := database.GetFontFileName(font.Family, weight, style, fileType, true)
+		fontData[fileName], err = io.ReadAll(response.Body)
 		if err != nil {
 			logWithCpu(cpu, "Failed to read font file data: %s", err.Error())
 			continue
 		}
 
-		fileName := database.GetFontFileName(font.Family, weight, style, fileType, true)
 		path := fmt.Sprintf("/fonts/%s", fileName)
+
 		fontFile := database.File{
 			Path:   path,
 			Weight: weight,
 			Style:  style,
 			Type:   fileType,
-			Data:   data,
 		}
 
 		if err != nil {
@@ -127,12 +128,12 @@ func downloadFontFiles(ttf bool, font GoogleWebfont, cpu int) (map[string]databa
 			continue
 		}
 
-		go database.AddCachedFontFile(font.Family, weight, style, fileType, data, true)
+		go database.AddCachedFontFile(font.Family, weight, style, fileType, fontData[fileName], true)
 
 		fontFiles[fileName] = fontFile
 	}
 
-	return fontFiles, nil
+	return
 }
 
 func handleWebfont(channel chan GoogleWebfont, wg *sync.WaitGroup, cpu int) {
@@ -143,7 +144,7 @@ func handleWebfont(channel chan GoogleWebfont, wg *sync.WaitGroup, cpu int) {
 			continue
 		}
 
-		fonts, err := downloadFontFiles(false, font, cpu)
+		fonts, files, err := downloadFontFiles(false, font, cpu)
 		if err != nil {
 			logWithCpu(cpu, "Failed to create new font: %s", err.Error())
 			continue
@@ -163,6 +164,15 @@ func handleWebfont(channel chan GoogleWebfont, wg *sync.WaitGroup, cpu int) {
 		if err != nil {
 			logWithCpu(cpu, "Failed to create new font: %s", err.Error())
 			continue
+		}
+
+		for p, file := range files {
+			meta := fonts[p]
+			_, err := database.SetFontFile(font.Family, meta.Weight, meta.Style, meta.Type, file, true)
+			if err != nil {
+				logWithCpu(cpu, "Failed to save font file: %s", err.Error())
+				continue
+			}
 		}
 	}
 

@@ -4,6 +4,7 @@ import (
 	"archive/zip"
 	"bytes"
 	"github.com/gosimple/slug"
+	"io"
 	"jinya-fonts/database"
 	"net/http"
 )
@@ -53,7 +54,7 @@ func downloadFont(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		_, err = zipFontFileWriter.Write(file)
+		_, err = io.Copy(zipFontFileWriter, file)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
