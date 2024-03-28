@@ -9,8 +9,9 @@ require (
 	github.com/redis/go-redis/v9 v9.5.1
 	github.com/sakirsensoy/genv v1.0.1
 	github.com/zitadel/zitadel-go/v3 v3.0.0-next.2
-	go-simpler.org/env v0.10.0
+	go-simpler.org/env v0.11.0
 	go.mongodb.org/mongo-driver v1.14.0
+	golang.org/x/text v0.14.0
 )
 
 require (
@@ -39,7 +40,6 @@ require (
 	golang.org/x/oauth2 v0.15.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.15.0 // indirect
-	golang.org/x/text v0.14.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
 )
