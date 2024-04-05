@@ -32,10 +32,26 @@ build:
   stage: build-golang
   script:
     - go vet .
-    - go build -o jinya-fonts
+    - go build -o $CI_PROJECT_DIR/jinya-fonts
   artifacts:
     paths:
       - $CI_PROJECT_DIR/jinya-fonts
+
+docker-build-test:
+  stage: deploy
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    pull_policy: always
+    entrypoint: [""]
+  before_script:
+    - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"},\"https://index.docker.io/v1/\":{\"auth\":\"$DOCKER_TOKEN\"}}}" > /kaniko/.docker/config.json
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --no-push
+  rules:
+    - if: $CI_BRANCH
 
 docker-build:
   stage: deploy
