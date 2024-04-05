@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "npm run build:admin && npm run build:admin",
+    "build": "npm run build:admin && npm run build:frontend",
     "build:admin": "ng build admin",
     "build:frontend": "ng build frontend",
     "build:dev": "npm run build:frontend:dev && npm run build:admin:dev",
