@@ -24,9 +24,9 @@ import (
 )
 
 var (
-	//go:embed angular/frontend/dist/browser
+	//go:embed angular/dist/frontend/browser
 	angular embed.FS
-	//go:embed admin/web/dist/browser
+	//go:embed angular/dist/admin/browser
 	angularAdmin embed.FS
 	//go:embed openapi
 	openapi embed.FS
@@ -175,15 +175,15 @@ func main() {
 		})
 		router.PathPrefix("/admin/de").Handler(http.StripPrefix("/admin/de", SpaHandler{
 			embedFS:      angularAdmin,
-			indexPath:    "admin/web/dist/browser/de/index.html",
-			fsPrefixPath: "admin/web/dist/browser/de",
+			indexPath:    "angular/dist/admin/browser/de/index.html",
+			fsPrefixPath: "angular/dist/admin/browser/de",
 			templated:    true,
 			templateData: config.LoadedConfiguration,
 		}))
 		router.PathPrefix("/admin/en").Handler(http.StripPrefix("/admin/en", SpaHandler{
 			embedFS:      angularAdmin,
-			indexPath:    "admin/web/dist/browser/en/index.html",
-			fsPrefixPath: "admin/web/dist/browser/en",
+			indexPath:    "angular/dist/admin/browser/en/index.html",
+			fsPrefixPath: "angular/dist/admin/browser/en",
 			templated:    true,
 			templateData: config.LoadedConfiguration,
 		}))
@@ -199,14 +199,14 @@ func main() {
 			router.PathPrefix("/static/").Handler(http.FileServerFS(static))
 			router.PathPrefix("/de").Handler(http.StripPrefix("/de", SpaHandler{
 				embedFS:      angular,
-				indexPath:    "angular/frontend/dist/browser/de/index.html",
-				fsPrefixPath: "angular/frontend/dist/browser/de",
+				indexPath:    "angular/dist/frontend/browser/de/index.html",
+				fsPrefixPath: "angular/dist/frontend/browser/de",
 				templated:    false,
 			}))
 			router.PathPrefix("/en").Handler(http.StripPrefix("/en", SpaHandler{
 				embedFS:      angular,
-				indexPath:    "angular/frontend/dist/browser/en/index.html",
-				fsPrefixPath: "angular/frontend/dist/browser/en",
+				indexPath:    "angular/dist/frontend/browser/en/index.html",
+				fsPrefixPath: "angular/dist/frontend/browser/en",
 				templated:    false,
 			}))
 			router.PathPrefix("/").Handler(LanguageHandler{

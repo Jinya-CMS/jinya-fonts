@@ -9,16 +9,7 @@
     <filePath value="$PROJECT_DIR$/app.go" />
     <method v="2">
       <option name="NpmBeforeRunTask" enabled="true">
-        <package-json value="$PROJECT_DIR$/angular/frontend/package.json" />
-        <command value="run" />
-        <scripts>
-          <script value="build:dev" />
-        </scripts>
-        <node-interpreter value="project" />
-        <envs />
-      </option>
-      <option name="NpmBeforeRunTask" enabled="true">
-        <package-json value="$PROJECT_DIR$/admin/web/package.json" />
+        <package-json value="$PROJECT_DIR$/angular/package.json" />
         <command value="run" />
         <scripts>
           <script value="build:dev" />

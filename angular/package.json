@@ -4,12 +4,17 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "build:dev": "ng build --configuration development",
-    "watch": "ng build --watch --configuration development",
+    "build": "npm run build:admin && npm run build:admin",
+    "build:admin": "ng build admin",
+    "build:frontend": "ng build frontend",
+    "build:dev": "npm run build:frontend:dev && npm run build:admin:dev",
+    "build:admin:dev": "ng build --configuration development admin",
+    "build:frontend:dev": "ng build --configuration development frontend",
+    "watch:admin": "ng build --watch --configuration development admin",
+    "watch:frontend": "ng build --watch --configuration development frontend",
     "test": "ng test",
-    "lint": "prettier --check src && eslint src",
-    "format": "prettier --write src"
+    "lint": "prettier --check projects && ng lint",
+    "format": "prettier --write projects"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +29,11 @@
     "@fontsource/albert-sans": "5.0.12",
     "@fontsource/oxygen-mono": "5.0.19",
     "@fontsource/urbanist": "5.0.19",
+    "@jinyacms/cosmo": "1.0.2",
+    "@tinymce/tinymce-angular": "7.0.0",
+    "angular-oauth2-oidc": "17.0.2",
+    "lucide-angular": "0.365.0",
+    "tinymce": "7.0.0",
     "rxjs": "7.8.1",
     "tslib": "2.6.2",
     "zone.js": "0.14.4"
@@ -40,7 +50,7 @@
     "@angular/localize": "17.3.3",
     "@typescript-eslint/eslint-plugin": "7.5.0",
     "@typescript-eslint/parser": "7.5.0",
-    "eslint": "9.0.0",
+    "eslint": "8.57.0",
     "prettier": "3.2.5",
     "typescript": "5.4.4"
   }

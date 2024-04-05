@@ -4,14 +4,14 @@
   "files": [
     {
       "format": "json",
-      "source": "angular/frontend/src/locale/messages.json",
-      "target": "angular/frontend/src/locale/messages.%slug%.json",
+      "source": "angular/projects/frontend/src/locale/messages.json",
+      "target": "angular/projects/frontend/src/locale/messages.%slug%.json",
       "namePattern": "parentDirectory"
     },
     {
       "format": "json",
-      "source": "admin/web/src/locale/messages.json",
-      "target": "admin/web/src/locale/messages.%slug%.json",
+      "source": "angular/projects/admin/src/locale/messages.json",
+      "target": "angular/projects/admin/src/locale/messages.%slug%.json",
       "namePattern": "parentDirectory"
     }
   ]
