@@ -1,6 +1,24 @@
-.angular-build:
+stages:
+  - lint
+  - build-angular
+  - build-golang
+  - deploy
+
+lint-angular:
+  image: library/node:latest
+  stage: lint
+  variables:
+    ANGULAR_DIR: $CI_PROJECT_DIR/angular
+  script:
+    - cd $ANGULAR_DIR
+    - npm install
+    - npm run lint
+
+build-angular:
   image: library/node:latest
   stage: build-angular
+  variables:
+    ANGULAR_DIR: $CI_PROJECT_DIR/angular
   script:
     - cd $ANGULAR_DIR
     - npm install
@@ -9,50 +27,15 @@
     paths:
       - $ANGULAR_DIR/dist
 
-.angular-lint:
-  image: library/node:latest
-  stage: lint
-  script:
-    - cd $ANGULAR_DIR
-    - npm install
-    - npm run lint
-
-stages:
-  - lint
-  - build-angular
-  - build-golang
-  - deploy
-
-lint-frontend:
-  extends:
-    - .angular-lint
-  variables:
-    ANGULAR_DIR: $CI_PROJECT_DIR/angular/frontend
-
-lint-admin:
-  extends:
-    - .angular-lint
-  variables:
-    ANGULAR_DIR: $CI_PROJECT_DIR/admin/web
-
-build-frontend:
-  extends:
-    - .angular-build
-  variables:
-    ANGULAR_DIR: $CI_PROJECT_DIR/angular/frontend
-
-build-admin:
-  extends:
-    - .angular-build
-  variables:
-    ANGULAR_DIR: $CI_PROJECT_DIR/admin/web
-
 build:
   image: library/golang:1.22-alpine
   stage: build-golang
   script:
     - go vet .
     - go build -o jinya-fonts
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/jinya-fonts
 
 docker-build:
   stage: deploy
