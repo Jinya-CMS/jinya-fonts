@@ -4,11 +4,7 @@ updates:
     directory: /
     schedule:
       interval: daily
-  - directory: /angular/frontend
-    schedule:
-      interval: daily
-    package-ecosystem: npm
-  - directory: /admin/web
+  - directory: /angular
     schedule:
       interval: daily
     package-ecosystem: npm
