@@ -11,7 +11,7 @@ require (
 	github.com/zitadel/zitadel-go/v3 v3.0.0-next.2
 	go-simpler.org/env v0.11.0
 	go.mongodb.org/mongo-driver v1.15.0
-	golang.org/x/text v0.14.0
+	golang.org/x/text v0.15.0
 )
 
 require (
