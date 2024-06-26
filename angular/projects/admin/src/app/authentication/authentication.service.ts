@@ -9,7 +9,7 @@ export class AuthenticationService {
   private isAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject$.asObservable();
 
-  public isAuthenticated: boolean = false;
+  public isAuthenticated = false;
 
   private isDoneLoadingSubject$ = new BehaviorSubject<boolean>(false);
   public isDoneLoading$ = this.isDoneLoadingSubject$.asObservable();
@@ -68,6 +68,7 @@ export class AuthenticationService {
         await this.navigateToLoginPage();
       }
     } catch (e) {
+      console.error(e);
       this.isDoneLoadingSubject$.next(true);
       await this.navigateToLoginPage();
     }

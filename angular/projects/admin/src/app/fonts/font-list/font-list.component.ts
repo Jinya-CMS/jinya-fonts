@@ -118,7 +118,7 @@ export class FontListComponent implements OnInit {
     };
   }
 
-  designersToString(designers: Array<Designer> | undefined) {
+  designersToString(designers: Designer[] | undefined) {
     return designers?.map((d) => d.name).join(', ') ?? '';
   }
 

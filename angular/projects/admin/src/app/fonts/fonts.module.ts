@@ -7,7 +7,7 @@ import { FontDetailsComponent } from './font-details/font-details.component';
 import { UiModule } from '../ui/ui.module';
 import { CreateFontDialogComponent } from './create-font-dialog/create-font-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EditorComponent } from '@tinymce/tinymce-angular';
+import { EditorModule } from '@tinymce/tinymce-angular';
 import { authGuard } from '../authentication/auth.guard';
 import { ConfirmComponent } from '../ui/confirm/confirm.component';
 import { EditFontDialogComponent } from './edit-font-dialog/edit-font-dialog.component';
@@ -34,7 +34,7 @@ import { UpdateFileDialogComponent } from './update-file-dialog/update-file-dial
     NgSwitch,
     UiModule,
     ReactiveFormsModule,
-    EditorComponent,
+    EditorModule,
     RouterModule.forChild([
       {
         path: 'font',
