@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthConfig, OAuthModule, OAuthModuleConfig, OAuthStorage } from 'angular-oauth2-oidc';
 import { AuthenticationService } from './authentication.service';
 import { authAppInitializerFactory } from './initializer.factory';
@@ -12,7 +12,6 @@ import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [LoginComponent],
   imports: [
-    HttpClientModule,
     CommonModule,
     OAuthModule.forRoot(),
     RouterModule.forChild([
@@ -22,7 +21,7 @@ import { LoginComponent } from './login/login.component';
       }
     ])
   ],
-  providers: [AuthenticationService]
+  providers: [AuthenticationService, provideHttpClient(withInterceptorsFromDi())]
 })
 export class AuthenticationModule {
   static forRoot(): ModuleWithProviders<AuthenticationModule> {
