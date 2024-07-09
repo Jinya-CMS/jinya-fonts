@@ -32,7 +32,7 @@
     "@jinyacms/cosmo": "1.0.2",
     "@tinymce/tinymce-angular": "8.0.0",
     "angular-oauth2-oidc": "17.0.2",
-    "lucide-angular": "0.400.0",
+    "lucide-angular": "0.406.0",
     "rxjs": "7.8.1",
     "tinymce": "6.8.4",
     "tslib": "2.6.3",
