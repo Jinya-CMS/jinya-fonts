@@ -8,7 +8,7 @@ require (
 	github.com/gosimple/slug v1.14.0
 	github.com/redis/go-redis/v9 v9.5.3
 	github.com/sakirsensoy/genv v1.0.1
-	github.com/zitadel/oidc/v3 v3.25.1
+	github.com/zitadel/oidc/v3 v3.26.0
 	github.com/zitadel/zitadel-go/v3 v3.0.0-next.2
 	go-simpler.org/env v0.12.0
 	go.mongodb.org/mongo-driver v1.16.0
@@ -22,7 +22,6 @@ require (
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
-	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/securecookie v1.1.2 // indirect
 	github.com/gosimple/unidecode v1.0.1 // indirect
 	github.com/klauspost/compress v1.17.9 // indirect
