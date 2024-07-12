@@ -30,7 +30,7 @@
     "@fontsource/oxygen-mono": "5.0.20",
     "@fontsource/urbanist": "5.0.20",
     "@jinyacms/cosmo": "1.0.2",
-    "@tinymce/tinymce-angular": "8.0.0",
+    "@tinymce/tinymce-angular": "8.0.1",
     "angular-oauth2-oidc": "17.0.2",
     "lucide-angular": "0.407.0",
     "rxjs": "7.8.1",
