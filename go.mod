@@ -6,7 +6,7 @@ require (
 	github.com/bamzi/jobrunner v1.0.0
 	github.com/gorilla/mux v1.8.1
 	github.com/gosimple/slug v1.14.0
-	github.com/redis/go-redis/v9 v9.5.3
+	github.com/redis/go-redis/v9 v9.5.4
 	github.com/sakirsensoy/genv v1.0.1
 	github.com/zitadel/oidc/v3 v3.26.0
 	github.com/zitadel/zitadel-go/v3 v3.0.0-next.2
