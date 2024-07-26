@@ -1,0 +1,563 @@
+openapi: "3.0.3"
+info:
+  title: "Jinya Fonts"
+  description: "Jinya Fonts"
+  version: "3.0.0"
+  contact:
+    name: Jinya Developers
+    url: https://jinya.de
+    email: developers@jinya.de
+  x-logo:
+    url: "/static/img/favicon.png"
+    backgroundColor: "#FFFFFF"
+    altText: "Jinya Fonts Logo"
+servers:
+  - url: "https://fonts.jinya.de"
+    description: The production instance of Jinya Fonts
+security:
+  - accessToken: [ ]
+paths:
+  /api/admin/font:
+    post:
+      operationId: createNewFont
+      security:
+        - accessToken: [ ]
+      summary: "Creates a new webfont"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/add-webfont"
+      responses:
+        "201":
+          description: "Created new font"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/webfont"
+  /api/admin/font/all:
+    get:
+      operationId: getAllFonts
+      security:
+        - accessToken: [ ]
+      summary: "Gets all fonts"
+      responses:
+        "404":
+          description: "No fonts found"
+          content:
+            text/plain:
+              example: "Not found"
+              schema:
+                description: "No fonts found error"
+        "200":
+          description: "A list with all fonts"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/webfont"
+  /api/admin/font/google:
+    get:
+      operationId: getGoogleFonts
+      security:
+        - accessToken: [ ]
+      summary: "Gets all google fonts"
+      responses:
+        "404":
+          description: "No fonts found"
+          content:
+            text/plain:
+              example: "Not found"
+              schema:
+                description: "No fonts found error"
+        "200":
+          description: "A list with all google fonts"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/webfont"
+    post:
+      operationId: syncGoogleFonts
+      responses:
+        204:
+          description: All fonts synced successfully
+      summary: Syncs all configured Google fonts
+  /api/admin/font/custom:
+    get:
+      operationId: getCustomFonts
+      security:
+        - accessToken: [ ]
+      summary: "Gets all custom fonts"
+      responses:
+        "404":
+          description: "No fonts found"
+          content:
+            text/plain:
+              example: "Not found"
+              schema:
+                description: "No fonts found error"
+        "200":
+          description: "A list with all custom fonts"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/webfont"
+  /api/admin/font/{fontName}:
+    get:
+      operationId: getFontByName
+      security:
+        - accessToken: [ ]
+      summary: "Gets the given font by name"
+      responses:
+        "404":
+          description: "The font was not found"
+          content:
+            text/plain:
+              example: "Not found"
+              schema:
+                description: "Font not found error"
+        "200":
+          description: "The font with the given name"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/webfont"
+    put:
+      operationId: updateFontByName
+      security:
+        - accessToken: [ ]
+      summary: "Updates the given font"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/update-webfont"
+      responses:
+        "404":
+          description: "The font was not found"
+          content:
+            text/plain:
+              example: "Not found"
+              schema:
+                description: "Font not found error"
+        "204":
+          description: "Successfully updated font"
+    delete:
+      operationId: deleteFontByName
+      security:
+        - accessToken: [ ]
+      summary: "Deletes the given font"
+      responses:
+        "404":
+          description: "The font was not found"
+          content:
+            text/plain:
+              example: "Not found"
+              schema:
+                description: "Font not found error"
+        "204":
+          description: "Successfully deleted font"
+    parameters:
+      - name: "fontName"
+        required: true
+        in: "path"
+        schema:
+          type: "string"
+  /api/admin/font/{fontName}/file:
+    get:
+      operationId: getFontFiles
+      security:
+        - accessToken: [ ]
+      summary: "Gets the files for the given font"
+      responses:
+        "404":
+          description: "The font was not found"
+          content:
+            text/plain:
+              example: "Not found"
+              schema:
+                description: "Font not found error"
+        "200":
+          description: "The font files for given font"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/metadata"
+    parameters:
+      - name: "fontName"
+        required: true
+        in: "path"
+        schema:
+          type: "string"
+  /api/admin/font/{fontName}/file/{fontWeight}.{fontStyle}.{fontType}:
+    post:
+      operationId: createFontFile
+      security:
+        - accessToken: [ ]
+      summary: "Uploads a new font file with the given parameters"
+      requestBody:
+        required: true
+        content:
+          font/woff2:
+            schema:
+              type: "string"
+              format: "binary"
+          font/ttf:
+            schema:
+              type: "string"
+              format: "binary"
+      responses:
+        "201":
+          description: "Uploaded font successfully"
+        "404":
+          description: "The font was not found"
+          content:
+            text/plain:
+              example: "Not found"
+              schema:
+                description: "Font not found error"
+    put:
+      operationId: updateFontFile
+      security:
+        - accessToken: [ ]
+      summary: "Replaces the font file of the given font and its parameters"
+      requestBody:
+        required: true
+        content:
+          font/woff2:
+            schema:
+              type: "string"
+              format: "binary"
+          font/ttf:
+            schema:
+              type: "string"
+              format: "binary"
+      responses:
+        "204":
+          description: "Uploaded font successfully"
+        "404":
+          description: "The font was not found"
+          content:
+            text/plain:
+              example: "Not found"
+              schema:
+                description: "Font not found error"
+    delete:
+      operationId: removeFontFile
+      security:
+        - accessToken: [ ]
+      summary: "Deletes the font file of the given font and its parameters"
+      responses:
+        "204":
+          description: "Deleted font file successfully"
+        "404":
+          description: "The font was not found"
+          content:
+            text/plain:
+              example: "Not found"
+              schema:
+                description: "Font not found error"
+    parameters:
+      - name: "fontName"
+        required: true
+        in: "path"
+        schema:
+          type: "string"
+      - name: "fontWeight"
+        required: true
+        in: "path"
+        schema:
+          type: "string"
+          enum:
+            - 100
+            - 200
+            - 300
+            - 400
+            - 500
+            - 600
+            - 700
+            - 800
+            - 900
+      - name: "fontStyle"
+        required: true
+        in: "path"
+        schema:
+          type: "string"
+          enum:
+            - "normal"
+            - "italic"
+      - name: "fontType"
+        required: true
+        in: "path"
+        schema:
+          type: "string"
+          enum:
+            - "woff2"
+            - "ttf"
+  /api/admin/font/{fontName}/designer:
+    get:
+      operationId: getFontDesigners
+      security:
+        - accessToken: [ ]
+      summary: "Gets the designers for the given font"
+      responses:
+        "404":
+          description: "The font was not found"
+          content:
+            text/plain:
+              example: "Not found"
+              schema:
+                description: "Font not found error"
+        "200":
+          description: "The designers for given font"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/designer"
+    post:
+      operationId: addFontDesigner
+      security:
+        - accessToken: [ ]
+      summary: "Adds a new designer to the given font"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/add-designer"
+      responses:
+        "201":
+          description: "Created new font"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/designer"
+    parameters:
+      - name: "fontName"
+        required: true
+        in: "path"
+        schema:
+          type: "string"
+  /api/admin/font/{fontName}/designer/{designerName}:
+    delete:
+      operationId: removeFontDesigner
+      security:
+        - accessToken: [ ]
+      summary: "Deletes given designer from the given font"
+      responses:
+        "204":
+          description: "Deleted designer successfully"
+        "404":
+          description: "The font was not found"
+          content:
+            text/plain:
+              example: "Not found"
+              schema:
+                description: "Font not found error"
+    parameters:
+      - name: "fontName"
+        required: true
+        in: "path"
+        schema:
+          type: "string"
+      - name: "designerName"
+        required: true
+        in: "path"
+        schema:
+          type: "string"
+  /api/admin/settings:
+    get:
+      operationId: getSettings
+      security:
+        - accessToken: [ ]
+      summary: "Gets the current settings"
+      responses:
+        "200":
+          description: "The settings"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/settings"
+    put:
+      operationId: updateSettings
+      security:
+        - accessToken: [ ]
+      summary: "Updates the current settings"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/settings"
+      responses:
+        "204":
+          description: "Successful updated"
+  /api/admin/status:
+    get:
+      operationId: getStatus
+      security:
+        - accessToken: [ ]
+      description: "Gets the status of Jinya Fonts"
+      responses:
+        200:
+          description: "The status of Jinya Fonts"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/status"
+components:
+  securitySchemes:
+    accessToken:
+      type: http
+      scheme: Bearer
+  schemas:
+    add-webfont:
+      title: "Add Webfont Request"
+      type: "object"
+      required:
+        - "name"
+        - "license"
+        - "category"
+        - "description"
+      properties:
+        name:
+          type: "string"
+        description:
+          type: "string"
+        license:
+          type: "string"
+        category:
+          type: "string"
+    webfont:
+      title: "Webfont"
+      type: "object"
+      required:
+        - "name"
+        - "license"
+        - "category"
+      properties:
+        name:
+          type: "string"
+        fonts:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/metadata"
+        description:
+          type: "string"
+        designers:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/designer"
+        license:
+          type: "string"
+        category:
+          type: "string"
+        googleFont:
+          type: "boolean"
+    metadata:
+      title: "Metadata"
+      type: "object"
+      required:
+        - "path"
+        - "weight"
+        - "style"
+      properties:
+        path:
+          type: "string"
+        weight:
+          type: "string"
+          enum:
+            - 100
+            - 200
+            - 300
+            - 400
+            - 500
+            - 600
+            - 700
+            - 800
+            - 900
+        style:
+          type: "string"
+          enum:
+            - "normal"
+            - "italic"
+        type:
+          type: "string"
+          enum:
+            - "woff2"
+            - "ttf"
+    designer:
+      title: "Designer"
+      type: "object"
+      required:
+        - "name"
+      properties:
+        name:
+          type: "string"
+        bio:
+          type: "string"
+    update-webfont:
+      title: "Update Webfont Request"
+      type: "object"
+      required:
+        - "license"
+        - "category"
+        - "description"
+      properties:
+        description:
+          type: "string"
+        license:
+          type: "string"
+        category:
+          type: "string"
+    add-designer:
+      title: "Add Designer Request"
+      type: "object"
+      required:
+        - "name"
+        - "bio"
+      properties:
+        name:
+          type: "string"
+        bio:
+          type: "string"
+    settings:
+      title: "Settings data"
+      type: "object"
+      required:
+        - "filterByName"
+      properties:
+        filterByName:
+          type: "array"
+          items:
+            type: "string"
+        syncEnabled:
+          type: boolean
+        syncInterval:
+          type: string
+    status:
+      title: "Status data"
+      type: "object"
+      required:
+        - jobIsScheduled
+        - mongoUp
+        - online
+        - redisUp
+        - servingWebsite
+      properties:
+        jobIsScheduled:
+          type: boolean
+        jobNextExecution:
+          type: string
+          format: date-time
+        online:
+          type: boolean
+        redisUp:
+          type: boolean
+        mongoUp:
+          type: boolean
+        servingWebsite:
+          type: boolean

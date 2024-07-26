@@ -1,0 +1,58 @@
+:host {
+  border: 0.0625rem solid var(--border-color);
+  box-sizing: border-box;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  color: var(--text-color);
+  height: 13rem;
+  grid-row-start: var(--jinya-row-start);
+  grid-row-end: var(--jinya-row-end);
+
+  @media screen and (max-width: 768px) {
+    grid-row-start: var(--jinya-row-start-full);
+    grid-row-end: var(--jinya-row-end-full);
+    max-width: 98vw;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.jinya-card__title {
+  font-size: 1.5rem;
+  display: block;
+  font-family: var(--font-family-display);
+  font-weight: var(--font-weight-card-title);
+
+  @media screen and (max-width: 768px) {
+    max-width: 98vw;
+  }
+}
+
+.jinya-card__subtitle {
+  font-family: var(--font-family-display);
+  font-weight: var(--font-weight-card-title);
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  white-space: nowrap;
+
+  @media screen and (max-width: 768px) {
+    max-width: 98vw;
+  }
+}
+
+.jinya-card__body {
+  max-height: 7.75rem;
+  overflow: hidden;
+  word-wrap: anywhere;
+  word-break: break-all;
+  font-size: var(--jinya-card-font-size);
+
+  @media screen and (max-width: 768px) {
+    max-width: 98vw;
+  }
+}

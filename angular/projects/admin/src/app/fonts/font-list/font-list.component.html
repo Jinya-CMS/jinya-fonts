@@ -1,0 +1,198 @@
+<div class="cosmo-side-list">
+  <nav class="cosmo-side-list__items">
+    <a
+      routerLink="/font/all"
+      class="cosmo-side-list__item"
+      [class.is--active]="activeSideItem === ActiveSideItem.All"
+      (click)="changeSideItem($event, ActiveSideItem.All)"
+      i18n="@@font-list-all-fonts"
+    >
+      All fonts
+    </a>
+    <a
+      routerLink="/font/google"
+      class="cosmo-side-list__item"
+      [class.is--active]="activeSideItem === ActiveSideItem.Google"
+      (click)="changeSideItem($event, ActiveSideItem.Google)"
+      i18n="@@font-list-google-fonts"
+    >
+      Google Fonts
+    </a>
+    <a
+      routerLink="/font/custom"
+      class="cosmo-side-list__item"
+      [class.is--active]="activeSideItem === ActiveSideItem.Custom"
+      (click)="changeSideItem($event, ActiveSideItem.Custom)"
+      i18n="@@font-list-custom-fonts"
+    >
+      Custom fonts
+    </a>
+  </nav>
+  <div class="cosmo-side-list__content" [class.is--loading]="loading">
+    <h1 class="cosmo-title">
+      @switch (activeSideItem) {
+        @case (ActiveSideItem.All) {
+          <ng-container i18n="@@font-list-all-fonts">All fonts</ng-container>
+        }
+        @case (ActiveSideItem.Google) {
+          <ng-container i18n="@@font-list-google-fonts">Google Fonts</ng-container>
+        }
+        @case (ActiveSideItem.Custom) {
+          <ng-container i18n="@@font-list-custom-fonts">Custom fonts</ng-container>
+        }
+      }
+    </h1>
+    <div class="cosmo-toolbar">
+      <div class="cosmo-toolbar__group">
+        @if (activeSideItem !== ActiveSideItem.Google) {
+          <button class="cosmo-button" (click)="createFont.open = true" i18n="@@create-font">New font</button>
+        }
+        @if (activeSideItem !== ActiveSideItem.Custom) {
+          <button class="cosmo-button" (click)="syncFonts()" i18n="@@sync-google-fonts">
+            Synchronize Google Fonts
+          </button>
+        }
+      </div>
+      <div class="cosmo-toolbar__group cosmo-input__group">
+        <label for="nameSearch" i18n="@@filter-by-name">Filter by name</label>
+        <input
+          class="cosmo-input"
+          type="search"
+          id="nameSearch"
+          [value]="activeFilter.name"
+          (input)="filterFonts({ category: filterByCategory.value, name: filterByName.value })"
+          #filterByName
+        />
+      </div>
+      <div class="cosmo-toolbar__group cosmo-input__group">
+        <label for="categorySearch" i18n="@@filter-by-category">Filter by category</label>
+        <select
+          class="cosmo-select"
+          id="categorySearch"
+          #filterByCategory
+          [value]="activeFilter.category"
+          (input)="filterFonts({ category: filterByCategory.value, name: filterByName.value })"
+        >
+          <option value="All" i18n="@@all-fonts">All fonts</option>
+          <option value="Sans Serif" i18n="@@font-style-sans-serif">Sans-serif</option>
+          <option value="Serif" i18n="@@font-style-serif">Serif</option>
+          <option value="Monospace" i18n="@@font-style-monospace">Monospace</option>
+          <option value="Display" i18n="@@font-style-display">Display</option>
+          <option value="Handwriting" i18n="@@font-style-handwriting">Handwriting</option>
+        </select>
+      </div>
+    </div>
+    <div class="table-container">
+      <table class="cosmo-table is--full-width">
+        <thead>
+          <tr>
+            <th i18n="@@font-name">Name</th>
+            <th i18n="@@font-category">Category</th>
+            <th i18n="@@font-designers">Designer</th>
+            <th i18n="@@font-license">License</th>
+            @if (activeSideItem === ActiveSideItem.All) {
+              <th i18n="@@font-google-font">Google Font</th>
+            }
+            <th i18n="@@font-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (loading) {
+            <tr>
+              <td [colSpan]="activeSideItem === ActiveSideItem.All ? 6 : 5">
+                <app-loading-spinner></app-loading-spinner>
+              </td>
+            </tr>
+          } @else {
+            @for (font of filteredFonts; track font.name) {
+              <tr>
+                <td>{{ font.name }}</td>
+                <td>{{ font.category }}</td>
+                <td>{{ designersToString(font.designers) }}</td>
+                <td>
+                  @switch (font.license) {
+                    @case ('apache2') {
+                      <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0">
+                        Apache License, Version 2.0
+                      </a>
+                    }
+                    @case ('ofl') {
+                      <a target="_blank" href="https://openfontlicense.org/">Open Font License</a>
+                    }
+                    @case ('ufl') {
+                      <a target="_blank" href="https://font.ubuntu.com/ufl/">Ubuntu Font License</a>
+                    }
+                    @default {
+                      {{ font.license }}
+                    }
+                  }
+                </td>
+                @if (activeSideItem === ActiveSideItem.All) {
+                  <td>
+                    @if (font.googleFont) {
+                      <lucide-icon [img]="Check" />
+                    } @else {
+                      <lucide-icon [img]="X" />
+                    }
+                  </td>
+                }
+                <td>
+                  <div class="cosmo-toolbar__group">
+                    <a href="/download?font={{ font.name }}" class="cosmo-button" i18n="@@download-zip">Download ZIP</a>
+                    <a [routerLink]="['/font/detail', font.name]" class="cosmo-button" i18n="@@details">Details</a>
+                    @if (activeSideItem !== ActiveSideItem.Google) {
+                      <button
+                        [disabled]="font.googleFont"
+                        class="cosmo-button"
+                        (click)="openDelete(font)"
+                        i18n="@@delete"
+                      >
+                        Delete
+                      </button>
+                    }
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td [colSpan]="activeSideItem === ActiveSideItem.All ? 6 : 5">
+                  @switch (activeSideItem) {
+                    @case (ActiveSideItem.Google) {
+                      <ng-container i18n="@@font-list-no-google">
+                        You have no fonts synced from Google Fonts yet
+                      </ng-container>
+                    }
+                    @case (ActiveSideItem.Custom) {
+                      <ng-container i18n="@@font-list-no-custom"> You didn't create any fonts yet </ng-container>
+                    }
+                    @case (ActiveSideItem.All) {
+                      <ng-container i18n="@@font-list-no-all">
+                        You neither created nor synchronized fonts yet
+                      </ng-container>
+                    }
+                  }
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<app-create-font-dialog [open]="false" #createFont />
+<app-confirm
+  [open]="deleteFontOpen"
+  title="Delete font"
+  confirmLabel="Delete font"
+  declineLabel="Keep font"
+  [negative]="true"
+  (decline)="deleteFontOpen = false"
+  (confirm)="deleteFont()"
+  i18n="@@delete-font-message"
+  i18n-title="@@delete-font-title"
+  i18n-confirmLabel="@@delete-font-confirm-label"
+  i18n-declineLabel="@@delete-font-decline-label"
+>
+  Do you really want to delete the font {{ selectedFont?.name }}?
+</app-confirm>

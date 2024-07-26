@@ -1,0 +1,22 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="go build jinya-fonts serve" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="jinya-fonts" />
+    <working_directory value="$PROJECT_DIR$" />
+    <parameters value="serve" />
+    <kind value="PACKAGE" />
+    <package value="jinya-fonts" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/app.go" />
+    <method v="2">
+      <option name="NpmBeforeRunTask" enabled="true">
+        <package-json value="$PROJECT_DIR$/angular/package.json" />
+        <command value="run" />
+        <scripts>
+          <script value="build:dev" />
+        </scripts>
+        <node-interpreter value="project" />
+        <envs />
+      </option>
+    </method>
+  </configuration>
+</component>

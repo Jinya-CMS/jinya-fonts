@@ -1,7 +1,5 @@
-FROM quay.imanuel.dev/dockerhub/library---golang:1.17-alpine
-WORKDIR /app
-COPY . .
+FROM library/alpine:latest
 
-RUN go build -o jinya-fonts
+COPY jinya-fonts /app/jinya-fonts
 
-CMD ["/app/jinya-fonts"]
+CMD ["/app/jinya-fonts", "serve"]

@@ -1,0 +1,90 @@
+@if (loading) {
+  <div class="jinya-loader"></div>
+} @else {
+  <h1 class="jinya-font-details__title">{{ font.name }}</h1>
+  <span class="jinya-font-details__designers-hint" i18n="@@detail-designed-by">Designed by {{ designers }}</span>
+  <h2 class="jinya-font-details__title jinya-font-details__title--about" i18n="@@detail-about">
+    About {{ font.name }}
+  </h2>
+  <div class="jinya-font-details__about-paragraphs" i18n="@@detail-description" [innerHtml]="font.description"></div>
+  <h3 class="jinya-font-details__title jinya-font-details__title--license" i18n="@@license">License</h3>
+  <p>
+    @switch (font.license) {
+      @case ('apache2') {
+        <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>
+      }
+      @case ('ofl') {
+        <a target="_blank" href="https://openfontlicense.org/">Open Font License</a>
+      }
+      @case ('ufl') {
+        <a target="_blank" href="https://font.ubuntu.com/ufl/">Ubuntu Font License</a>
+      }
+      @default {
+        {{ font.license }}
+      }
+    }
+  </p>
+  <hr />
+  <div class="jinya-font-links">
+    <h3 class="jinya-font-details__title jinya-font-details__title--code" i18n="@@usage-in-html">
+      Usage code for HTML
+    </h3>
+    <pre class="jinya-font-links__code">{{ fontHtml }}</pre>
+    <h3 class="jinya-font-details__title jinya-font-details__title--code" i18n="@@usage-in-css">Font family in CSS</h3>
+    <pre class="jinya-font-links__code">{{ fontCss }}</pre>
+    <div class="jinya-font-links__download">
+      <h3 class="jinya-font-details__title jinya-font-details__title--code" i18n="@@download-title">
+        Download CSS and font files
+      </h3>
+      <a
+        [href]="'/download?font=' + font.name"
+        class="jinya-font-details__button jinya-font-details__add-to-css"
+        i18n="@@download-button"
+      >
+        Download
+      </a>
+    </div>
+  </div>
+  <hr />
+  <div>
+    <app-preview-panel
+      class="jinya-settings-panel--details"
+      (previewSizeChange)="previewSize = $event"
+      (previewTextChange)="previewText = $event"
+    />
+  </div>
+  <h2 class="jinya-font-details__title jinya-font-details__title--code" i18n="@@font-preview-title">Font preview</h2>
+  <div class="jinya-font-details__style-container">
+    @for (file of font.fonts; track font) {
+      <h3 class="jinya-font-details__style-title">
+        {{ font.name }} {{ file.weight }} {{ file.style }}
+        <button
+          class="jinya-font-details__add-to-css"
+          (click)="toggleFont(file)"
+          [class.jinya-font-details__add-to-css--active]="selectedFiles.includes(file)"
+          i18n="@@font-preview-add-to-code"
+        >
+          Add to code
+        </button>
+      </h3>
+      <span
+        class="jinya-font-details__style-preview"
+        [style.font-weight]="file.weight"
+        [style.font-style]="file.style"
+        [style.font-family]="font.name"
+        [style.font-size.px]="previewSize"
+      >
+        {{ previewText }}
+      </span>
+    }
+  </div>
+  <hr />
+  <div class="jinya-font-details__designer">
+    <h2 class="jinya-font-details__title jinya-font-details__title--designers" i18n="@@designers">Designers</h2>
+    @for (designer of font.designers; track designer) {
+      <h3 class="jinya-font-details__designer-name">{{ designer.name }}</h3>
+      <div class="jinya-font-details__designer-bio" [innerHtml]="designer.bio"></div>
+    }
+  </div>
+  <link [href]="styleUrl" rel="stylesheet" type="text/css" />
+}

@@ -1,0 +1,44 @@
+:root {
+  --primary-color: #19324c;
+  --text-color: #333;
+  --white: #fff;
+  --control-border-color: #ccc;
+  --code-color: #fafafa;
+  --border-color: var(--primary-color);
+  --checkmark-color: var(--white);
+  --no-match-color: var(--primary-color);
+
+  --checkbox-size: 1rem;
+  --checkbox-mark-longarm: 0.5rem;
+  --checkbox-mark-shortarm: 0.125rem;
+  --checkbox-mark-stroke-width: 0.0625rem;
+
+  --input-border-width: 0.0625rem;
+
+  --border-radius: 0.25rem;
+
+  --transition-duration: 0.3s;
+
+  --font-family-default: 'Albert Sans', sans-serif;
+  --font-family-display: Urbanist, display;
+  --font-family-monospace: 'Oxygen Mono', monospace;
+
+  --font-weight-button: 200;
+  --font-weight-title: 200;
+  --font-weight-hint: 300;
+  --font-weight-card-title: 300;
+  --font-weight-style-title: 200;
+  --font-weight-designer-name: 400;
+  --font-weight-default: 300;
+
+  @media screen and (prefers-color-scheme: dark) {
+    --primary-color: #0f1e2e;
+    --text-color: #ccc;
+    --white: #000;
+    --control-border-color: #333;
+    --code-color: #333;
+    --border-color: var(--control-border-color);
+    --checkmark-color: #fff;
+    --no-match-color: var(--text-color);
+  }
+}

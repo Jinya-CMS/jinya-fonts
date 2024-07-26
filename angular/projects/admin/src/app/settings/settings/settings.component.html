@@ -1,0 +1,76 @@
+@if (loading) {
+  <app-loading-spinner />
+}
+@defer (when !loading) {
+  <span class="cosmo-title" i18n="@@settings">Settings</span>
+  <div class="container">
+    <fieldset class="jinya-fieldset">
+      <legend class="jinya-legend" i18n="@@synchronization">Synchronization</legend>
+      <div class="cosmo-message is--information">
+        <span class="cosmo-message__header" i18n="@@synchronization-settings-title"> Synchronization settings </span>
+        <p class="cosmo-message__message" i18n="@@synchronization-settings-message">
+          Here you can configure how often the synchronization should run, or disable the automatic run entirely.
+        </p>
+      </div>
+      <form [formGroup]="settingsForm">
+        <div class="cosmo-input__group">
+          <div class="cosmo-input__group is--switch">
+            <input type="checkbox" id="enableSync" class="cosmo-switch" formControlName="syncEnabled" #enableSync />
+            <label for="enableSync" i18n="@@synchronization-settings-enable">Automatic synchronization enabled</label>
+          </div>
+          <label for="syncInterval" class="cosmo-label" i18n="@@synchronization-settings-interval">
+            Synchronization interval
+          </label>
+          <select class="cosmo-select is--small" id="syncInterval" formControlName="syncInterval">
+            <option value="0 0 * * *" i18n="@@synchronization-settings-interval-daily">Daily</option>
+            <option value="0 0 * * 0" i18n="@@synchronization-settings-interval-weekly">Weekly</option>
+            <option value="0 0 1 * *" i18n="@@synchronization-settings-interval-monthly">Monthly</option>
+          </select>
+        </div>
+      </form>
+    </fieldset>
+    <fieldset class="jinya-fieldset">
+      <legend class="jinya-legend" i18n="@@settings-filter">Font filter</legend>
+      <div class="cosmo-message is--information">
+        <span class="cosmo-message__header" i18n="@@settings-filter-title">Fonts to synchronize</span>
+        <p class="cosmo-message__message" i18n="@@settings-filter-message">
+          Here you can set which fonts you want to synchronize from Google fonts. If the list is empty all fonts are
+          synchronized.
+        </p>
+      </div>
+      <div>
+        @for (font of onlyFetchFonts; track font) {
+          <span class="font-filter">
+            {{ font }}
+            <button class="cosmo-button is--negative is--small is--circle" (click)="removeFilteredFont(font)">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+              </svg>
+            </button>
+          </span>
+        }
+        <form class="add-filter-form" [formGroup]="addFilterForm" (submit)="addFilter()">
+          <div class="cosmo-input__group">
+            <label for="addFilterName" class="cosmo-label" i18n="@@font-family">Family</label>
+            <input required type="text" id="addFilterName" class="cosmo-input" formControlName="filterName" />
+          </div>
+          <div class="cosmo-button__container">
+            <button class="cosmo-button is--primary" type="submit" i18n="@@settings-add-filter">Add filter</button>
+          </div>
+        </form>
+      </div>
+    </fieldset>
+    <div class="cosmo-button__container">
+      <button class="cosmo-button" (click)="loadData()" i18n="@@reset">Reset</button>
+      <button class="cosmo-button is--primary" (click)="saveSettings()" i18n="@@save-settings">Save settings</button>
+    </div>
+  </div>
+}

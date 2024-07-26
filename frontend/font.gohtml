@@ -1,0 +1,60 @@
+{{define "content"}}
+    <div id="content">
+        <div class="jinya-loader"></div>
+    </div>
+    <template id="content-tmpl">
+        <h1 class="jinya-font-details__title">#= name #</h1>
+        <span class="jinya-font-details__designers-hint">Designed by #= designers #</span>
+        <h2 class="jinya-font-details__title jinya-font-details__title--about">About #= name #</h2>
+        <div class="jinya-font-details__about-paragraphs">#= about #</div>
+        <h3 class="jinya-font-details__title jinya-font-details__title--license">License</h3>
+        <p id="font-license"></p>
+        <hr>
+        <div class="jinya-font-links">
+            <h3 class="jinya-font-details__title jinya-font-details__title--code">Usage code for HTML</h3>
+            <pre class="jinya-font-links__code" id="font-html-link"></pre>
+            <h3 class="jinya-font-details__title jinya-fon6t-details__title--code">Font family in CSS</h3>
+            <pre class="jinya-font-links__code" id="font-css"></pre>
+            <div class="jinya-font-links__download">
+                <h3 class="jinya-font-details__title jinya-font-details__title--code">Download CSS and font files</h3>
+                <a href="" class="jinya-font-details__button jinya-font-details__add-to-css-label"
+                   id="font-download-link">Download</a>
+            </div>
+            <hr>
+        </div>
+        <div class="jinya-settings-panel jinya-settings-panel--details">
+            <select aria-label="Preview type" id="previewtype" class="jinya-preview__type">
+                <option value="custom">Custom</option>
+                <option value="alphabet">Alphabet</option>
+                <option value="lorem" selected>Lorem Ipsum</option>
+                <option value="numbers">Numbers</option>
+            </select>
+            <input aria-label="Preview text" id="previewtext" placeholder="Type text to preview..." type="text" class="jinya-preview__text">
+            <span id="previewsizetext" class="jinya-preview__size-text">24px</span>
+            <input aria-label="Preview size" id="previewsize" type="range" value="24" max="240" min="8" class="jinya-preview__size">
+        </div>
+        <h3 class="jinya-font-details__title jinya-font-details__title--code">Font preview</h3>
+        <div class="jinya-font-details__style-container">#= style-preview-container #</div>
+        <hr>
+        <div class="jinya-font-details__designer">
+            <h2 class="jinya-font-details__title jinya-font-details__title--designers">Designers</h2>
+            #= style-designers #
+        </div>
+    </template>
+    <template id="style-preview">
+        <h3 class="jinya-font-details__style-title">
+            #= title #
+            <input type="checkbox" data-role="select" data-weight="#= weight #" data-style="#= style #"
+                   class="jinya-font-details__add-to-css-box"
+                   id="#= weight #-#= style #"><label class="jinya-font-details__add-to-css-label"
+                                                      for="#= weight #-#= style #">Add to code</label>
+        </h3>
+        <span data-role="preview" class="jinya-font-details__style-preview"
+              style="font-weight: #= weight #; font-style: #= style #; font-family: #= family #">Lorem ipsum dolor sit amet.</span>
+    </template>
+    <template id="designer-details">
+        <h3 class="jinya-font-details__designer-name">#= designer #</h3>
+        <div class="jinya-font-details__designer-bio">#= bio #</div>
+    </template>
+    <script src="/static/js/jinya-font.js" type="module"></script>
+{{end}}

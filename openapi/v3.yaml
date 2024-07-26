@@ -1,0 +1,163 @@
+openapi: "3.0.3"
+info:
+  title: "Jinya Fonts"
+  description: "Jinya Fonts"
+  version: "3.0.0"
+  contact:
+    name: Jinya Developers
+    url: https://jinya.de
+    email: developers@jinya.de
+  x-logo:
+    url: "/static/img/favicon.png"
+    backgroundColor: "#FFFFFF"
+    altText: "Jinya Fonts Logo"
+servers:
+  - url: "https://fonts.jinya.de"
+    description: The production instance of Jinya Fonts
+paths:
+  /api/font:
+    get:
+      operationId: getFonts
+      summary: "Gets all fonts"
+      responses:
+        "404":
+          description: "No fonts found"
+          content:
+            text/plain:
+              example: "Not found"
+              schema:
+                description: "No fonts found error"
+        "200":
+          description: "A list with all fonts"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/webfont"
+  /api/font/{fontName}:
+    get:
+      operationId: getFontByName
+      summary: "Gets the given font by name"
+      responses:
+        "404":
+          description: "The font was not found"
+          content:
+            text/plain:
+              example: "Not found"
+              schema:
+                description: "Font not found error"
+        "200":
+          description: "The font with the given name"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/webfont"
+    parameters:
+      - name: "fontName"
+        required: true
+        in: "path"
+        schema:
+          type: "string"
+  /api/font/{fontName}/file:
+    get:
+      operationId: getFontFilesByName
+      summary: "Gets the files for the given font"
+      responses:
+        "404":
+          description: "The font was not found"
+          content:
+            text/plain:
+              example: "Not found"
+              schema:
+                description: "Font not found error"
+        "200":
+          description: "The font files for given font"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/metadata"
+    parameters:
+      - name: "fontName"
+        required: true
+        in: "path"
+        schema:
+          type: "string"
+  /api/font/{fontName}/designer:
+    get:
+      operationId: getFontDesignersByName
+      summary: "Gets the designers for the given font"
+      responses:
+        "404":
+          description: "The font was not found"
+          content:
+            text/plain:
+              example: "Not found"
+              schema:
+                description: "Font not found error"
+        "200":
+          description: "The designers for given font"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/designer"
+    parameters:
+      - name: "fontName"
+        required: true
+        in: "path"
+        schema:
+          type: "string"
+components:
+  schemas:
+    webfont:
+      title: "Webfont"
+      type: "object"
+      required:
+        - "name"
+        - "license"
+        - "category"
+      properties:
+        name:
+          type: "string"
+        fonts:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/metadata"
+        description:
+          type: "string"
+        designers:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/designer"
+        license:
+          type: "string"
+        category:
+          type: "string"
+        googleFont:
+          type: "boolean"
+    metadata:
+      title: "Metadata"
+      type: "object"
+      required:
+        - "path"
+        - "weight"
+        - "style"
+      properties:
+        path:
+          type: "string"
+        weight:
+          type: "string"
+        style:
+          type: "string"
+        type:
+          type: "string"
+    designer:
+      title: "Designer"
+      type: "object"
+      required:
+        - "name"
+      properties:
+        name:
+          type: "string"
+        bio:
+          type: "string"
