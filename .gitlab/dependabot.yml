@@ -14,7 +14,3 @@ updates:
           - version-update:semver-minor
           - version-update:semver-patch
         dependency-name: lucide-angular
-      - update-types:
-          - version-update:semver-major
-          - version-update:semver-minor
-        dependency-name: typescript
