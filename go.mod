@@ -8,10 +8,10 @@ require (
 	github.com/gosimple/slug v1.14.0
 	github.com/redis/go-redis/v9 v9.6.1
 	github.com/sakirsensoy/genv v1.0.1
-	github.com/zitadel/oidc/v3 v3.29.1
+	github.com/zitadel/oidc/v3 v3.30.0
 	github.com/zitadel/zitadel-go/v3 v3.0.3
 	go-simpler.org/env v0.12.0
-	go.mongodb.org/mongo-driver v1.16.1
+	go.mongodb.org/mongo-driver v1.17.0
 	golang.org/x/text v0.18.0
 )
 
