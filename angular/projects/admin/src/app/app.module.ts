@@ -1,4 +1,4 @@
-import { NgModule, provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { NgIf } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
@@ -36,9 +36,6 @@ import { SettingsModule } from './settings/settings.module';
     )
   ],
   bootstrap: [AppComponent],
-  providers: [
-    provideExperimentalZonelessChangeDetection(),
-    { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }
-  ]
+  providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }]
 })
 export class AppModule {}
