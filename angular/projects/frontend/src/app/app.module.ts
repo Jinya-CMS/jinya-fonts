@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
+import { NgModule, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { AppComponent } from './app.component';
 import { NgIf } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { ApiModule } from './api/api.module';
 import { UiModule } from './ui/ui.module';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { PagesModule } from './pages/pages.module';
 
 @NgModule({
@@ -14,7 +14,6 @@ import { PagesModule } from './pages/pages.module';
     ApiModule.forRoot({ rootUrl: '' }),
     BrowserModule,
     NgIf,
-    HttpClientModule,
     RouterLink,
     UiModule.forRoot(),
     PagesModule.forRoot(),
@@ -24,6 +23,7 @@ import { PagesModule } from './pages/pages.module';
       bindToComponentInputs: true
     })
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [provideExperimentalZonelessChangeDetection(), provideHttpClient(withInterceptorsFromDi())]
 })
 export class AppModule {}

@@ -2,6 +2,7 @@ github.com/bamzi/jobrunner v1.0.0 h1:80hmOkXhj0dCeJZx+dLwGvOFLr3PVEcLYpw3+YbG1YM
 github.com/bamzi/jobrunner v1.0.0/go.mod h1:ZNk2RGqvkuB9747EVGeyyAdCiS2VKi2KBznDLxjUu9M=
 github.com/bmatcuk/doublestar/v4 v4.6.1 h1:FH9SifrbvJhnlQpztAx++wlkk70QBf0iBWDwNy7PA4I=
 github.com/bmatcuk/doublestar/v4 v4.6.1/go.mod h1:xBQ8jztBU6kakFMg+8WGxn0c6z1fTSPVIjEY1Wr7jzc=
+github.com/bmatcuk/doublestar/v4 v4.7.1 h1:fdDeAqgT47acgwd9bd9HxJRDmc9UAmPpc+2m0CXv75Q=
 github.com/bsm/ginkgo/v2 v2.12.0 h1:Ny8MWAHyOepLGlLKYmXG4IEkioBysk6GpaRTLC8zwWs=
 github.com/bsm/ginkgo/v2 v2.12.0/go.mod h1:SwYbGRRDovPVboqFv0tPTcG1sN61LM1Z4ARdbAV9g4c=
 github.com/bsm/gomega v1.27.10 h1:yeMWxP2pV2fG3FgAODIY8EiRE3dy0aeFYt4l7wh6yKA=
@@ -105,6 +106,8 @@ github.com/zitadel/oidc/v3 v3.30.0 h1:1IuZlK+X+JLExEA2PYgRlVvWHBhz/cMwT7VL/YrQab
 github.com/zitadel/oidc/v3 v3.30.0/go.mod h1:+I5BgvGO5C2ZJrQRjV34EjkyA7P3GXyYGZgXI8Sdw18=
 github.com/zitadel/oidc/v3 v3.30.1 h1:CCi9qDjleuRYbECfUoVKrrN97KdheNCHAs33X8XnIRg=
 github.com/zitadel/oidc/v3 v3.30.1/go.mod h1:N5p02vx+mLUwf+WFNpDsNp+8DS8+jlgFBwpz7NIQjrg=
+github.com/zitadel/oidc/v3 v3.31.0 h1:XQcTVHTYpSkNxjGccEb6pRfrGJdUhkTgXOIzSqRXdo0=
+github.com/zitadel/oidc/v3 v3.31.0/go.mod h1:DyE/XClysRK/ozFaZSqlYamKVnTh4l6Ln25ihSNI03w=
 github.com/zitadel/schema v1.3.0 h1:kQ9W9tvIwZICCKWcMvCEweXET1OcOyGEuFbHs4o5kg0=
 github.com/zitadel/schema v1.3.0/go.mod h1:NptN6mkBDFvERUCvZHlvWmmME+gmZ44xzwRXwhzsbtc=
 github.com/zitadel/zitadel-go/v3 v3.0.0-next.2 h1:w0lnLvijwQwkrUEA74loenNR9udRAaq6rccjlMSA+4U=

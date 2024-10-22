@@ -8,7 +8,7 @@ require (
 	github.com/gosimple/slug v1.14.0
 	github.com/redis/go-redis/v9 v9.7.0
 	github.com/sakirsensoy/genv v1.0.1
-	github.com/zitadel/oidc/v3 v3.30.1
+	github.com/zitadel/oidc/v3 v3.31.0
 	github.com/zitadel/zitadel-go/v3 v3.2.0
 	go-simpler.org/env v0.12.0
 	go.mongodb.org/mongo-driver v1.17.1
