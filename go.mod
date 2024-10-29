@@ -9,7 +9,7 @@ require (
 	github.com/redis/go-redis/v9 v9.7.0
 	github.com/sakirsensoy/genv v1.0.1
 	github.com/zitadel/oidc/v3 v3.31.0
-	github.com/zitadel/zitadel-go/v3 v3.2.0
+	github.com/zitadel/zitadel-go/v3 v3.2.1
 	go-simpler.org/env v0.12.0
 	go.mongodb.org/mongo-driver v1.17.1
 	golang.org/x/text v0.19.0
