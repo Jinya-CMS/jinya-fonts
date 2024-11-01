@@ -15,8 +15,8 @@
 
     <script>
       const jinyaConfig = {
-        openIdClientId: '{{.OpenIDClientId}}',
-        openIdUrl: 'https://{{.OpenIDDomain}}',
+        openIdClientId: '{{.OidcFrontendClientId}}',
+        openIdUrl: 'https://{{.OidcDomain}}',
         openIdCallbackUrl: '{{.GetRedirectUrl}}',
         openIdLogoutRedirectUrl: '{{.ServerUrl}}'
       };

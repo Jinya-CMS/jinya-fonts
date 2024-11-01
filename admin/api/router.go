@@ -2,10 +2,7 @@ package api
 
 import (
 	"context"
-	"crypto/rand"
-	"encoding/base64"
 	"github.com/gorilla/mux"
-	"github.com/zitadel/oidc/v3/pkg/client"
 	"github.com/zitadel/zitadel-go/v3/pkg/authorization"
 	"github.com/zitadel/zitadel-go/v3/pkg/authorization/oauth"
 	"github.com/zitadel/zitadel-go/v3/pkg/http/middleware"
@@ -26,20 +23,9 @@ func contentTypeJson() func(next http.Handler) http.Handler {
 
 func SetupAdminApiRouter(router *mux.Router) {
 	ctx := context.Background()
-	encryptionKey := make([]byte, 32)
-	_, err := rand.Read(encryptionKey)
-	if err != nil {
-		panic(err)
-	}
 
-	keyFileData, err := base64.StdEncoding.DecodeString(config.LoadedConfiguration.OpenIDKeyFileData)
-	if err != nil {
-		panic(err)
-	}
-
-	keyFile, err := client.ConfigFromKeyFileData(keyFileData)
-	zitadelConfig := oauth.WithIntrospection[*oauth.IntrospectionContext](oauth.JWTProfileIntrospectionAuthentication(keyFile))
-	authZ, err := authorization.New(ctx, zitadel.New(config.LoadedConfiguration.OpenIDDomain), zitadelConfig)
+	zitadelConfig := oauth.WithIntrospection[*oauth.IntrospectionContext](oauth.ClientIDSecretIntrospectionAuthentication(config.LoadedConfiguration.OidcServerClientId, config.LoadedConfiguration.OidcServerClientSecret))
+	authZ, err := authorization.New(ctx, zitadel.New(config.LoadedConfiguration.OidcDomain), zitadelConfig)
 
 	if err != nil {
 		panic(err)
