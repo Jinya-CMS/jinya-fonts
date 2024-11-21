@@ -3,6 +3,21 @@
     <module name="jinya-fonts" />
     <working_directory value="$PROJECT_DIR$" />
     <parameters value="serve" />
+    <envs>
+      <env name="MONGO_URL" value="mongodb://jinya:jinya@localhost:27017/" />
+      <env name="MONGO_DATABASE" value="jinya-fonts" />
+      <env name="REDIS_URL" value="redis://localhost:6379" />
+      <env name="GOOGLE_API_KEY" value="AIzaSyDhsBuK0TmKX7JzN_YD_hyu8rOKgWUCQPo" />
+      <env name="SERVE_WEBSITE" value="true" />
+      <env name="OPENID_CLIENT_ID" value="256582243827384326@imanuel.dev" />
+      <env name="OPENID_DOMAIN" value="auth.ulbricht.cloud" />
+      <env name="ENCRYPTION_KEY" value="HXW73U9Ob9V2NWA5islcCz1A0qBOQcro" />
+      <env name="SERVER_URL" value="http://localhost:8090" />
+      <env name="OIDC_DOMAIN" value="zitadel.jinya.de" />
+      <env name="OIDC_FRONTEND_CLIENT_ID" value="291921784796676098" />
+      <env name="OIDC_SERVER_CLIENT_ID" value="291921841788878850" />
+      <env name="OIDC_SERVER_CLIENT_SECRET" value="rTKOVziQbS0HD4QyKwHjZL8fdakYYc07xyXwcgTZj0137odnY3c5SgcSWNwgxrTd" />
+    </envs>
     <kind value="PACKAGE" />
     <package value="jinya-fonts" />
     <directory value="$PROJECT_DIR$" />
