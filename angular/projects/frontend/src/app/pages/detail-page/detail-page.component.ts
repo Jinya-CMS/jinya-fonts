@@ -9,7 +9,8 @@ import { previewTexts } from '../../ui/preview-panel/preview-panel.component';
 @Component({
   selector: 'app-detailpage',
   templateUrl: './detail-page.component.html',
-  styleUrl: './detail-page.component.scss'
+  styleUrl: './detail-page.component.scss',
+  standalone: false
 })
 export class DetailPageComponent implements OnInit {
   loading = true;

@@ -19,7 +19,8 @@ enum ActiveSideItem {
 @Component({
   selector: 'app-font-list',
   templateUrl: './font-list.component.html',
-  styleUrl: './font-list.component.scss'
+  styleUrl: './font-list.component.scss',
+  standalone: false
 })
 export class FontListComponent implements OnInit {
   @Input() type!: string;

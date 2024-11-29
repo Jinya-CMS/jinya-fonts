@@ -16,7 +16,8 @@ enum ActiveSideListItem {
 @Component({
   selector: 'app-font-details',
   templateUrl: './font-details.component.html',
-  styleUrl: './font-details.component.scss'
+  styleUrl: './font-details.component.scss',
+  standalone: false
 })
 export class FontDetailsComponent implements OnInit {
   @Input() fontName!: string;

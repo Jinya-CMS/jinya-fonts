@@ -7,7 +7,8 @@ import { Metadata } from '../../api/models/metadata';
 
 @Component({
   selector: 'app-update-file-dialog',
-  templateUrl: './update-file-dialog.component.html'
+  templateUrl: './update-file-dialog.component.html',
+  standalone: false
 })
 export class UpdateFileDialogComponent {
   editFileForm = new FormGroup({

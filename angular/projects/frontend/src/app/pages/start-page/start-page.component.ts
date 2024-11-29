@@ -14,7 +14,8 @@ interface WebfontWithRow extends Webfont {
 @Component({
   selector: 'app-startpage',
   templateUrl: './start-page.component.html',
-  styleUrl: './start-page.component.scss'
+  styleUrl: './start-page.component.scss',
+  standalone: false
 })
 export class StartPageComponent implements OnInit {
   constructor(private apiService: ApiService) {}

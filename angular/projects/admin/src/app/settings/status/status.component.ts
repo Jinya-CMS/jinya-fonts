@@ -6,7 +6,8 @@ import { CheckCircle, XCircle } from 'lucide-angular';
 @Component({
   selector: 'app-status',
   templateUrl: './status.component.html',
-  styleUrl: './status.component.scss'
+  styleUrl: './status.component.scss',
+  standalone: false
 })
 export class StatusComponent implements OnInit {
   loading = true;

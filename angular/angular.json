@@ -30,7 +30,8 @@
             "index": "projects/admin/src/index.html",
             "browser": "projects/admin/src/main.ts",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "@angular/localize/init"
             ],
             "tsConfig": "projects/admin/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -150,7 +151,8 @@
             "index": "projects/frontend/src/index.html",
             "browser": "projects/frontend/src/main.ts",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "@angular/localize/init"
             ],
             "tsConfig": "projects/frontend/tsconfig.app.json",
             "i18nMissingTranslation": "error",

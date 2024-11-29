@@ -5,7 +5,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrl: './settings.component.scss'
+  styleUrl: './settings.component.scss',
+  standalone: false
 })
 export class SettingsComponent implements OnInit {
   onlyFetchFonts: string[] = [];

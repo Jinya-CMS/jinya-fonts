@@ -3,7 +3,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-confirm',
-  standalone: true,
   imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './confirm.component.html'
 })

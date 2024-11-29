@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf, inject, provideAppInitializer } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthConfig, OAuthModule, OAuthModuleConfig, OAuthStorage } from 'angular-oauth2-oidc';
@@ -28,7 +28,10 @@ export class AuthenticationModule {
     return {
       ngModule: AuthenticationModule,
       providers: [
-        { provide: APP_INITIALIZER, useFactory: authAppInitializerFactory, deps: [AuthenticationService], multi: true },
+        provideAppInitializer(() => {
+          const initializerFn = authAppInitializerFactory(inject(AuthenticationService));
+          return initializerFn();
+        }),
         { provide: AuthConfig, useValue: authConfig },
         { provide: OAuthModuleConfig, useValue: authModuleConfig },
         { provide: OAuthStorage, useValue: localStorage }

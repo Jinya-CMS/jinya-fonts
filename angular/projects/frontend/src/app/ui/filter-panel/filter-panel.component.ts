@@ -14,7 +14,8 @@ export interface WebfontFilter {
 @Component({
   selector: 'app-settings-panel',
   templateUrl: './filter-panel.component.html',
-  styleUrl: './filter-panel.component.scss'
+  styleUrl: './filter-panel.component.scss',
+  standalone: false
 })
 export class FilterPanelComponent {
   @Output() previewSizeChange = new EventEmitter<number>();

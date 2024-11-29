@@ -7,7 +7,8 @@ import { Webfont } from '../../api/models/webfont';
 @Component({
   selector: 'app-edit-font-dialog',
   templateUrl: './edit-font-dialog.component.html',
-  styleUrl: './edit-font-dialog.component.scss'
+  styleUrl: './edit-font-dialog.component.scss',
+  standalone: false
 })
 export class EditFontDialogComponent {
   @Input() font!: Webfont;

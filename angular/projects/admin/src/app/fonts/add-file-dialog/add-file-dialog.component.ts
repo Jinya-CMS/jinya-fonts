@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-file-dialog',
-  templateUrl: './add-file-dialog.component.html'
+  templateUrl: './add-file-dialog.component.html',
+  standalone: false
 })
 export class AddFileDialogComponent {
   createFileForm = new FormGroup({

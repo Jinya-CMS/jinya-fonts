@@ -5,7 +5,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-font-card',
   templateUrl: './font-card.component.html',
-  styleUrl: './font-card.component.scss'
+  styleUrl: './font-card.component.scss',
+  standalone: false
 })
 export class FontCardComponent implements OnInit {
   @Input() font!: Webfont;

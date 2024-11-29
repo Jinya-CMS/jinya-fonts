@@ -10,7 +10,6 @@ export const previewTexts = {
 
 @Component({
   selector: 'app-preview-panel',
-  standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './preview-panel.component.html',
   styleUrl: './preview-panel.component.scss'

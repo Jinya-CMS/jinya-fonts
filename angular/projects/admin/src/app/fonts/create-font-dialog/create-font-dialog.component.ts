@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-create-font-dialog',
   templateUrl: './create-font-dialog.component.html',
-  styleUrl: './create-font-dialog.component.scss'
+  styleUrl: './create-font-dialog.component.scss',
+  standalone: false
 })
 export class CreateFontDialogComponent {
   createFontForm = new FormGroup({
