@@ -5,13 +5,13 @@ go 1.23.0
 require (
 	github.com/bamzi/jobrunner v1.0.0
 	github.com/gorilla/mux v1.8.1
-	github.com/gosimple/slug v1.14.0
+	github.com/gosimple/slug v1.15.0
 	github.com/redis/go-redis/v9 v9.7.0
 	github.com/sakirsensoy/genv v1.0.1
-	github.com/zitadel/zitadel-go/v3 v3.3.1
+	github.com/zitadel/zitadel-go/v3 v3.3.2
 	go-simpler.org/env v0.12.0
 	go.mongodb.org/mongo-driver v1.17.1
-	golang.org/x/text v0.20.0
+	golang.org/x/text v0.21.0
 )
 
 require (
@@ -35,12 +35,13 @@ require (
 	github.com/zitadel/logging v0.6.1 // indirect
 	github.com/zitadel/oidc/v3 v3.33.1 // indirect
 	github.com/zitadel/schema v1.3.0 // indirect
-	go.opentelemetry.io/otel v1.32.0 // indirect
-	go.opentelemetry.io/otel/metric v1.32.0 // indirect
-	go.opentelemetry.io/otel/trace v1.32.0 // indirect
-	golang.org/x/crypto v0.29.0 // indirect
-	golang.org/x/exp v0.0.0-20241108190413-2d47ceb2692f // indirect
+	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
+	go.opentelemetry.io/otel v1.33.0 // indirect
+	go.opentelemetry.io/otel/metric v1.33.0 // indirect
+	go.opentelemetry.io/otel/trace v1.33.0 // indirect
+	golang.org/x/crypto v0.31.0 // indirect
+	golang.org/x/exp v0.0.0-20241217172543-b2144cdd0a67 // indirect
 	golang.org/x/oauth2 v0.24.0 // indirect
-	golang.org/x/sync v0.9.0 // indirect
-	golang.org/x/sys v0.27.0 // indirect
+	golang.org/x/sync v0.10.0 // indirect
+	golang.org/x/sys v0.28.0 // indirect
 )
