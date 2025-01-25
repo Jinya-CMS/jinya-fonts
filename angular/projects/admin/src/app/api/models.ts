@@ -1,5 +1,5 @@
 /* tslint:disable */
- 
+
 export { AddDesigner } from './models/add-designer';
 export { AddWebfont } from './models/add-webfont';
 export { Designer } from './models/designer';

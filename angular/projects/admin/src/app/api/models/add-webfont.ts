@@ -1,5 +1,5 @@
 /* tslint:disable */
- 
+
 export interface AddWebfont {
   category: string;
   description: string;

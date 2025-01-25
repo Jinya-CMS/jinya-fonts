@@ -1,5 +1,5 @@
 /* tslint:disable */
- 
+
 export interface Status {
   jobIsScheduled: boolean;
   jobNextExecution?: string;

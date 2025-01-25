@@ -1,5 +1,5 @@
 /* tslint:disable */
- 
+
 import { HttpResponse } from '@angular/common/http';
 
 /**

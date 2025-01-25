@@ -1,5 +1,5 @@
 /* tslint:disable */
- 
+
 export interface Metadata {
   path: string;
   style: 'normal' | 'italic';
