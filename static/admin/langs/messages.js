@@ -1,4 +1,4 @@
-{
+export default {
   "logout": "Logout",
   "back": "Back",
   "fonts": "Fonts",
@@ -114,4 +114,4 @@
   "status-redis": "Redis",
   "status-google-fonts": "Google Fonts job active",
   "status-job-execution": "Next job execution"
-}
+};

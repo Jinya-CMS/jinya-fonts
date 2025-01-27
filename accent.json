@@ -3,9 +3,9 @@
   "project": "80cc8308-a813-42be-9841-eefa8fb0b0c9",
   "files": [
     {
-      "format": "json",
-      "source": "angular/projects/frontend/src/locale/messages.json",
-      "target": "angular/projects/frontend/src/locale/messages.%slug%.json",
+      "format": "es6_module",
+      "source": "static/admin/langs/messages.js",
+      "target": "static/admin/langs/messages.%slug%.js",
       "namePattern": "parentDirectory"
     },
     {
