@@ -32,12 +32,16 @@
 
         <link rel="stylesheet" type="text/css" href="/static/admin/css/login.css" />
         <link rel="stylesheet" type="text/css" href="/static/admin/css/page.css" />
+        <link rel="stylesheet" type="text/css" href="/static/admin/css/fonts.css" />
+        <link rel="stylesheet" type="text/css" href="/static/admin/css/cosmo-edits.css" />
+        <link rel="stylesheet" type="text/css" href="/static/admin/lib/jodit/jodit.css" />
 
+        <script src="/static/admin/lib/ui/loader.js"></script>
         <script>
           window.jinyaConfig = {
             openIdClientId: '{{ .OidcFrontendClientId }}',
             openIdUrl: 'https://{{ .OidcDomain }}',
-            openIdCallbackUrl: `${location.origin}/admin/login/callback`
+            openIdCallbackUrl: `${location.origin}/admin/login/callback`,
           };
         </script>
     </head>
@@ -120,6 +124,11 @@
             ></template>
 
             <template
+                    x-route="/font/detail/:name"
+                    x-handler="[$store.authentication.needsLogin, $store.navigation.fetchScript]"
+                    x-template="/static/admin/templates/font/detail.html"
+            ></template>
+            <template
                     x-route="/font/:page"
                     x-handler="[$store.authentication.needsLogin, $store.navigation.fetchScript]"
                     x-template="/static/admin/templates/font/page.html"
@@ -128,6 +137,25 @@
             <template
                     x-route="notfound"
                     x-handler="(ctx) => ctx.redirect('/admin/font/all')"></template>
+        </div>
+        <template x-if="$store.authentication.loggedIn && $store.syncProgress.syncStatusText">
+            <div class="cosmo-bottom-bar">
+                <span class="cosmo-progress-bar__label" x-text="$store.syncProgress.syncStatusText"></span>
+                <template x-if="$store.syncProgress.fontsSyncing">
+                    <progress class="cosmo-progress-bar"></progress>
+                </template>
+                <template x-if="!$store.syncProgress.fontsSyncing">
+                    <progress
+                            class="cosmo-progress-bar"
+                            :class="{ 'is--negative': $store.syncProgress.fontsSyncFailure, 'is--positive': $store.syncProgress.fontsSyncSuccess, }"
+                            value="1"
+                            max="1"
+                    ></progress>
+                </template>
+            </div>
+        </template>
+        <div class="jinya-loader__container" style="min-height: 100vh" x-show="!$store.loaded">
+            <jinya-loader></jinya-loader>
         </div>
     </main>
     <script src="/static/admin/index.js" type="module"></script>

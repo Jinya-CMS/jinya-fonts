@@ -1,35 +1,18 @@
 stages:
   - lint
-  - build-angular
-  - build-golang
+  - build
   - deploy
 
-lint-angular:
+lint:
   image: library/node:latest
   stage: lint
-  variables:
-    ANGULAR_DIR: $CI_PROJECT_DIR/angular
   script:
-    - cd $ANGULAR_DIR
     - npm install -f
     - npm run lint
 
-build-angular:
-  image: library/node:latest
-  stage: build-angular
-  variables:
-    ANGULAR_DIR: $CI_PROJECT_DIR/angular
-  script:
-    - cd $ANGULAR_DIR
-    - npm install -f
-    - npm run build
-  artifacts:
-    paths:
-      - $ANGULAR_DIR/dist
-
 build:
   image: library/golang:1.23-alpine
-  stage: build-golang
+  stage: build
   script:
     - go vet .
     - go build -o $CI_PROJECT_DIR/$ARCH/jinya-fonts

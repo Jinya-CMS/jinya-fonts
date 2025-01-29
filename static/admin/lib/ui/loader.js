@@ -9,12 +9,20 @@ class LoaderElement extends HTMLElement {
     this.root.innerHTML = `
       <style>
         :host {
+          display: flex;
+          height: 100%;
+          width: 100%;
+          justify-content: center;
+          align-items: center;
+        }
+        
+        div.dots {
           width: 8rem;
           height: 8rem;
           position: relative;
         }
         
-        div {
+        div.dot {
           width: 8rem;
           height: 8rem;
           animation: dwl-dot-spin 5s infinite linear both;
@@ -84,15 +92,17 @@ class LoaderElement extends HTMLElement {
           }
         }
       </style>
-      <div style="--i: 0"></div>
-      <div style="--i: 1"></div>
-      <div style="--i: 2"></div>
-      <div style="--i: 3"></div>
-      <div style="--i: 4"></div>
-      <div style="--i: 5"></div>`;
+      <div class="dots">
+        <div class="dot" style="--i: 0"></div>
+        <div class="dot" style="--i: 1"></div>
+        <div class="dot" style="--i: 2"></div>
+        <div class="dot" style="--i: 3"></div>
+        <div class="dot" style="--i: 4"></div>
+        <div class="dot" style="--i: 5"></div>
+      </div>`;
   }
 }
 
-if (!customElements.get('cms-loader')) {
-  customElements.define('cms-loader', LoaderElement);
+if (!customElements.get('jinya-loader')) {
+  customElements.define('jinya-loader', LoaderElement);
 }

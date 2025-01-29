@@ -5,7 +5,7 @@ import * as client from './openid-client/index.js';
 let authenticationConfiguration = {
   openIdUrl: '',
   openIdClientId: '',
-  openIdCallbackUrl: ''
+  openIdCallbackUrl: '',
 };
 let scriptBasePath = '/static/js/';
 let languages = {};
@@ -72,15 +72,15 @@ export async function needsLogout(context) {
 export async function performLogin(context) {
   const config = await client.discovery(
     new URL(window.jinyaConfig.openIdUrl),
-    window.jinyaConfig.openIdClientId
+    window.jinyaConfig.openIdClientId,
   );
 
   const tokenResponse = await client.authorizationCodeGrant(
     config,
     new URL(location.href),
     {
-      pkceCodeVerifier: getCodeVerifier()
-    }
+      pkceCodeVerifier: getCodeVerifier(),
+    },
   );
   setAccessToken(tokenResponse.access_token);
   Alpine.store('authentication').login();
@@ -94,7 +94,7 @@ export async function checkLogin() {
 
   const config = await client.discovery(
     new URL(authenticationConfiguration.openIdUrl),
-    authenticationConfiguration.openIdClientId
+    authenticationConfiguration.openIdClientId,
   );
 
   try {
@@ -105,8 +105,8 @@ export async function checkLogin() {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getAccessToken()}`
-      }
+        'Authorization': `Bearer ${getAccessToken()}`,
+      },
     });
 
     return response.status === 200;
@@ -122,7 +122,7 @@ export async function fetchScript({ route }) {
     await import(`${scriptBasePath}${area}/${page?.replaceAll(':', '') ?? 'index'}.js`);
     Alpine.store('navigation').navigate({
       area,
-      page: page ?? 'index'
+      page: page ?? 'index',
     });
   }
 }
@@ -153,7 +153,7 @@ export function localize({ key, values = {} }) {
 export async function openIdLogin() {
   const config = await client.discovery(
     new URL(authenticationConfiguration.openIdUrl),
-    authenticationConfiguration.openIdClientId
+    authenticationConfiguration.openIdClientId,
   );
   const redirectUrl = authenticationConfiguration.openIdCallbackUrl;
   const codeVerifier = client.randomPKCECodeVerifier();
@@ -162,7 +162,7 @@ export async function openIdLogin() {
     redirect_uri: redirectUrl,
     scope: 'openid profile',
     code_challenge: codeChallenge,
-    code_challenge_method: 'S256'
+    code_challenge_method: 'S256',
   };
   const redirectTo = client.buildAuthorizationUrl(config, parameters);
   setCodeVerifier(codeVerifier);
@@ -178,7 +178,7 @@ export function setupLocalization(Alpine, langs) {
       getValues((values) => {
         const localized = localize({
           key: value,
-          values
+          values,
         });
 
         if (modifiers.includes('html')) {
@@ -219,6 +219,15 @@ async function setupAlpine(alpine, defaultArea, defaultPage) {
       }
     });
   });
+  Alpine.directive('active', (el, { expression }, { Alpine, effect }) => {
+    effect(() => {
+      if (Alpine.evaluate(el, expression)) {
+        el.classList.add('is--active');
+      } else {
+        el.classList.remove('is--active');
+      }
+    });
+  });
 
   Alpine.store('loaded', false);
   Alpine.store('authentication', {
@@ -236,7 +245,7 @@ async function setupAlpine(alpine, defaultArea, defaultPage) {
       window.PineconeRouter.context.navigate('/login');
       this.loggedIn = false;
       this.roles = [];
-    }
+    },
   });
   Alpine.store('navigation', {
     fetchScript,
@@ -245,7 +254,7 @@ async function setupAlpine(alpine, defaultArea, defaultPage) {
     navigate({ area, page }) {
       this.area = area;
       this.page = page;
-    }
+    },
   });
 }
 
@@ -259,7 +268,7 @@ export async function setup({
                               openIdCallbackUrl = undefined,
                               languages = [],
                               afterSetup = () => {
-                              }
+                              },
                             }) {
   window.Alpine = Alpine;
 
@@ -275,9 +284,9 @@ export async function setup({
 
   setupRouting(baseScriptPath, routerBasePath);
 
-  Alpine.start();
-
   await afterSetup();
+
+  Alpine.start();
 
   Alpine.store('loaded', true);
 }

@@ -1,0 +1,12 @@
+.cosmo-toolbar__group .cosmo-button:not(:first-of-type) {
+  border-left-width: 0 !important;
+}
+
+.cosmo-toolbar__group .cosmo-button:not(:first-child) {
+  border-left-width: 0.0625rem;
+}
+
+.cosmo-toolbar__group .cosmo-button:first-of-type:first-child {
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+}
