@@ -1,5 +1,5 @@
 import '../jodit/jodit.js';
-import { getLanguage, localize } from '../../../lib/jinya-alpine-tools.js';
+import { getLanguage } from '../../../lib/jinya-alpine-tools.js';
 
 function setJoditIcons() {
   Jodit.modules.Icon.icons = {
@@ -127,26 +127,6 @@ function setJoditIcons() {
   };
 }
 
-function setContextMenu(editor) {
-  const { ContextMenu } = Jodit.modules;
-  const contextMenu = new ContextMenu(editor);
-  editor.events.on(editor.editor, 'contextmenu', (e) => {
-    e.preventDefault();
-
-    if (editor.selection.isCollapsed()) {
-      contextMenu.show(e.clientX, e.clientY, [
-        {
-          title: localize({ key: 'jodit.insert_image' }),
-          icon: 'image',
-          exec: () => {
-            insertImage(editor);
-          },
-        },
-      ]);
-    }
-  });
-}
-
 function getInlineToolbar() {
   return ['bold', 'italic', 'underline', 'strikethrough', '|', 'brush', 'fontsize', '|', 'ul', 'ol', 'paragraph', 'link', 'align'];
 }
@@ -201,8 +181,6 @@ export function createJodit(idOrElement, inline = false, height = undefined) {
     data.buttons = getFullToolbar();
     data.extraButtons = ['fullsize', 'source'];
   }
-  const editor = Jodit.make(idOrElement, data);
-  setContextMenu(editor);
 
-  return editor;
+  return Jodit.make(idOrElement, data);
 }

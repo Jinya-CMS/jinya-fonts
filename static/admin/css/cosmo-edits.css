@@ -10,3 +10,7 @@
   border-top-left-radius: var(--border-radius);
   border-bottom-left-radius: var(--border-radius);
 }
+
+.cosmo-tab__content.is--designer {
+  height: calc(var(--page-height) - var(--tab-links-height) - var(--tab-gap) - var(--title-font-size) - 0.5rem);
+}

@@ -1,5 +1,5 @@
 import { Alpine } from '../../../lib/alpine.js';
-import { get, httpDelete } from '../../../lib/jinya-http.js';
+import { get, httpDelete, post } from '../../../lib/jinya-http.js';
 
 import '../../lib/ui/toolbar-editor.js';
 import confirm from '../../lib/ui/confirm.js';
@@ -11,6 +11,10 @@ Alpine.data('fontDetailsData', () => ({
   font: null,
   activeDesigner: null,
   editDesignerOn: false,
+  newDesigner: {
+    name: '',
+    bio: '',
+  },
   get fontName() {
     return this.$router.params.name;
   },
@@ -24,7 +28,29 @@ Alpine.data('fontDetailsData', () => ({
   changeSideItem(item) {
     this.activeSideItem = item;
   },
-  openEditFontDialog() {},
+  openEditFontDialog() {
+  },
+  editDesigner() {
+    this.activeDesigner.editBio = this.activeDesigner.bio;
+    this.editDesignerOn = true;
+  },
+  async createNewDesigner() {
+    const newDesigner = await post(`/api/admin/font/${this.fontName}/designer`, this.newDesigner);
+    this.font.designers = [...this.font.designers, newDesigner];
+    this.newDesigner.name = '';
+    this.newDesigner.bio = '';
+  },
+  async updateDesigner() {
+    await httpDelete(`/api/admin/font/${this.fontName}/designer/${this.activeDesigner.name}`);
+    const updatedDesigner = await post(`/api/admin/font/${this.fontName}/designer`, {
+      bio: this.activeDesigner.editBio,
+      name: this.activeDesigner.name,
+    });
+    this.font.designers = [...this.font.designers.filter(d => d.name !== this.activeDesigner.name), updatedDesigner];
+    this.activeDesigner = updatedDesigner;
+    this.activeDesigner.editBio = updatedDesigner.bio;
+    this.editDesignerOn = false;
+  },
   async deleteFont() {
     if (
       await confirm({
@@ -37,6 +63,21 @@ Alpine.data('fontDetailsData', () => ({
     ) {
       await httpDelete(`/api/admin/font/${this.font.name}`);
       this.$router.navigate('/font/all');
+    }
+  },
+  async removeDesigner() {
+    if (
+      await confirm({
+        title: localize({ key: 'delete-designer-title' }),
+        approveLabel: localize({ key: 'delete-designer-confirm-label' }),
+        declineLabel: localize({ key: 'delete-designer-decline-label' }),
+        message: localize({ key: 'delete-designer-message', values: this.activeDesigner }),
+        negative: true,
+      })
+    ) {
+      await httpDelete(`/api/admin/font/${this.fontName}/designer/${this.activeDesigner.name}`);
+      this.font.designers = this.font.designers.filter(d => d.name !== this.activeDesigner.name);
+      this.activeDesigner = this.font.designers.at(0) ?? null;
     }
   },
 }));
