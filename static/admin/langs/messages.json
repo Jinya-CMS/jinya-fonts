@@ -76,7 +76,7 @@
   "delete-file-title": "Remove file",
   "delete-file-confirm-label": "Remove file",
   "delete-file-decline-label": "Keep file",
-  "delete-file-message": "Do you really want to remove the {name}-file with a weight of {weight} in font style {style}",
+  "delete-file-message": "Do you really want to remove the {type}-file with a weight of {weight} in font style {style}",
   "font-list-all-fonts": "All fonts",
   "font-list-google-fonts": "Google Fonts",
   "font-list-custom-fonts": "Custom fonts",

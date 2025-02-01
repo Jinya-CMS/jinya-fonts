@@ -11,3 +11,7 @@
 .is--loading {
   overflow: hidden;
 }
+
+.font-description {
+  width: 40rem;
+}

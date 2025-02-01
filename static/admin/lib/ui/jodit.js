@@ -152,7 +152,7 @@ function getFullToolbar() {
   ];
 }
 
-export function createJodit(idOrElement, inline = false, height = undefined) {
+export function createJodit(idOrElement, inline = false, allowFullscreen = false, height = undefined) {
   setJoditIcons();
   const data = {
     toolbar: !inline,
@@ -161,7 +161,7 @@ export function createJodit(idOrElement, inline = false, height = undefined) {
     showXPathInStatusbar: false,
     minHeight: '11rem',
     disablePlugins:
-      'about,add-new-line,ai-assistant,class-span,clean-html,clipboard,copyformat,dtd,file,font,hr,iframe,image,image-properties,indent,key-arrow-outside,line-height,mobile,xpath,table-keyboard-navigation,tab,symbols,stat,spellcheck,speech-recognize,search,resize-cells,redo-undo,print,preview,powered-by-jodit,paste-storage,paste-from-word,video,wrap-nodes,limit',
+      'about,add-new-line,ai-assistant,class-span,clean-html,clipboard,copyformat,dtd,file,font,hr,iframe,image,image-properties,indent,key-arrow-outside,line-height,mobile,xpath,table-keyboard-navigation,tab,symbols,stat,spellcheck,speech-recognize,search,resize-cells,redo-undo,print,preview,powered-by-jodit,paste-storage,paste-from-word,video,wrap-nodes,limit,fullscreen',
     inline,
     toolbarInline: true,
     toolbarInlineForSelection: true,
@@ -177,7 +177,7 @@ export function createJodit(idOrElement, inline = false, height = undefined) {
   if (height) {
     data.height = height;
   }
-  if (!inline) {
+  if (allowFullscreen) {
     data.buttons = getFullToolbar();
     data.extraButtons = ['fullsize', 'source'];
   }

@@ -97,11 +97,9 @@
           <div class="cosmo-input__group">
             <label for="family" class="cosmo-label" x-localize:font-family=""></label>
             <input required type="text" id="family" class="cosmo-input" x-model="newFont.family" />
-            <span
-              class="cosmo-input__message is--negative"
-              :class="{ 'is--hidden': !newFont.family }"
-              x-localize:font-family-error=""
-            ></span>
+            <template x-if="!newFont.family">
+              <span class="cosmo-input__message is--negative" x-localize:font-family-error=""></span>
+            </template>
             <label for="category" class="cosmo-label" x-localize:font-category=""></label>
             <select class="cosmo-select" id="category" x-model="newFont.category">
               <option value="Sans Serif" x-localize:font-style-sans-serif=""></option>
@@ -112,11 +110,9 @@
             </select>
             <label for="license" class="cosmo-label" x-localize:font-license=""></label>
             <input required list="suggestedLicenses" type="text" id="license" class="cosmo-input" x-model="newFont.license" />
-            <span
-              class="cosmo-input__message is--negative"
-              :class="{ 'is--hidden': !newFont.license }"
-              x-localize:font-license-error=""
-            ></span>
+            <template x-if="!newFont.license">
+              <span class="cosmo-input__message is--negative" x-localize:font-license-error=""></span>
+            </template>
             <datalist id="suggestedLicenses">
               <option value="ufl"></option>
               <option value="ofl"></option>
@@ -125,7 +121,7 @@
               <option value="cc0"></option>
             </datalist>
             <span class="cosmo-input__header" x-localize:font-description=""></span>
-            <jinya-toolbar-editor x-model="newFont.description"></jinya-toolbar-editor>
+            <jinya-toolbar-editor :content="newFont.description" @change="(e) => newFont.description = e.value"></jinya-toolbar-editor>
           </div>
         </div>
         <div class="cosmo-modal__button-bar">

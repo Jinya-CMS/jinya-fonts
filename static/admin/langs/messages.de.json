@@ -76,7 +76,7 @@
   "delete-file-title": "Datei entfernen",
   "delete-file-confirm-label": "Datei entfernen",
   "delete-file-decline-label": "Datei nicht entfernen",
-  "delete-file-message": "Soll die {name}-Datei mit der Stärke {style} im Stil {style}",
+  "delete-file-message": "Soll die {type}-Datei mit der Stärke {weight} im Stil {style} wirklich gelöscht werden?",
   "font-list-all-fonts": "Alle Schriften",
   "font-list-google-fonts": "Schriften von Google",
   "font-list-custom-fonts": "Eigene Schriften ",

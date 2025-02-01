@@ -67,7 +67,7 @@ export async function send(
 
   const response = await fetch(url, request);
   if (response.ok) {
-    if (response.status !== 204) {
+    if (response.status !== 204 && response.headers.get('content-length') > 0) {
       if (plain) {
         return await response.text();
       }

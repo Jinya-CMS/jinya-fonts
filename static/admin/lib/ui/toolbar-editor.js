@@ -18,7 +18,7 @@ class ToolbarEditorElement extends HTMLElement {
       </style>
       <textarea></textarea>
     `;
-    this.editor = createJodit(this.root.querySelector('textarea'), false, this.height);
+    this.editor = createJodit(this.root.querySelector('textarea'), false, false, this.height);
     this.editor.value = this.content;
     this.editor.events.on('change', (e) => {
       this.dispatchEvent(new EditorChangeEvent(e));
