@@ -35,6 +35,7 @@
         <link rel="stylesheet" type="text/css" href="/static/admin/css/fonts.css" />
         <link rel="stylesheet" type="text/css" href="/static/admin/css/cosmo-edits.css" />
         <link rel="stylesheet" type="text/css" href="/static/admin/css/form.css" />
+        <link rel="stylesheet" type="text/css" href="/static/admin/css/settings.css" />
         <link rel="stylesheet" type="text/css" href="/static/admin/lib/jodit/jodit.css" />
 
         <script src="/static/admin/lib/ui/loader.js"></script>
@@ -68,8 +69,8 @@
                         ></a>
                         <a
                                 class="cosmo-menu__item"
-                                href="/admin/config/settings"
-                                x-active-route.area="config"
+                                href="/admin/settings/config"
+                                x-active-route.area="settings"
                                 x-localize:configuration
                         >
                         </a>
@@ -92,18 +93,18 @@
                             </a>
                         </div>
                     </template>
-                    <template x-if="$store.navigation.area === 'config'">
+                    <template x-if="$store.navigation.area === 'settings'">
                         <div class="cosmo-menu__row is--sub">
                             <a
                                     class="cosmo-menu__item"
-                                    href="/admin/config/settings"
-                                    x-active-route="settings"
+                                    href="/admin/settings/config"
+                                    x-active-route="config"
                                     x-localize:settings
                             >
                             </a>
                             <a
                                     class="cosmo-menu__item"
-                                    href="/admin/config/status"
+                                    href="/admin/settings/status"
                                     x-active-route="status"
                                     x-localize:status
                             >
@@ -133,6 +134,17 @@
                     x-route="/font/:page"
                     x-handler="[$store.authentication.needsLogin, $store.navigation.fetchScript]"
                     x-template="/static/admin/templates/font/page.html"
+            ></template>
+
+            <template
+                    x-route="/settings/config"
+                    x-handler="[$store.authentication.needsLogin, $store.navigation.fetchScript]"
+                    x-template="/static/admin/templates/settings/config.html"
+            ></template>
+            <template
+                    x-route="/settings/status"
+                    x-handler="[$store.authentication.needsLogin, $store.navigation.fetchScript]"
+                    x-template="/static/admin/templates/settings/status.html"
             ></template>
 
             <template

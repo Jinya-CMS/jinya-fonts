@@ -82,7 +82,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           const license = Alpine.evaluate(el, expression);
           switch (license) {
             case 'apache2':
-              el.innerHTML = '<a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>';
+              el.innerHTML =
+                '<a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>';
               break;
             case 'ofl':
               el.innerHTML = '<a target="_blank" href="https://openfontlicense.org/">Open Font License</a>';

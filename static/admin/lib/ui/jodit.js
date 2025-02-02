@@ -75,7 +75,8 @@ function setJoditIcons() {
       '<svg viewBox="0 0 24 24" class="lucide lucide-printer"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>',
     redo: '<svg viewBox="0 0 24 24" class="lucide lucide-redo"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>',
     undo: '<svg viewBox="0 0 24 24" class="lucide lucide-undo"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>',
-    search: '<svg viewBox="0 0 24 24" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
+    search:
+      '<svg viewBox="0 0 24 24" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
     source:
       '<svg viewBox="0 0 24 24" class="lucide lucide-code"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
     spellcheck:
@@ -91,7 +92,8 @@ function setJoditIcons() {
     'angle-right': '<svg viewBox="0 0 24 24" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>',
     'angle-up': '<svg viewBox="0 0 24 24" class="lucide lucide-chevron-up"><path d="m18 15-6-6-6 6"/></svg>',
     bin: '<svg viewBox="0 0 24 24" class="lucide lucide-trash"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>',
-    cancel: '<svg viewBox="0 0 24 24" class="lucide lucide-ban"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>',
+    cancel:
+      '<svg viewBox="0 0 24 24" class="lucide lucide-ban"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>',
     center:
       '<svg viewBox="0 0 24 24" class="lucide lucide-align-center"><line x1="21" x2="3" y1="6" y2="6"/><line x1="17" x2="7" y1="12" y2="12"/><line x1="19" x2="5" y1="18" y2="18"/></svg>',
     check: '<svg viewBox="0 0 24 24" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>',
@@ -128,7 +130,21 @@ function setJoditIcons() {
 }
 
 function getInlineToolbar() {
-  return ['bold', 'italic', 'underline', 'strikethrough', '|', 'brush', 'fontsize', '|', 'ul', 'ol', 'paragraph', 'link', 'align'];
+  return [
+    'bold',
+    'italic',
+    'underline',
+    'strikethrough',
+    '|',
+    'brush',
+    'fontsize',
+    '|',
+    'ul',
+    'ol',
+    'paragraph',
+    'link',
+    'align',
+  ];
 }
 
 function getFullToolbar() {

@@ -1,8 +1,24 @@
 <div class="cosmo-side-list" x-data="fontsData">
   <nav class="cosmo-side-list__items">
-    <a href="/font/all" class="cosmo-side-list__item" x-active="activeSideItem === 'all'" x-localize:font-list-all-fonts=""></a>
-    <a href="/font/google" class="cosmo-side-list__item" x-active="activeSideItem === 'google'" x-localize:font-list-google-fonts=""></a>
-    <a href="/font/custom" class="cosmo-side-list__item" x-active="activeSideItem === 'custom'" x-localize:font-list-custom-fonts=""> </a>
+    <a
+      href="/font/all"
+      class="cosmo-side-list__item"
+      x-active="activeSideItem === 'all'"
+      x-localize:font-list-all-fonts=""
+    ></a>
+    <a
+      href="/font/google"
+      class="cosmo-side-list__item"
+      x-active="activeSideItem === 'google'"
+      x-localize:font-list-google-fonts=""
+    ></a>
+    <a
+      href="/font/custom"
+      class="cosmo-side-list__item"
+      x-active="activeSideItem === 'custom'"
+      x-localize:font-list-custom-fonts=""
+    >
+    </a>
   </nav>
   <div class="cosmo-side-list__content" :class="{ 'is--loading': loading }">
     <h1 class="cosmo-title" x-text="title"></h1>
@@ -68,7 +84,12 @@
                     <a :href="'/download?font='+ font.name" class="cosmo-button" native x-localize:download-zip=""></a>
                     <a :href="'/admin/font/detail/' + font.name" class="cosmo-button" x-localize:details=""></a>
                     <template x-if="activeSideItem !== 'google'">
-                      <button :disabled="font.googleFont" class="cosmo-button" @click="deleteFont(font)" x-localize:delete=""></button>
+                      <button
+                        :disabled="font.googleFont"
+                        class="cosmo-button"
+                        @click="deleteFont(font)"
+                        x-localize:delete=""
+                      ></button>
                     </template>
                   </div>
                 </td>
@@ -109,7 +130,14 @@
               <option value="Handwriting" x-localize:font-style-handwriting=""></option>
             </select>
             <label for="license" class="cosmo-label" x-localize:font-license=""></label>
-            <input required list="suggestedLicenses" type="text" id="license" class="cosmo-input" x-model="newFont.license" />
+            <input
+              required
+              list="suggestedLicenses"
+              type="text"
+              id="license"
+              class="cosmo-input"
+              x-model="newFont.license"
+            />
             <template x-if="!newFont.license">
               <span class="cosmo-input__message is--negative" x-localize:font-license-error=""></span>
             </template>
@@ -121,7 +149,10 @@
               <option value="cc0"></option>
             </datalist>
             <span class="cosmo-input__header" x-localize:font-description=""></span>
-            <jinya-toolbar-editor :content="newFont.description" @change="(e) => newFont.description = e.value"></jinya-toolbar-editor>
+            <jinya-toolbar-editor
+              :content="newFont.description"
+              @change="(e) => newFont.description = e.value"
+            ></jinya-toolbar-editor>
           </div>
         </div>
         <div class="cosmo-modal__button-bar">

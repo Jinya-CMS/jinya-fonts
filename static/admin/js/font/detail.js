@@ -1,9 +1,9 @@
 import { Alpine } from '../../../lib/alpine.js';
 import { get, httpDelete, post, put } from '../../../lib/jinya-http.js';
-
-import '../../lib/ui/toolbar-editor.js';
 import confirm from '../../lib/ui/confirm.js';
 import { localize } from '../../../lib/jinya-alpine-tools.js';
+
+import '../../lib/ui/toolbar-editor.js';
 
 Alpine.data('fontDetailsData', () => ({
   loading: true,
@@ -147,13 +147,19 @@ Alpine.data('fontDetailsData', () => ({
   },
   async createNewFile() {
     const type = this.newFile.file.name.split('.').reverse()[0];
-    await post(`/api/admin/font/${this.fontName}/file/${this.newFile.weight}.${this.newFile.style}.${type}`, this.newFile.file);
+    await post(
+      `/api/admin/font/${this.fontName}/file/${this.newFile.weight}.${this.newFile.style}.${type}`,
+      this.newFile.file,
+    );
     this.font.fonts = await get(`/api/admin/font/${this.fontName}/file`);
     this.newFileOpen = false;
   },
   async updateFile() {
     const type = this.editFile.file.name.split('.').reverse()[0];
-    await post(`/api/admin/font/${this.fontName}/file/${this.editFile.weight}.${this.editFile.style}.${type}`, this.editFile.file);
+    await post(
+      `/api/admin/font/${this.fontName}/file/${this.editFile.weight}.${this.editFile.style}.${type}`,
+      this.editFile.file,
+    );
     this.font.fonts = await get(`/api/admin/font/${this.fontName}/file`);
     this.editFileOpen = false;
   },

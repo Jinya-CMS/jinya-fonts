@@ -63,7 +63,14 @@
                       <option value="Handwriting" x-localize:font-style-handwriting=""></option>
                     </select>
                     <label for="license" class="cosmo-label" x-localize:font-license=""></label>
-                    <input required list="suggestedLicenses" type="text" id="license" class="cosmo-input" x-model="font.editLicense" />
+                    <input
+                      required
+                      list="suggestedLicenses"
+                      type="text"
+                      id="license"
+                      class="cosmo-input"
+                      x-model="font.editLicense"
+                    />
                     <template x-if="!font.editLicense">
                       <span class="cosmo-input__message is--negative" x-localize:font-license-error=""></span>
                     </template>
@@ -121,7 +128,12 @@
                 <template x-if="!font.googleFont">
                   <div class="cosmo-toolbar">
                     <div class="cosmo-toolbar__group">
-                      <button class="cosmo-button" :disabled="editDesignerOn" @click="editDesigner" x-localize:edit=""></button>
+                      <button
+                        class="cosmo-button"
+                        :disabled="editDesignerOn"
+                        @click="editDesigner"
+                        x-localize:edit=""
+                      ></button>
                       <button class="cosmo-button" @click="removeDesigner" x-localize:delete=""></button>
                     </div>
                   </div>
@@ -133,7 +145,12 @@
                       @change="(e) => activeDesigner.editBio = e.value"
                     ></jinya-toolbar-editor>
                     <div class="cosmo-button__container">
-                      <button class="cosmo-button" @click="editDesignerOn = false" type="reset" x-localize:discard-changes=""></button>
+                      <button
+                        class="cosmo-button"
+                        @click="editDesignerOn = false"
+                        type="reset"
+                        x-localize:discard-changes=""
+                      ></button>
                       <button class="cosmo-button is--primary" type="submit" x-localize:save-designer=""></button>
                     </div>
                   </form>
@@ -154,7 +171,10 @@
                       <span class="cosmo-input__message is--negative" x-localize:designer-name-error=""></span>
                     </template>
                     <span class="cosmo-input__header" x-localize:about-designer=""></span>
-                    <jinya-toolbar-editor :content="newDesigner.bio" @change="(e) => newDesigner.bio = e.value"></jinya-toolbar-editor>
+                    <jinya-toolbar-editor
+                      :content="newDesigner.bio"
+                      @change="(e) => newDesigner.bio = e.value"
+                    ></jinya-toolbar-editor>
                   </div>
                   <div class="cosmo-button__container">
                     <button class="cosmo-button" type="reset" x-localize:discard-changes=""></button>
@@ -282,7 +302,12 @@
                   </div>
                 </div>
                 <div class="cosmo-modal__button-bar">
-                  <button class="cosmo-button" type="button" @click="editFileOpen = false" x-localize:cancel=""></button>
+                  <button
+                    class="cosmo-button"
+                    type="button"
+                    @click="editFileOpen = false"
+                    x-localize:cancel=""
+                  ></button>
                   <button class="cosmo-button" type="submit" x-localize:upload-file=""></button>
                 </div>
               </form>

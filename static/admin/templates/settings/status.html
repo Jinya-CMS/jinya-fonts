@@ -1,0 +1,40 @@
+<div x-data="statusData">
+  <template x-if="loading">
+    <jinya-loader></jinya-loader>
+  </template>
+  <template x-if="!loading">
+    <div>
+      <span class="cosmo-title" x-localize:status=""></span>
+      <div class="container">
+        <dl class="cosmo-list is--key-value">
+          <dt x-localize:status-jinya-fonts=""></dt>
+          <dd>
+            <jinya-online-indicator :online="online" />
+          </dd>
+          <dt x-localize:status-public-website=""></dt>
+          <dd>
+            <jinya-online-indicator :online="servingWebsite" />
+          </dd>
+          <dt x-localize:status-mongodb=""></dt>
+          <dd>
+            <jinya-online-indicator :online="mongoUp" />
+          </dd>
+          <dt x-localize:status-redis=""></dt>
+          <dd>
+            <jinya-online-indicator :online="redisUp" />
+          </dd>
+          <dt x-localize:status-google-fonts=""></dt>
+          <dd>
+            <jinya-online-indicator :online="jobIsScheduled" />
+          </dd>
+          <template x-if="jobIsScheduled">
+            <dt x-localize:status-job-execution=""></dt>
+          </template>
+          <template x-if="jobIsScheduled">
+            <dd x-text="jobNextExecution.toLocaleString()"></dd>
+          </template>
+        </dl>
+      </div>
+    </div>
+  </template>
+</div>

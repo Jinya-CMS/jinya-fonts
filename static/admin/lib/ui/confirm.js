@@ -7,7 +7,13 @@
  * @param negative {boolean}
  * @return {Promise<boolean>}
  */
-export default async function confirm({ title = window.location.href, message, declineLabel, approveLabel, negative = false }) {
+export default async function confirm({
+  title = window.location.href,
+  message,
+  declineLabel,
+  approveLabel,
+  negative = false,
+}) {
   return new Promise((resolve) => {
     const container = document.createElement('div');
     document.body.appendChild(container);

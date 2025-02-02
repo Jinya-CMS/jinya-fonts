@@ -739,7 +739,8 @@
  * Copyright (c) 2013-2024 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
  */
 :root {
-  --jd-popup-box-shadow: 0 4px 1px -2px rgba(76, 76, 76, 0.2), 0 3px 3px 0 rgb(76 76 76 / 15%), 0 1px 4px 0 rgb(76 76 76 / 13%);
+  --jd-popup-box-shadow: 0 4px 1px -2px rgba(76, 76, 76, 0.2), 0 3px 3px 0 rgb(76 76 76 / 15%),
+    0 1px 4px 0 rgb(76 76 76 / 13%);
 }
 .jodit-popup {
   position: static;
@@ -2801,7 +2802,14 @@
       var(--jd-color-border) 75%,
       var(--jd-color-border)
     ),
-    linear-gradient(45deg, var(--jd-color-border) 25%, transparent 25%, transparent 75%, var(--jd-color-border) 75%, var(--jd-color-border));
+    linear-gradient(
+      45deg,
+      var(--jd-color-border) 25%,
+      transparent 25%,
+      transparent 75%,
+      var(--jd-color-border) 75%,
+      var(--jd-color-border)
+    );
   background-position:
     0 0,
     15px 15px;
@@ -2888,7 +2896,10 @@
   cursor: move;
   pointer-events: all;
 }
-.jodit-image-editor__area.jodit-image-editor__area_crop .jodit-image-editor__box .jodit-image-editor__croper i.jodit-image-editor__sizes {
+.jodit-image-editor__area.jodit-image-editor__area_crop
+  .jodit-image-editor__box
+  .jodit-image-editor__croper
+  i.jodit-image-editor__sizes {
   position: absolute;
   bottom: -30px;
   left: 100%;
@@ -3026,7 +3037,8 @@
   font-size: 0.9em;
   font-weight: bold;
 }
-.jodit-file-browser-files__item:hover:not(.jodit-file-browser-files__item_active_true) .jodit-file-browser-files__item-info {
+.jodit-file-browser-files__item:hover:not(.jodit-file-browser-files__item_active_true)
+  .jodit-file-browser-files__item-info {
   bottom: -100px;
 }
 .jodit-file-browser-files_view_list {
@@ -4494,7 +4506,8 @@ html.jodit_fullsize-box_true {
   --jd-color-button-background-hover: #dcdcdc;
   --jd-color-button-background-hover-opacity40: rgba(220, 220, 220, 0.4);
   --jd-color-button-background-hover-opacity60: rgba(220, 220, 220, 0.6);
-  --jd-font-default: -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, oxygen-sans, ubuntu, cantarell, 'Helvetica Neue', sans-serif;
+  --jd-font-default: -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, oxygen-sans, ubuntu, cantarell,
+    'Helvetica Neue', sans-serif;
   --jd-font-size-default: 14px;
   --jd-font-size-small: 11px;
   --jd-color-text-icons: rgba(0, 0, 0, 0.75);
@@ -4788,7 +4801,9 @@ input:checked + .jodit-switcher__slider {
   background-color: var(--jd-color-background-active);
 }
 input:checked + .jodit-switcher__slider::before {
-  transform: translateX(calc(var(--jd-switche-width) - var(--jd-switche-slider-margin) * 2 - var(--jd-switche-slider-size)));
+  transform: translateX(
+    calc(var(--jd-switche-width) - var(--jd-switche-slider-margin) * 2 - var(--jd-switche-slider-size))
+  );
 }
 input:focus + .jodit-switcher__slider {
   box-shadow: 0 0 1px var(--jd-color-background-active);
