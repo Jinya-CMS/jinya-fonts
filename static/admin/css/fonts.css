@@ -1,0 +1,17 @@
+.is--full-width {
+  width: 100%;
+}
+
+.table-container {
+  height: calc(100% - var(--control-height) - 1rem - 2.75rem);
+  overflow: auto;
+  margin-top: 1rem;
+}
+
+.is--loading {
+  overflow: hidden;
+}
+
+.font-description {
+  width: 40rem;
+}

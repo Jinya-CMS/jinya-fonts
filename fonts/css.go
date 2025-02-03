@@ -48,7 +48,7 @@ func convertFamilyToTemplateData(fam family, display string) []templateData {
 			data = append(data, templateData{
 				File:        &metadata,
 				Webfont:     webfont,
-				FontDisplay: "",
+				FontDisplay: display,
 			})
 		}
 	}

@@ -1,0 +1,177 @@
+{{define "content"}}
+    <!doctype html>
+    <html lang="en" x-data>
+    <head>
+        <meta charset="utf-8" />
+        <title>Jinya Fonts</title>
+        <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg" />
+        <link rel="icon" type="image/png" href="/static/img/favicon.png" />
+        <link rel="shortcut icon" href="/static/img/favicon.ico" />
+
+        <meta name="msapplication-TileColor" content="#19324c" />
+        <meta name="theme-color" content="#19324c" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/alert.css" />
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/buttons.css" />
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/form.css" />
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/layout.css" />
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/list.css" />
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/modal.css" />
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/progress.css" />
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/scrollbars.css" />
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/tab.css" />
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/table.css" />
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/toolbar.css" />
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/typography.css" />
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/variables.css" />
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/fonts/albert-sans.css" />
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/fonts/oxygen-mono.css" />
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/fonts/urbanist.css" />
+
+        <link rel="stylesheet" type="text/css" href="/static/admin/css/login.css" />
+        <link rel="stylesheet" type="text/css" href="/static/admin/css/page.css" />
+        <link rel="stylesheet" type="text/css" href="/static/admin/css/fonts.css" />
+        <link rel="stylesheet" type="text/css" href="/static/admin/css/cosmo-edits.css" />
+        <link rel="stylesheet" type="text/css" href="/static/admin/css/form.css" />
+        <link rel="stylesheet" type="text/css" href="/static/admin/css/settings.css" />
+        <link rel="stylesheet" type="text/css" href="/static/admin/lib/jodit/jodit.css" />
+
+        <script src="/static/admin/lib/ui/loader.js"></script>
+        <script>
+          window.jinyaConfig = {
+            openIdClientId: '{{ .OidcFrontendClientId }}',
+            openIdUrl: 'https://{{ .OidcDomain }}',
+            openIdCallbackUrl: `${location.origin}/admin/login/callback`,
+          };
+        </script>
+    </head>
+    <body :class="{ 'is--login': !($store.authentication.loggedIn && $store.loaded) || !$store.loaded }">
+    <main class="cosmo-page">
+        <template x-if="$store.authentication.loggedIn">
+            <div class="cosmo-menu is--top">
+                <div class="cosmo-profile-picture"></div>
+                <a @click="$store.authentication.logout()" class="cosmo-menu__item is--right"
+                   x-localize:logout></a>
+            </div>
+        </template>
+        <template x-if="$store.authentication.loggedIn">
+            <div class="cosmo-menu">
+                <button class="cosmo-back-button" type="button" @click="history.back()"></button>
+                <nav class="cosmo-menu__collection">
+                    <div class="cosmo-menu__row is--main">
+                        <a
+                                class="cosmo-menu__item"
+                                href="/admin/font/all"
+                                x-active-route.area="font"
+                                x-localize:fonts
+                        ></a>
+                        <a
+                                class="cosmo-menu__item"
+                                href="/admin/settings/config"
+                                x-active-route.area="settings"
+                                x-localize:configuration
+                        >
+                        </a>
+                    </div>
+                    <template x-if="$store.navigation.area === 'font'">
+                        <div class="cosmo-menu__row is--sub">
+                            <a
+                                    class="cosmo-menu__item"
+                                    href="/admin/font/all"
+                                    x-active-route=":page"
+                                    x-localize:overview
+                            >
+                            </a>
+                            <a
+                                    class="cosmo-menu__item"
+                                    href="/admin/config/detail"
+                                    x-active-route="detail"
+                                    x-localize:details
+                            >
+                            </a>
+                        </div>
+                    </template>
+                    <template x-if="$store.navigation.area === 'settings'">
+                        <div class="cosmo-menu__row is--sub">
+                            <a
+                                    class="cosmo-menu__item"
+                                    href="/admin/settings/config"
+                                    x-active-route="config"
+                                    x-localize:settings
+                            >
+                            </a>
+                            <a
+                                    class="cosmo-menu__item"
+                                    href="/admin/settings/status"
+                                    x-active-route="status"
+                                    x-localize:status
+                            >
+                            </a>
+                        </div>
+                    </template>
+                </nav>
+            </div>
+        </template>
+        <div :class="{ 'cosmo-page__body': $store.authentication.loggedIn && $store.loaded }" id="app">
+            <template
+                    x-route="/login"
+                    x-handler="[$store.authentication.needsLogout, $store.navigation.fetchScript]"
+                    x-template="/static/admin/templates/authentication/login.html"
+            ></template>
+            <template
+                    x-route="/login/callback"
+                    x-handler="[$store.authentication.performLogin]"
+            ></template>
+
+            <template
+                    x-route="/font/detail/:name"
+                    x-handler="[$store.authentication.needsLogin, $store.navigation.fetchScript]"
+                    x-template="/static/admin/templates/font/detail.html"
+            ></template>
+            <template
+                    x-route="/font/:page"
+                    x-handler="[$store.authentication.needsLogin, $store.navigation.fetchScript]"
+                    x-template="/static/admin/templates/font/page.html"
+            ></template>
+
+            <template
+                    x-route="/settings/config"
+                    x-handler="[$store.authentication.needsLogin, $store.navigation.fetchScript]"
+                    x-template="/static/admin/templates/settings/config.html"
+            ></template>
+            <template
+                    x-route="/settings/status"
+                    x-handler="[$store.authentication.needsLogin, $store.navigation.fetchScript]"
+                    x-template="/static/admin/templates/settings/status.html"
+            ></template>
+
+            <template
+                    x-route="notfound"
+                    x-handler="(ctx) => ctx.redirect('/admin/font/all')"></template>
+        </div>
+        <template x-if="$store.authentication.loggedIn && $store.syncProgress.syncStatusText">
+            <div class="cosmo-bottom-bar">
+                <span class="cosmo-progress-bar__label" x-text="$store.syncProgress.syncStatusText"></span>
+                <template x-if="$store.syncProgress.fontsSyncing">
+                    <progress class="cosmo-progress-bar"></progress>
+                </template>
+                <template x-if="!$store.syncProgress.fontsSyncing">
+                    <progress
+                            class="cosmo-progress-bar"
+                            :class="{ 'is--negative': $store.syncProgress.fontsSyncFailure, 'is--positive': $store.syncProgress.fontsSyncSuccess, }"
+                            value="1"
+                            max="1"
+                    ></progress>
+                </template>
+            </div>
+        </template>
+        <div class="jinya-loader__container" style="min-height: 100vh" x-show="!$store.loaded">
+            <jinya-loader></jinya-loader>
+        </div>
+    </main>
+    <script src="/static/admin/index.js" type="module"></script>
+    </body>
+    </html>
+{{end}}

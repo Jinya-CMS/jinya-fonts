@@ -1,0 +1,165 @@
+<div class="cosmo-side-list" x-data="fontsData">
+  <nav class="cosmo-side-list__items">
+    <a
+      href="/font/all"
+      class="cosmo-side-list__item"
+      x-active="activeSideItem === 'all'"
+      x-localize:font-list-all-fonts=""
+    ></a>
+    <a
+      href="/font/google"
+      class="cosmo-side-list__item"
+      x-active="activeSideItem === 'google'"
+      x-localize:font-list-google-fonts=""
+    ></a>
+    <a
+      href="/font/custom"
+      class="cosmo-side-list__item"
+      x-active="activeSideItem === 'custom'"
+      x-localize:font-list-custom-fonts=""
+    >
+    </a>
+  </nav>
+  <div class="cosmo-side-list__content" :class="{ 'is--loading': loading }">
+    <h1 class="cosmo-title" x-text="title"></h1>
+    <div class="cosmo-toolbar">
+      <div class="cosmo-toolbar__group">
+        <template x-if="activeSideItem !== 'google'">
+          <button class="cosmo-button" @click="openCreateFont" x-localize:create-font=""></button>
+        </template>
+        <template x-if="activeSideItem !== 'custom'">
+          <button class="cosmo-button" @click="syncFonts" x-localize:sync-google-fonts=""></button>
+        </template>
+      </div>
+      <div class="cosmo-toolbar__group cosmo-input__group">
+        <label for="nameSearch" x-localize:filter-by-name=""></label>
+        <input class="cosmo-input" type="search" id="nameSearch" x-model="activeFilter.name" />
+      </div>
+      <div class="cosmo-toolbar__group cosmo-input__group">
+        <label for="categorySearch" x-localize:filter-by-category=""></label>
+        <select class="cosmo-select" id="categorySearch" x-model="activeFilter.category">
+          <option value="All" x-localize:all-fonts=""></option>
+          <option value="Sans Serif" x-localize:font-style-sans-serif=""></option>
+          <option value="Serif" x-localize:font-style-serif=""></option>
+          <option value="Monospace" x-localize:font-style-monospace=""></option>
+          <option value="Display" x-localize:font-style-display=""></option>
+          <option value="Handwriting" x-localize:font-style-handwriting=""></option>
+        </select>
+      </div>
+    </div>
+    <div class="table-container">
+      <table class="cosmo-table is--full-width">
+        <thead>
+          <tr>
+            <th x-localize:font-name=""></th>
+            <th x-localize:font-category=""></th>
+            <th x-localize:font-designers=""></th>
+            <th x-localize:font-license=""></th>
+            <template x-if="activeSideItem === 'all'">
+              <th x-localize:font-google-font=""></th>
+            </template>
+            <th x-localize:font-actions=""></th>
+          </tr>
+        </thead>
+        <tbody>
+          <template x-if="loading">
+            <tr>
+              <td :colSpan="activeSideItem === 'all' ? 6 : 5">
+                <jinya-loader></jinya-loader>
+              </td>
+            </tr>
+          </template>
+          <template x-if="!loading">
+            <template x-for="font in filteredFonts">
+              <tr>
+                <td x-text="font.name"></td>
+                <td x-text="font.category"></td>
+                <td x-text="designersToString(font.designers)"></td>
+                <td x-font-license="font.license"></td>
+                <template x-if="activeSideItem === 'all'">
+                  <td x-boolean-display="font.googleFont"></td>
+                </template>
+                <td>
+                  <div class="cosmo-toolbar__group">
+                    <a :href="'/download?font='+ font.name" class="cosmo-button" native x-localize:download-zip=""></a>
+                    <a :href="'/admin/font/detail/' + font.name" class="cosmo-button" x-localize:details=""></a>
+                    <template x-if="activeSideItem !== 'google'">
+                      <button
+                        :disabled="font.googleFont"
+                        class="cosmo-button"
+                        @click="deleteFont(font)"
+                        x-localize:delete=""
+                      ></button>
+                    </template>
+                  </div>
+                </td>
+              </tr>
+            </template>
+          </template>
+          <template x-if="fonts.length === 0 && !loading">
+            <tr>
+              <td :colSpan="activeSideItem === 'all' ? 6 : 5" x-text="noFontsMessage"></td>
+            </tr>
+          </template>
+          <template x-if="filteredFonts.length === 0 && !loading">
+            <tr>
+              <td :colSpan="activeSideItem === 'all' ? 6 : 5" x-text="noFontsMessage"></td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <template x-if="createFontOpen">
+    <div class="cosmo-modal__container">
+      <form class="cosmo-modal" @submit.prevent="createFont">
+        <h1 class="cosmo-modal__title" x-localize:create-font-title=""></h1>
+        <div class="cosmo-modal__content">
+          <div class="cosmo-input__group">
+            <label for="family" class="cosmo-label" x-localize:font-family=""></label>
+            <input required type="text" id="family" class="cosmo-input" x-model="newFont.family" />
+            <template x-if="!newFont.family">
+              <span class="cosmo-input__message is--negative" x-localize:font-family-error=""></span>
+            </template>
+            <label for="category" class="cosmo-label" x-localize:font-category=""></label>
+            <select class="cosmo-select" id="category" x-model="newFont.category">
+              <option value="Sans Serif" x-localize:font-style-sans-serif=""></option>
+              <option value="Serif" x-localize:font-style-serif=""></option>
+              <option value="Monospace" x-localize:font-style-monospace=""></option>
+              <option value="Display" x-localize:font-style-display=""></option>
+              <option value="Handwriting" x-localize:font-style-handwriting=""></option>
+            </select>
+            <label for="license" class="cosmo-label" x-localize:font-license=""></label>
+            <input
+              required
+              list="suggestedLicenses"
+              type="text"
+              id="license"
+              class="cosmo-input"
+              x-model="newFont.license"
+            />
+            <template x-if="!newFont.license">
+              <span class="cosmo-input__message is--negative" x-localize:font-license-error=""></span>
+            </template>
+            <datalist id="suggestedLicenses">
+              <option value="ufl"></option>
+              <option value="ofl"></option>
+              <option value="apache2"></option>
+              <option value="mit"></option>
+              <option value="cc0"></option>
+            </datalist>
+            <span class="cosmo-input__header" x-localize:font-description=""></span>
+            <jinya-toolbar-editor
+              :content="newFont.description"
+              @change="(e) => newFont.description = e.value"
+            ></jinya-toolbar-editor>
+          </div>
+        </div>
+        <div class="cosmo-modal__button-bar">
+          <button class="cosmo-button" type="button" @click="createFontOpen = false" x-localize:cancel=""></button>
+          <button class="cosmo-button" type="submit" x-localize:font-create=""></button>
+        </div>
+      </form>
+    </div>
+  </template>
+</div>

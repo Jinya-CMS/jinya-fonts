@@ -7,14 +7,14 @@ import (
 	"github.com/gorilla/mux"
 	_ "github.com/sakirsensoy/genv/dotenv/autoload"
 	"go.mongodb.org/mongo-driver/mongo"
-	"golang.org/x/text/language"
 	"html/template"
-	admin "jinya-fonts/admin/api"
+	"jinya-fonts/admin"
 	"jinya-fonts/api"
 	"jinya-fonts/config"
 	"jinya-fonts/database"
 	"jinya-fonts/fonts"
 	"jinya-fonts/fontsync"
+	"jinya-fonts/frontend"
 	"log"
 	"net/http"
 	"os"
@@ -24,10 +24,6 @@ import (
 )
 
 var (
-	//go:embed angular/dist/frontend/browser
-	angular embed.FS
-	//go:embed angular/dist/admin/browser
-	angularAdmin embed.FS
 	//go:embed openapi
 	openapi embed.FS
 	//go:embed openapi/admin
@@ -35,11 +31,6 @@ var (
 	//go:embed static
 	static embed.FS
 )
-
-type LanguageHandler struct {
-	defaultLang     language.Tag
-	langPathMapping map[language.Tag]string
-}
 
 type SpaHandler struct {
 	embedFS      embed.FS
@@ -91,31 +82,6 @@ func (handler SpaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	http.ServeFileFS(w, r, handler.embedFS, fullPath)
 }
 
-func (handler LanguageHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	oldPath := "/" + r.URL.Path + "?" + r.URL.RawQuery
-	acceptLanguage, _, err := language.ParseAcceptLanguage(r.Header.Get("Accept-Language"))
-	if err != nil {
-		http.Redirect(w, r, handler.langPathMapping[handler.defaultLang]+oldPath, http.StatusFound)
-		return
-	}
-
-	localMap := map[string]string{}
-	for tag, p := range handler.langPathMapping {
-		b, _ := tag.Base()
-		localMap[b.ISO3()] = p
-	}
-
-	for _, lang := range acceptLanguage {
-		b, _ := lang.Base()
-		if p, exists := localMap[b.ISO3()]; exists {
-			http.Redirect(w, r, p+oldPath, http.StatusFound)
-			return
-		}
-	}
-
-	http.Redirect(w, r, handler.langPathMapping[handler.defaultLang]+oldPath, http.StatusFound)
-}
-
 func main() {
 	err := config.LoadConfiguration()
 	if err != nil {
@@ -158,7 +124,7 @@ func main() {
 		router := mux.NewRouter()
 
 		fonts.SetupFontsRouter(router)
-		admin.SetupAdminApiRouter(router)
+		admin.SetupRouter(router)
 		api.SetupApiRouter(router)
 
 		router.PathPrefix("/openapi/admin").Handler(SpaHandler{
@@ -173,49 +139,10 @@ func main() {
 			fsPrefixPath: "",
 			templated:    false,
 		})
-		router.PathPrefix("/admin/de").Handler(http.StripPrefix("/admin/de", SpaHandler{
-			embedFS:      angularAdmin,
-			indexPath:    "angular/dist/admin/browser/de/index.html",
-			fsPrefixPath: "angular/dist/admin/browser/de",
-			templated:    true,
-			templateData: config.LoadedConfiguration,
-		}))
-		router.PathPrefix("/admin/en").Handler(http.StripPrefix("/admin/en", SpaHandler{
-			embedFS:      angularAdmin,
-			indexPath:    "angular/dist/admin/browser/en/index.html",
-			fsPrefixPath: "angular/dist/admin/browser/en",
-			templated:    true,
-			templateData: config.LoadedConfiguration,
-		}))
-		router.PathPrefix("/admin").Handler(http.StripPrefix("/admin", LanguageHandler{
-			defaultLang: language.English,
-			langPathMapping: map[language.Tag]string{
-				language.English: "/admin/en",
-				language.German:  "/admin/de",
-			},
-		}))
+		router.PathPrefix("/static/").Handler(http.FileServerFS(static))
 
 		if config.LoadedConfiguration.ServeWebsite {
-			router.PathPrefix("/static/").Handler(http.FileServerFS(static))
-			router.PathPrefix("/de").Handler(http.StripPrefix("/de", SpaHandler{
-				embedFS:      angular,
-				indexPath:    "angular/dist/frontend/browser/de/index.html",
-				fsPrefixPath: "angular/dist/frontend/browser/de",
-				templated:    false,
-			}))
-			router.PathPrefix("/en").Handler(http.StripPrefix("/en", SpaHandler{
-				embedFS:      angular,
-				indexPath:    "angular/dist/frontend/browser/en/index.html",
-				fsPrefixPath: "angular/dist/frontend/browser/en",
-				templated:    false,
-			}))
-			router.PathPrefix("/").Handler(LanguageHandler{
-				defaultLang: language.English,
-				langPathMapping: map[language.Tag]string{
-					language.English: "/en",
-					language.German:  "/de",
-				},
-			})
+			frontend.SetupRouter(router)
 		}
 
 		log.Println("Serving at localhost:8090...")

@@ -4,34 +4,22 @@
     <working_directory value="$PROJECT_DIR$" />
     <parameters value="serve" />
     <envs>
-      <env name="MONGO_URL" value="mongodb://jinya:jinya@localhost:27017/" />
-      <env name="MONGO_DATABASE" value="jinya-fonts" />
-      <env name="REDIS_URL" value="redis://localhost:6379" />
       <env name="GOOGLE_API_KEY" value="AIzaSyDhsBuK0TmKX7JzN_YD_hyu8rOKgWUCQPo" />
-      <env name="SERVE_WEBSITE" value="true" />
-      <env name="OPENID_CLIENT_ID" value="256582243827384326@imanuel.dev" />
-      <env name="OPENID_DOMAIN" value="auth.ulbricht.cloud" />
-      <env name="ENCRYPTION_KEY" value="HXW73U9Ob9V2NWA5islcCz1A0qBOQcro" />
-      <env name="SERVER_URL" value="http://localhost:8090" />
+      <env name="MONGO_DATABASE" value="jinya-fonts" />
+      <env name="MONGO_URL" value="mongodb://jinya:jinya@localhost:27017/" />
       <env name="OIDC_DOMAIN" value="zitadel.jinya.de" />
       <env name="OIDC_FRONTEND_CLIENT_ID" value="291921784796676098" />
       <env name="OIDC_SERVER_CLIENT_ID" value="291921841788878850" />
-      <env name="OIDC_SERVER_CLIENT_SECRET" value="rTKOVziQbS0HD4QyKwHjZL8fdakYYc07xyXwcgTZj0137odnY3c5SgcSWNwgxrTd" />
+      <env name="OIDC_SERVER_CLIENT_SECRET" value="fl3Z2OFrjCWfgCvYOwnFCc42vupLFAweKIkeAkPOuTVZCg7oxx22eVq44lGHMw6P" />
+      <env name="REDIS_URL" value="redis://localhost:6379" />
+      <env name="SERVE_WEBSITE" value="true" />
+      <env name="SERVER_URL" value="http://localhost:8090" />
+      <env name="SESSION_SECRET" value="HXW73U9Ob9V2NWA5islcCz1A0qBOQcro" />
     </envs>
     <kind value="PACKAGE" />
     <package value="jinya-fonts" />
     <directory value="$PROJECT_DIR$" />
     <filePath value="$PROJECT_DIR$/app.go" />
-    <method v="2">
-      <option name="NpmBeforeRunTask" enabled="true">
-        <package-json value="$PROJECT_DIR$/angular/package.json" />
-        <command value="run" />
-        <scripts>
-          <script value="build:dev" />
-        </scripts>
-        <node-interpreter value="project" />
-        <envs />
-      </option>
-    </method>
+    <method v="2" />
   </configuration>
 </component>

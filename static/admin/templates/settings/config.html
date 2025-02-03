@@ -1,0 +1,78 @@
+<div x-data="configData">
+  <template x-if="loading">
+    <jinya-loader />
+  </template>
+  <template x-if="!loading">
+    <div>
+      <span class="cosmo-title" x-localize:settings=""></span>
+      <div class="container">
+        <fieldset class="jinya-fieldset">
+          <legend class="jinya-legend" x-localize:synchronization=""></legend>
+          <div class="cosmo-message is--information">
+            <span class="cosmo-message__header" x-localize:synchronization-settings-title=""></span>
+            <p class="cosmo-message__message" x-localize:synchronization-settings-message=""></p>
+          </div>
+          <form id="updateConfig" @submit.prevent="saveSettings">
+            <div class="cosmo-input__group">
+              <div class="cosmo-input__group is--switch">
+                <input type="checkbox" id="enableSync" class="cosmo-switch" x-model="enableSync" />
+                <label for="enableSync" x-localize:synchronization-settings-enable=""></label>
+              </div>
+              <label for="syncInterval" class="cosmo-label" x-localize:synchronization-settings-interval=""></label>
+              <select class="cosmo-select is--small" id="syncInterval" x-model="syncInterval">
+                <option value="0 0 * * *" x-localize:synchronization-settings-interval-daily=""></option>
+                <option value="0 0 * * 0" x-localize:synchronization-settings-interval-weekly=""></option>
+                <option value="0 0 1 * *" x-localize:synchronization-settings-interval-monthly=""></option>
+              </select>
+            </div>
+          </form>
+        </fieldset>
+        <fieldset class="jinya-fieldset">
+          <legend class="jinya-legend" x-localize:settings-filter=""></legend>
+          <div class="cosmo-message is--information">
+            <span class="cosmo-message__header" x-localize:settings-filter-title=""></span>
+            <p class="cosmo-message__message" x-localize:settings-filter-message=""></p>
+          </div>
+          <div>
+            <template x-for="font in onlyFetchFonts">
+              <div class="font-filter">
+                <span x-text="font"></span>
+                <button class="cosmo-button is--negative is--small is--circle" @click="removeFilteredFont(font)">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </button>
+              </div>
+            </template>
+            <form class="add-filter-form" @submit.prevent="addFilter">
+              <div class="cosmo-input__group">
+                <label for="addFilterName" class="cosmo-label" x-localize:font-family=""></label>
+                <input required type="text" id="addFilterName" class="cosmo-input" x-model="addFilterName" />
+              </div>
+              <div class="cosmo-button__container">
+                <button class="cosmo-button is--primary" type="submit" x-localize:settings-add-filter=""></button>
+              </div>
+            </form>
+          </div>
+        </fieldset>
+        <div class="cosmo-button__container">
+          <button class="cosmo-button" @click="loadData" type="button" x-localize:reset=""></button>
+          <button
+            class="cosmo-button is--primary"
+            form="updateConfig"
+            type="submit"
+            x-localize:save-settings=""
+          ></button>
+        </div>
+      </div>
+    </div>
+  </template>
+</div>

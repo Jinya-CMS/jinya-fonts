@@ -39,13 +39,12 @@ func createFontDesigner(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.WriteHeader(http.StatusCreated)
 	err = json.NewEncoder(w).Encode(newDesigner)
 	if err != nil {
 		http.Error(w, "Failed to encode body", http.StatusInternalServerError)
 		return
 	}
-
-	w.WriteHeader(http.StatusCreated)
 }
 
 func deleteFontDesigner(w http.ResponseWriter, r *http.Request) {

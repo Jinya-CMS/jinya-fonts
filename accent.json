@@ -3,15 +3,15 @@
   "project": "80cc8308-a813-42be-9841-eefa8fb0b0c9",
   "files": [
     {
-      "format": "json",
-      "source": "angular/projects/frontend/src/locale/messages.json",
-      "target": "angular/projects/frontend/src/locale/messages.%slug%.json",
+      "format": "simple_json",
+      "source": "static/admin/langs/messages.json",
+      "target": "static/admin/langs/messages.%slug%.json",
       "namePattern": "parentDirectory"
     },
     {
       "format": "json",
-      "source": "angular/projects/admin/src/locale/messages.json",
-      "target": "angular/projects/admin/src/locale/messages.%slug%.json",
+      "source": "frontend/langs/messages.json",
+      "target": "frontend/langs/messages.%slug%.json",
       "namePattern": "parentDirectory"
     }
   ]

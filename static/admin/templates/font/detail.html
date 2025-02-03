@@ -1,0 +1,320 @@
+<div x-data="fontDetailsData">
+  <template x-if="loading">
+    <jinya-loader></jinya-loader>
+  </template>
+  <template x-if="!loading">
+    <div class="cosmo-side-list">
+      <nav class="cosmo-side-list__items">
+        <a
+          @click="changeSideItem('details')"
+          class="cosmo-side-list__item"
+          x-active="activeSideItem === 'details'"
+          x-localize:font-details-details=""
+        >
+        </a>
+        <a
+          @click="changeSideItem('designers')"
+          class="cosmo-side-list__item"
+          x-active="activeSideItem === 'designers'"
+          x-localize:font-details-designer=""
+        >
+        </a>
+        <a
+          @click="changeSideItem('files')"
+          class="cosmo-side-list__item"
+          x-active="activeSideItem === 'files'"
+          x-localize:font-details-files=""
+        >
+        </a>
+      </nav>
+      <template x-if="activeSideItem === 'details'">
+        <div class="cosmo-side-list__content">
+          <span class="cosmo-title" x-localize:font-details-details-title="font"></span>
+          <template x-if="!font.googleFont">
+            <div class="cosmo-toolbar">
+              <div class="cosmo-toolbar__group">
+                <button class="cosmo-button" @click="openEditFontDialog" x-localize:edit=""></button>
+                <button class="cosmo-button" @click="deleteFont" x-localize:delete=""></button>
+              </div>
+            </div>
+          </template>
+          <dl class="cosmo-list is--key-value">
+            <dt x-localize:font-license=""></dt>
+            <dd x-font-license="font.license"></dd>
+            <dt x-localize:font-category=""></dt>
+            <dd x-text="font.category"></dd>
+            <dt x-localize:font-google-font=""></dt>
+            <dd x-boolean-display="font.googleFont"></dd>
+          </dl>
+          <h4 x-localize:font-description=""></h4>
+          <div class="font-description" x-html="font.description"></div>
+          <template x-if="editFontOpen">
+            <div class="cosmo-modal__container">
+              <form class="cosmo-modal" @submit.prevent="updateFont">
+                <h1 class="cosmo-modal__title" x-localize:edit-font-title="font"></h1>
+                <div class="cosmo-modal__content">
+                  <div class="cosmo-input__group">
+                    <label for="category" class="cosmo-label" x-localize:font-category=""></label>
+                    <select class="cosmo-select" id="category" x-model="font.editCategory">
+                      <option value="Sans Serif" x-localize:font-style-sans-serif=""></option>
+                      <option value="Serif" x-localize:font-style-serif=""></option>
+                      <option value="Monospace" x-localize:font-style-monospace=""></option>
+                      <option value="Display" x-localize:font-style-display=""></option>
+                      <option value="Handwriting" x-localize:font-style-handwriting=""></option>
+                    </select>
+                    <label for="license" class="cosmo-label" x-localize:font-license=""></label>
+                    <input
+                      required
+                      list="suggestedLicenses"
+                      type="text"
+                      id="license"
+                      class="cosmo-input"
+                      x-model="font.editLicense"
+                    />
+                    <template x-if="!font.editLicense">
+                      <span class="cosmo-input__message is--negative" x-localize:font-license-error=""></span>
+                    </template>
+                    <datalist id="suggestedLicenses">
+                      <option value="ufl"></option>
+                      <option value="ofl"></option>
+                      <option value="apache2"></option>
+                      <option value="mit"></option>
+                      <option value="cc0"></option>
+                    </datalist>
+                    <span class="cosmo-input__header" x-localize:font-description=""></span>
+                    <jinya-toolbar-editor
+                      :content="font.editDescription"
+                      @change="(e) => font.editDescription = e.value"
+                    ></jinya-toolbar-editor>
+                  </div>
+                </div>
+                <div class="cosmo-modal__button-bar">
+                  <button class="cosmo-button" @click="editFontOpen = false" x-localize:discard-changes=""></button>
+                  <button class="cosmo-button" type="submit" x-localize:save-font=""></button>
+                </div>
+              </form>
+            </div>
+          </template>
+        </div>
+      </template>
+      <template x-if="activeSideItem === 'designers'">
+        <div class="cosmo-side-list__content">
+          <span class="cosmo-title" x-localize:font-details-designer-title="font"></span>
+          <div class="cosmo-tab">
+            <div class="cosmo-tab__links">
+              <template x-for="designer in font.designers">
+                <a
+                  href="#"
+                  class="cosmo-tab__link"
+                  @click="activeDesigner = designer"
+                  x-active="activeDesigner?.name === designer.name"
+                  x-text="designer.name"
+                >
+                </a>
+              </template>
+              <template x-if="!font.googleFont">
+                <a
+                  href="#"
+                  class="cosmo-tab__link"
+                  @click="activeDesigner = null"
+                  x-active="activeDesigner === null"
+                  x-localize:font-details-new-designer=""
+                >
+                </a>
+              </template>
+            </div>
+            <template x-if="activeDesigner">
+              <div class="cosmo-tab__content is--designer">
+                <template x-if="!font.googleFont">
+                  <div class="cosmo-toolbar">
+                    <div class="cosmo-toolbar__group">
+                      <button
+                        class="cosmo-button"
+                        :disabled="editDesignerOn"
+                        @click="editDesigner"
+                        x-localize:edit=""
+                      ></button>
+                      <button class="cosmo-button" @click="removeDesigner" x-localize:delete=""></button>
+                    </div>
+                  </div>
+                </template>
+                <template x-if="editDesignerOn">
+                  <form class="top-gap" @submit.prevent="updateDesigner()">
+                    <jinya-toolbar-editor
+                      :content="activeDesigner.editBio"
+                      @change="(e) => activeDesigner.editBio = e.value"
+                    ></jinya-toolbar-editor>
+                    <div class="cosmo-button__container">
+                      <button
+                        class="cosmo-button"
+                        @click="editDesignerOn = false"
+                        type="reset"
+                        x-localize:discard-changes=""
+                      ></button>
+                      <button class="cosmo-button is--primary" type="submit" x-localize:save-designer=""></button>
+                    </div>
+                  </form>
+                </template>
+                <template x-if="!editDesignerOn">
+                  <div x-html="activeDesigner?.bio"></div>
+                </template>
+              </div>
+            </template>
+            <template x-if="!activeDesigner">
+              <form @submit.prevent="createNewDesigner">
+                <fieldset class="jinya-fieldset">
+                  <legend class="jinya-legend" x-localize:create-designer=""></legend>
+                  <div class="cosmo-input__group">
+                    <label for="designerName" class="cosmo-label" x-localize:designer-name-label=""></label>
+                    <input type="text" id="designerName" class="cosmo-input" required x-model="newDesigner.name" />
+                    <template x-if="!newDesigner.name">
+                      <span class="cosmo-input__message is--negative" x-localize:designer-name-error=""></span>
+                    </template>
+                    <span class="cosmo-input__header" x-localize:about-designer=""></span>
+                    <jinya-toolbar-editor
+                      :content="newDesigner.bio"
+                      @change="(e) => newDesigner.bio = e.value"
+                    ></jinya-toolbar-editor>
+                  </div>
+                  <div class="cosmo-button__container">
+                    <button class="cosmo-button" type="reset" x-localize:discard-changes=""></button>
+                    <button class="cosmo-button is--primary" type="submit" x-localize:create-designer=""></button>
+                  </div>
+                </fieldset>
+              </form>
+            </template>
+          </div>
+        </div>
+      </template>
+      <template x-if="activeSideItem === 'files'">
+        <div class="cosmo-side-list__content">
+          <span class="cosmo-title" x-localize:font-details-files-title="font"></span>
+          <template x-if="!font.googleFont">
+            <div class="cosmo-toolbar">
+              <div class="cosmo-toolbar__group">
+                <button class="cosmo-button" @click="openNewFileDialog" x-localize:upload-file=""></button>
+              </div>
+            </div>
+          </template>
+          <table class="cosmo-table">
+            <thead>
+              <tr>
+                <th x-localize:font-style=""></th>
+                <th x-localize:font-weight=""></th>
+                <th x-localize:font-file-type=""></th>
+                <th x-localize:actions=""></th>
+              </tr>
+            </thead>
+            <tbody>
+              <template x-for="file in font.fonts">
+                <tr>
+                  <td x-text="file.style"></td>
+                  <td x-text="file.weight"></td>
+                  <td x-text="file.type"></td>
+                  <td>
+                    <div class="cosmo-toolbar__group">
+                      <a :href="file.path" native class="cosmo-button" x-localize:download=""></a>
+                      <template x-if="!font.googleFont">
+                        <button class="cosmo-button" @click="openEditFileDialog(file)" x-localize:edit=""></button>
+                      </template>
+                      <template x-if="!font.googleFont">
+                        <button class="cosmo-button" @click="deleteFile(file)" x-localize:delete=""></button>
+                      </template>
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+          <template x-if="newFileOpen">
+            <div class="cosmo-modal__container">
+              <form class="cosmo-modal" @submit.prevent="createNewFile">
+                <h1 class="cosmo-modal__title" x-localize:create-file-title=""></h1>
+                <div class="cosmo-modal__content">
+                  <div class="cosmo-input__group">
+                    <label for="weight" class="cosmo-label" x-localize:font-weight-label=""></label>
+                    <select class="cosmo-select" id="weight" x-model="newFile.weight">
+                      <option value="100" x-localize:font-weight-100=""></option>
+                      <option value="200" x-localize:font-weight-200=""></option>
+                      <option value="300" x-localize:font-weight-300=""></option>
+                      <option value="400" x-localize:font-weight-400=""></option>
+                      <option value="500" x-localize:font-weight-500=""></option>
+                      <option value="600" x-localize:font-weight-600=""></option>
+                      <option value="700" x-localize:font-weight-700=""></option>
+                      <option value="800" x-localize:font-weight-800=""></option>
+                      <option value="900" x-localize:font-weight-900=""></option>
+                    </select>
+                    <label for="style" class="cosmo-label" x-localize:font-style-label=""></label>
+                    <select class="cosmo-select" id="style" x-model="newFile.style">
+                      <option value="normal" x-localize:font-style-normal=""></option>
+                      <option value="italic" x-localize:font-style-italic=""></option>
+                    </select>
+                    <label for="file" class="cosmo-label" x-localize:font-file=""></label>
+                    <input
+                      required
+                      type="file"
+                      id="file"
+                      class="cosmo-input"
+                      accept="font/woff2, font/ttf"
+                      @change="(e) => newFile.file = e.target.files.item(0)"
+                    />
+                  </div>
+                </div>
+                <div class="cosmo-modal__button-bar">
+                  <button class="cosmo-button" type="button" @click="newFileOpen = false" x-localize:cancel=""></button>
+                  <button class="cosmo-button" type="submit" x-localize:upload-file=""></button>
+                </div>
+              </form>
+            </div>
+          </template>
+          <template x-if="editFileOpen">
+            <div class="cosmo-modal__container">
+              <form class="cosmo-modal" @submit.prevent="updateFile">
+                <h1 class="cosmo-modal__title" x-localize:upload-file=""></h1>
+                <div class="cosmo-modal__content">
+                  <div class="cosmo-input__group">
+                    <label for="style" class="cosmo-label" x-localize:font-style-label=""></label>
+                    <select disabled class="cosmo-select" id="style" x-model="editFile.style">
+                      <option value="normal" x-localize:font-style-normal=""></option>
+                      <option value="italic" x-localize:font-style-italic=""></option>
+                    </select>
+                    <label for="weight" class="cosmo-label" x-localize:font-weight-label=""></label>
+                    <select disabled class="cosmo-select" id="weight" x-model="editFile.weight">
+                      <option value="100" x-localize:font-weight-100=""></option>
+                      <option value="200" x-localize:font-weight-200=""></option>
+                      <option value="300" x-localize:font-weight-300=""></option>
+                      <option value="400" x-localize:font-weight-400=""></option>
+                      <option value="500" x-localize:font-weight-500=""></option>
+                      <option value="600" x-localize:font-weight-600=""></option>
+                      <option value="700" x-localize:font-weight-700=""></option>
+                      <option value="800" x-localize:font-weight-800=""></option>
+                      <option value="900" x-localize:font-weight-900=""></option>
+                    </select>
+                    <label for="file" class="cosmo-label" x-localize:font-file=""></label>
+                    <input
+                      required
+                      type="file"
+                      id="file"
+                      class="cosmo-input"
+                      accept="font/woff2, font/ttf"
+                      @change="(e) => editFile.file = e.target.files.item(0)"
+                    />
+                  </div>
+                </div>
+                <div class="cosmo-modal__button-bar">
+                  <button
+                    class="cosmo-button"
+                    type="button"
+                    @click="editFileOpen = false"
+                    x-localize:cancel=""
+                  ></button>
+                  <button class="cosmo-button" type="submit" x-localize:upload-file=""></button>
+                </div>
+              </form>
+            </div>
+          </template>
+        </div>
+      </template>
+    </div>
+  </template>
+</div>
