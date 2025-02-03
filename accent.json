@@ -10,8 +10,8 @@
     },
     {
       "format": "json",
-      "source": "angular/projects/admin/src/locale/messages.json",
-      "target": "angular/projects/admin/src/locale/messages.%slug%.json",
+      "source": "frontend/langs/messages.json",
+      "target": "frontend/langs/messages.%slug%.json",
       "namePattern": "parentDirectory"
     }
   ]

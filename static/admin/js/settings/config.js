@@ -17,7 +17,7 @@ Alpine.data('configData', () => ({
   async loadData() {
     this.loading = true;
     const settings = await get('/api/admin/settings');
-    this.onlyFetchFonts = new Set(settings.filterByName);
+    this.onlyFetchFonts = settings.filterByName;
     this.syncInterval = settings.syncInterval;
     this.enableSync = settings.syncEnabled;
     this.loading = false;

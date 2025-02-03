@@ -2,11 +2,18 @@
   "name": "jinya-fonts",
   "version": "3.2.0",
   "scripts": {
-    "lint": "npm run admin:prettier && npm run admin:eslint && npm run admin:stylelint",
+    "lint": "npm run admin:lint",
+    "format": "npm run admin:format && npm run frontend:format",
+    "admin:lint": "npm run admin:prettier && npm run admin:eslint && npm run admin:stylelint",
     "admin:prettier": "prettier static/admin/js --check",
     "admin:eslint": "eslint -c eslint.config.cjs static/admin/js/ static/admin/index.js",
     "admin:stylelint": "stylelint static/admin/css/**/*.css",
-    "admin:format": "prettier static/admin --write"
+    "admin:format": "prettier static/admin --write",
+    "frontend:lint": "npm run frontend:prettier && npm run frontend:eslint && npm run frontend:stylelint",
+    "frontend:prettier": "prettier static/frontend/js --check",
+    "frontend:eslint": "eslint -c eslint.config.cjs static/frontend/js/",
+    "frontend:stylelint": "stylelint static/admin/css/**/*.css",
+    "frontend:format": "prettier static/frontend --write"
   },
   "author": "Jinya Developers",
   "repository": {

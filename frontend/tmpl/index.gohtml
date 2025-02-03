@@ -1,0 +1,56 @@
+{{define "content"}}
+    <div x-data="indexData" class="jinya-index">
+        <div class="jinya-settings-panel">
+            <input aria-label="{{ translate "searchbar-label" }}" id="searchbox"
+                   placeholder="{{ translate "searchbar-placeholder" }}" type="search"
+                   class="jinya-search-box" x-model="filterText">
+            <select aria-label="{{ translate "preview-panel-preview-type" }}" id="previewtype"
+                    class="jinya-preview__type" x-model="previewType">
+                <option value="custom">{{ translate "preview-type-custom" }}</option>
+                <option value="alphabet">{{ translate "preview-type-alphabet" }}</option>
+                <option value="lorem" selected>{{ translate "preview-type-lorem" }}</option>
+                <option value="numbers">{{ translate "preview-type-numbers" }}</option>
+            </select>
+            <input aria-label="{{ translate "preview-text-label" }}" id="previewtext"
+                   placeholder="{{ translate "preview-text-placeholder" }}" type="text"
+                   class="jinya-preview__text" x-model="customPreviewText" :readonly="previewType !== 'custom'">
+            <span id="previewsizetext" class="jinya-preview__size-text" x-text="previewSize + 'px'"></span>
+            <input aria-label="Preview size" id="previewsize" type="range" value="24" max="240" min="8"
+                   class="jinya-preview__size" x-model="previewSize">
+        </div>
+        <div class="jinya-font-type-panel">
+            <input class="jinya-checkbox" type="checkbox" id="sans" x-model="sansEnabled">
+            <label for="sans">{{ translate "style-sans-serif" }}</label>
+            <input class="jinya-checkbox" type="checkbox" id="serif" x-model="serifEnabled">
+            <label for="serif">{{ translate "style-serif" }}</label>
+            <input class="jinya-checkbox" type="checkbox" id="handwritten" x-model="handwrittenEnabled">
+            <label for="handwritten">{{ translate "style-handwriting" }}</label>
+            <input class="jinya-checkbox" type="checkbox" id="display" x-model="displayEnabled">
+            <label for="display">{{ translate "style-display" }}</label>
+            <input class="jinya-checkbox" type="checkbox" id="monospace" x-model="monospaceEnabled">
+            <label for="monospace">{{ translate "style-monospace" }}</label>
+        </div>
+        <div id="cardlist" class="jinya-card__list" :class="{ 'jinya-card__list--loading': loading }">
+            <template x-if="loading">
+                <div class="jinya-loader"></div>
+            </template>
+            <template x-if="!loading">
+                <template id="font-card" x-for="font in filteredFonts" :key="font.name">
+                    <a class="jinya-card" :href="'/font?font=' + font.name">
+                        <div class="jinya-card__header">
+                            <span class="jinya-card__title" x-text="font.name"></span>
+                            <span class="jinya-card__subtitle" x-text="designer(font)"></span>
+                        </div>
+                        <div class="jinya-card__body" x-text="previewText"
+                             :style="{ 'font-family': font.name, 'font-size': previewSize + 'px' }"></div>
+                        <link :href="styleUrl(font)" rel="stylesheet" type="text/css">
+                    </a>
+                </template>
+                <template x-if="filteredFonts.length === 0">
+                    <p class="jinya-no-fonts">{{ translate "no-fonts" }}</p>
+                </template>
+            </template>
+        </div>
+        <script src="/static/frontend/js/index.js" type="module"></script>
+    </div>
+{{end}}

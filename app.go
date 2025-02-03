@@ -14,6 +14,7 @@ import (
 	"jinya-fonts/database"
 	"jinya-fonts/fonts"
 	"jinya-fonts/fontsync"
+	"jinya-fonts/frontend"
 	"log"
 	"net/http"
 	"os"
@@ -141,6 +142,7 @@ func main() {
 		router.PathPrefix("/static/").Handler(http.FileServerFS(static))
 
 		if config.LoadedConfiguration.ServeWebsite {
+			frontend.SetupRouter(router)
 		}
 
 		log.Println("Serving at localhost:8090...")

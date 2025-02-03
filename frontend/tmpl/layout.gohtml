@@ -1,0 +1,38 @@
+{{define "layout"}}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Jinya Fonts</title>
+        <link rel="stylesheet" href="/static/lib/cosmo/fonts/albert-sans.css">
+        <link rel="stylesheet" href="/static/lib/cosmo/fonts/oxygen-mono.css">
+        <link rel="stylesheet" href="/static/lib/cosmo/fonts/urbanist.css">
+
+        <link rel="stylesheet" href="/static/frontend/css/body.css">
+        <link rel="stylesheet" href="/static/frontend/css/app.css">
+        <link rel="stylesheet" href="/static/frontend/css/settingspanel.css">
+        <link rel="stylesheet" href="/static/frontend/css/details.css">
+        <link rel="stylesheet" href="/static/frontend/css/loader.css">
+        <link rel="stylesheet" href="/static/frontend/css/variables.css">
+        <link rel="stylesheet" href="/static/frontend/css/card.css">
+
+        <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg">
+        <link rel="icon" type="image/png" href="/static/img/favicon.png">
+        <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+        <meta name="msapplication-TileColor" content="#19324c">
+        <meta name="theme-color" content="#19324c">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+    <main class="jinya-page">
+        <a href="/" class="jinya-title">Jinya Fonts</a>
+        {{template "content" .}}
+        <footer class="jinya-footer">
+            <p>{{ translate "footer-row-one" year }}</p>
+            <p>{{ translate "footer-row-two" }}</p>
+        </footer>
+    </main>
+    </body>
+    </html>
+{{end}}

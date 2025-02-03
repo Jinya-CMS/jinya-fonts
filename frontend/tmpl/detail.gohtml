@@ -1,0 +1,81 @@
+{{define "content"}}
+    <div x-data="detailData">
+        <h1 class="jinya-font-details__title">{{ .Font.Name }}</h1>
+        <span class="jinya-font-details__designers-hint">{{ translate "detail-designed-by" .Designers }}</span>
+        <h2 class="jinya-font-details__title jinya-font-details__title--about">{{ translate "detail-about" .Font.Name }}</h2>
+        <div class="jinya-font-details__about-paragraphs">{{ noescape .Font.Description }}</div>
+        <h3 class="jinya-font-details__title jinya-font-details__title--license">{{ translate "license" }}</h3>
+        <p>
+            {{ if eq .Font.License "apache2" }}
+                <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>
+            {{ else if eq .Font.License "ofl" }}
+                <a target="_blank" href="https://openfontlicense.org/">Open Font License</a>
+            {{ else if eq .Font.License "ufl" }}
+                <a target="_blank" href="https://font.ubuntu.com/ufl/">Ubuntu Font License</a>
+            {{ else }}
+                {{ .Font.License }}
+            {{ end }}
+        </p>
+        <hr>
+        <div class="jinya-font-links">
+            <h3 class="jinya-font-details__title jinya-font-details__title--code">{{ translate "usage-in-html" }}</h3>
+            <pre class="jinya-font-links__code" x-text="htmlCode"></pre>
+            <h3 class="jinya-font-details__title jinya-font-details__title--code">{{ translate "usage-in-css" }}</h3>
+            <pre class="jinya-font-links__code" x-text="fontCss"></pre>
+            <div class="jinya-font-links__download">
+                <h3 class="jinya-font-details__title jinya-font-details__title--code">
+                    {{ translate "download-title" }}
+                </h3>
+                <a href="/download?font={{ .Font.Name }}"
+                   class="jinya-font-details__button jinya-font-details__add-to-css-label">
+                    {{ translate "download-button" }}
+                </a>
+            </div>
+            <hr>
+        </div>
+        <div class="jinya-settings-panel jinya-settings-panel--details">
+            <select aria-label="Preview type" id="previewtype" class="jinya-preview__type" x-model="previewType">
+                <option value="custom">{{ translate "preview-type-custom" }}</option>
+                <option value="alphabet">{{ translate "preview-type-alphabet" }}</option>
+                <option value="lorem" selected>{{ translate "preview-type-lorem" }}</option>
+                <option value="numbers">{{ translate "preview-type-numbers" }}</option>
+            </select>
+            <input aria-label="Preview text" id="previewtext" placeholder="Type text to preview..." type="text"
+                   class="jinya-preview__text" x-model="customPreviewText" :readonly="previewType !== 'custom'">
+            <span id="previewsizetext" class="jinya-preview__size-text" x-text="previewSize + 'px'"></span>
+            <input aria-label="Preview size" id="previewsize" type="range" value="24" max="240" min="8"
+                   class="jinya-preview__size" x-model="previewSize">
+        </div>
+        <h3 class="jinya-font-details__title jinya-font-details__title--code">{{ translate "font-preview-title" }}</h3>
+        <div class="jinya-font-details__style-container">
+            {{ range .Font.Fonts }}
+                <h3 class="jinya-font-details__style-title">
+                    {{ $.Font.Name }} {{ .Weight }} {{ .Style }}
+                    <input type="checkbox" data-role="select" data-weight="{{ .Weight }}" data-style="{{ .Style }}"
+                           class="jinya-font-details__add-to-css-box" id="{{ .Weight }}-{{ .Style }}"
+                           value="{{ .Weight }}-{{ .Style }}" x-model="styles">
+                    <label class="jinya-font-details__add-to-css-label" for="{{ .Weight }}-{{ .Style }}">
+                        {{ translate "font-preview-add-to-code" }}
+                    </label>
+                </h3>
+                <span data-role="preview" class="jinya-font-details__style-preview"
+                      style="font-weight: {{ .Weight }}; font-style: {{ .Style }}; font-family: {{ $.Font.Name }}"
+                      :style="{ 'font-size': previewSize + 'px' }"
+                      x-text="previewText"></span>
+            {{ end }}
+        </div>
+        <link href="/css2?family={{ .Font.Name }}:all" rel="stylesheet" type="text/css">
+        <hr>
+        <div class="jinya-font-details__designer">
+            <h2 class="jinya-font-details__title jinya-font-details__title--designers">{{ translate "designers" }}</h2>
+            {{ range .Font.Designers }}
+                <h3 class="jinya-font-details__designer-name">{{ .Name }}</h3>
+                <div class="jinya-font-details__designer-bio">{{ noescape .Bio }}</div>
+            {{ end }}
+        </div>
+    </div>
+    <script>
+      window.fontName = {{ .Font.Name }};
+    </script>
+    <script src="/static/frontend/js/details.js" type="module"></script>
+{{end}}
