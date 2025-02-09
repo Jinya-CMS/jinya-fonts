@@ -6,10 +6,9 @@ import (
 	"github.com/zitadel/zitadel-go/v3/pkg/authorization"
 	"github.com/zitadel/zitadel-go/v3/pkg/authorization/oauth"
 	"github.com/zitadel/zitadel-go/v3/pkg/http/middleware"
+	"github.com/zitadel/zitadel-go/v3/pkg/zitadel"
 	"jinya-fonts/config"
 	"net/http"
-
-	"github.com/zitadel/zitadel-go/v3/pkg/zitadel"
 )
 
 func contentTypeJson() func(next http.Handler) http.Handler {
