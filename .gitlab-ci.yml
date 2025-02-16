@@ -97,6 +97,16 @@ merge-manifests:
   rules:
     - if: $CI_COMMIT_TAG
 
+trigger-server:
+  needs:
+    - job: merge-manifests
+  variables:
+    TAG: $CI_COMMIT_TAG
+  stage: deploy
+  trigger: server-management/main-server.ulbricht.casa/fonts.jinya.de
+  rules:
+    - if: $CI_COMMIT_TAG
+
 variables:
   JEKYLL_ENV: production
   LC_ALL: C.UTF-8
