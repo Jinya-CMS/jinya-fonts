@@ -85,7 +85,7 @@ func (handler SpaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func main() {
 	err := config.LoadConfiguration()
 	if err != nil {
-		panic(err)
+		log.Fatalf("Failed with err %v", err)
 	}
 
 	settings, err := database.GetSettings()
@@ -98,10 +98,10 @@ func main() {
 
 		err = database.UpdateSettings(settings)
 		if err != nil {
-			panic(err)
+			log.Fatalf("Failed with err %v", err)
 		}
 	} else if err != nil {
-		panic(err)
+		log.Fatalf("Failed with err %v", err)
 	}
 
 	jobrunner.Start()
@@ -116,7 +116,7 @@ func main() {
 	if slices.Contains(os.Args, "sync") {
 		err = fontsync.Sync()
 		if err != nil {
-			panic(err)
+			log.Fatalf("Failed with err %v", err)
 		}
 	}
 
@@ -148,7 +148,7 @@ func main() {
 		log.Println("Serving at localhost:8090...")
 		err = http.ListenAndServe(":8090", router)
 		if err != nil {
-			panic(err)
+			log.Fatalf("Failed with err %v", err)
 		}
 	}
 }
