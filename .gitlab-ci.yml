@@ -124,8 +124,7 @@ pages:
   stage: deploy
   image: library/ruby:latest
   before_script:
-    - gem install bundler jekyll
-    - bundle update rb-inotify
+    - gem install bundler
     - bundle install
   script:
   - bundle exec jekyll build -d public

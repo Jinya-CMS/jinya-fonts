@@ -42,18 +42,34 @@ sidebar:
 
 exclude:
   - admin
+  - api
   - config
-  - data
+  - database
+  - fonts
   - fontsync
-  - http
-  - meta
-  - utils
-  - webapp
+  - frontend
+  - node_modules
+  - openapi
+  - static
+  - .dockerignore
+  - .env
+  - .env.example
+  - .gitignore
   - .gitlab-ci.yml
+  - .prettierignore
+  - .prettierrc
+  - .stylelintignore
+  - .stylelintrc.json
+  - _config.yml
+  - accent.json
   - app.go
+  - bun.lockb
   - docker-compose.yaml
   - Dockerfile
+  - eslint.config.cjs
   - Gemfile
   - Gemfile.lock
-  - go.mod
+  - LICENSE
+  - package.json
   - go.sum
+  - go.mod
