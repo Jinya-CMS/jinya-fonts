@@ -3,12 +3,12 @@ package config
 import (
 	"fmt"
 	"go-simpler.org/env"
+	"os"
 )
 
 type Configuration struct {
 	ApiKey                 string `env:"GOOGLE_API_KEY"`
-	MongoUrl               string `env:"MONGO_URL"`
-	MongoDatabase          string `env:"MONGO_DATABASE"`
+	PostgresUrl            string `env:"POSTGRES_URL"`
 	RedisUrl               string `env:"REDIS_URL"`
 	ServeWebsite           bool   `env:"SERVE_WEBSITE"`
 	OidcFrontendClientId   string `env:"OIDC_FRONTEND_CLIENT_ID"`
@@ -34,4 +34,12 @@ func LoadConfiguration() error {
 	LoadedConfiguration = config
 
 	return nil
+}
+
+func IsDev() bool {
+	return !IsProd()
+}
+
+func IsProd() bool {
+	return os.Getenv("ENV") == "prod"
 }

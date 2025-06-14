@@ -1,9 +1,15 @@
-package database
+package storage
 
 import (
+	"context"
 	"github.com/redis/go-redis/v9"
 	"jinya-fonts/config"
+	"time"
 )
+
+func getContext() (context.Context, context.CancelFunc) {
+	return context.WithTimeout(context.Background(), 10*time.Second)
+}
 
 func getRedisClient() (*redis.Client, error) {
 	opts, err := redis.ParseURL(config.LoadedConfiguration.RedisUrl)
@@ -14,7 +20,7 @@ func getRedisClient() (*redis.Client, error) {
 	return redis.NewClient(opts), nil
 }
 
-func GetCachedFontFile(path string) ([]byte, error) {
+func getCachedFontFile(path string) ([]byte, error) {
 	client, err := getRedisClient()
 	if err != nil {
 		return nil, err
@@ -26,7 +32,7 @@ func GetCachedFontFile(path string) ([]byte, error) {
 	return client.Get(ctx, path).Bytes()
 }
 
-func AddCachedFontFile(name, weight, style, fileType string, data []byte, googleFont bool) error {
+func addCachedFontFile(name, weight, style, fileType string, data []byte, googleFont bool) error {
 	client, err := getRedisClient()
 	if err != nil {
 		return err
@@ -38,7 +44,7 @@ func AddCachedFontFile(name, weight, style, fileType string, data []byte, google
 	return client.Set(ctx, GetFontFileName(name, weight, style, fileType, googleFont), data, 0).Err()
 }
 
-func RemoveCachedFontFile(name, weight, style, fileType string, googleFont bool) error {
+func removeCachedFontFile(name, weight, style, fileType string, googleFont bool) error {
 	client, err := getRedisClient()
 	if err != nil {
 		return err

@@ -5,15 +5,15 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"io"
-	"jinya-fonts/database"
+	"jinya-fonts/storage"
 	"net/http"
 )
 
-func getFontFiles(w http.ResponseWriter, r *http.Request) {
+func GetFontFiles(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name := vars["fontName"]
 
-	files, err := database.GetFontFiles(name)
+	files, err := storage.GetFontFiles(name)
 	if err != nil {
 		http.NotFound(w, r)
 		return
@@ -43,7 +43,7 @@ func createFontFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = database.SetFontFile(name, weight, style, fontType, fileBuffer.Bytes(), false)
+	_, err = storage.SetFontFile(name, weight, style, fontType, fileBuffer.Bytes())
 	if err != nil {
 		http.Error(w, "Failed to create font file", http.StatusInternalServerError)
 		return
@@ -70,10 +70,7 @@ func updateFontFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = database.SetFontFile(name, weight, style, fontType, fileBuffer.Bytes(), false)
-	if err != nil {
-		return
-	}
+	_, err = storage.SetFontFile(name, weight, style, fontType, fileBuffer.Bytes())
 	if err != nil {
 		http.Error(w, "Failed to update font file", http.StatusInternalServerError)
 		return
@@ -93,7 +90,7 @@ func deleteFontFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := database.RemoveFontFile(name, weight, style, fontType)
+	err := storage.RemoveFontFile(name, weight, style, fontType)
 	if err != nil {
 		http.Error(w, "Failed to delete font file", http.StatusInternalServerError)
 		return

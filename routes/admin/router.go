@@ -2,8 +2,8 @@ package admin
 
 import (
 	"github.com/gorilla/mux"
-	"jinya-fonts/admin/api"
-	"jinya-fonts/admin/web"
+	"jinya-fonts/routes/admin/api"
+	"jinya-fonts/routes/admin/web"
 )
 
 func SetupRouter(router *mux.Router) {

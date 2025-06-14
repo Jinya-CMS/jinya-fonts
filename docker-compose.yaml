@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   jinya-redis:
     image: library/redis:latest
@@ -12,3 +10,12 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: jinya
     ports:
       - 27017:27017
+  jinya-postgres:
+    image: library/postgres:latest
+    environment:
+      POSTGRES_DB: jinya
+      POSTGRES_PASSWORD: jinya
+      POSTGRES_ROOT_PASSWORD: jinya
+      POSTGRES_USER: jinya
+    ports:
+      - 2345:5432

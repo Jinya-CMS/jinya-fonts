@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/bamzi/jobrunner"
 	"jinya-fonts/config"
-	"jinya-fonts/database"
+	"jinya-fonts/storage"
 	"net/http"
 	"time"
 )
@@ -14,7 +14,6 @@ type status struct {
 	JobNextExecution *time.Time `json:"jobNextExecution"`
 	Online           bool       `json:"online"`
 	RedisUp          bool       `json:"redisUp"`
-	MongoUp          bool       `json:"mongoUp"`
 	ServingWebsite   bool       `json:"servingWebsite"`
 }
 
@@ -22,8 +21,7 @@ func getStatus(w http.ResponseWriter, _ *http.Request) {
 	currentStatus := status{
 		JobIsScheduled: len(jobrunner.Entries()) > 0,
 		Online:         true,
-		RedisUp:        database.CheckRedis(),
-		MongoUp:        database.CheckMongo(),
+		RedisUp:        storage.CheckRedis(),
 		ServingWebsite: config.LoadedConfiguration.ServeWebsite,
 	}
 
