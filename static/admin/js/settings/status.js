@@ -17,7 +17,6 @@ Alpine.data('statusData', () => ({
     this.jobNextExecution = new Date(Date.parse(status.jobNextExecution));
     this.online = status.online;
     this.redisUp = status.redisUp;
-    this.mongoUp = status.mongoUp;
     this.servingWebsite = status.servingWebsite;
     this.loading = false;
   },

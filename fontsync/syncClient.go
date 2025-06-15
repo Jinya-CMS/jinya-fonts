@@ -6,6 +6,7 @@ import (
 	"io"
 	"jinya-fonts/config"
 	"jinya-fonts/database"
+	"jinya-fonts/storage"
 	"log"
 	"net/http"
 	"runtime"
@@ -77,10 +78,7 @@ func downloadWoff2FontList() ([]GoogleWebfont, error) {
 	return webFontList.Items, nil
 }
 
-func downloadFontFiles(ttf bool, font GoogleWebfont, cpu int) (fontFiles map[string]database.File, fontData map[string][]byte, err error) {
-	fontFiles = map[string]database.File{}
-	fontData = map[string][]byte{}
-
+func downloadFontFiles(ttf bool, font GoogleWebfont, cpu int) {
 	fileType := "woff2"
 	if ttf == true {
 		fileType = "ttf"
@@ -107,33 +105,19 @@ func downloadFontFiles(ttf bool, font GoogleWebfont, cpu int) (fontFiles map[str
 			continue
 		}
 
-		fileName := database.GetFontFileName(font.Family, weight, style, fileType, true)
-		fontData[fileName], err = io.ReadAll(response.Body)
+		fontData, err := io.ReadAll(response.Body)
 		if err != nil {
 			logWithCpu(cpu, "Failed to read font file data: %s", err.Error())
 			continue
 		}
 
-		path := fmt.Sprintf("/fonts/%s", fileName)
-
-		fontFile := database.File{
-			Path:   path,
-			Weight: weight,
-			Style:  style,
-			Type:   fileType,
-		}
-
-		if err != nil {
-			logWithCpu(cpu, "Failed to add font file: %s", err.Error())
-			continue
-		}
-
-		go database.AddCachedFontFile(font.Family, weight, style, fileType, fontData[fileName], true)
-
-		fontFiles[fileName] = fontFile
+		go func() {
+			_, err := storage.SetGoogleFontFile(font.Family, weight, style, fileType, fontData)
+			if err != nil {
+				logWithCpu(cpu, "Failed to save font file: %s", err.Error())
+			}
+		}()
 	}
-
-	return
 }
 
 func handleWebfont(channel chan GoogleWebfont, wg *sync.WaitGroup, cpu int) {
@@ -144,36 +128,29 @@ func handleWebfont(channel chan GoogleWebfont, wg *sync.WaitGroup, cpu int) {
 			continue
 		}
 
-		fonts, files, err := downloadFontFiles(false, font, cpu)
-		if err != nil {
-			logWithCpu(cpu, "Failed to create new font: %s", err.Error())
-			continue
-		}
-
 		fontFile := database.Webfont{
 			Name:        font.Family,
 			Description: webfontMetadata.Description,
-			Designers:   webfontMetadata.Designers,
 			License:     webfontMetadata.License,
 			Category:    webfontMetadata.Category,
 			GoogleFont:  true,
-			Fonts:       fonts,
 		}
 
-		err = database.CreateFont(&fontFile)
+		err = database.Insert(fontFile)
 		if err != nil {
 			logWithCpu(cpu, "Failed to create new font: %s", err.Error())
 			continue
 		}
 
-		for p, file := range files {
-			meta := fonts[p]
-			_, err := database.SetFontFile(font.Family, meta.Weight, meta.Style, meta.Type, file, true)
+		for _, designer := range webfontMetadata.Designers {
+			designer.Font = font.Family
+			err = database.Insert(designer)
 			if err != nil {
-				logWithCpu(cpu, "Failed to save font file: %s", err.Error())
-				continue
+				logWithCpu(cpu, "Failed to create new font: %s", err.Error())
 			}
 		}
+
+		downloadFontFiles(false, font, cpu)
 	}
 
 	wg.Done()
@@ -193,8 +170,12 @@ func Sync() error {
 		go handleWebfont(fontChannel, wg, i)
 	}
 
-	database.ClearGoogleFonts()
-	database.ClearGoogleFontsCache()
+	err = database.ClearGoogleFonts()
+	if err != nil {
+		log.Printf("Failed to clear google fonts: %s", err.Error())
+	}
+
+	storage.ClearGoogleFontsCache()
 
 	for _, font := range fonts {
 		fontChannel <- font

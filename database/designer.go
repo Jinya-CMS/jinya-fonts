@@ -2,44 +2,39 @@ package database
 
 import (
 	"fmt"
-	"slices"
 )
 
-type Designer struct {
-	Name string `json:"name" bson:"name"`
-	Bio  string `json:"bio" bson:"bio"`
+func GetDesigners(name string) ([]Designer, error) {
+	return Select[Designer]("select * from designer where font = $1", name)
 }
 
-func GetDesigners(name string) ([]Designer, error) {
-	font, err := GetFont(name)
-	if err != nil {
-		return nil, err
-	}
+func createDesigner(font *Webfont, designer Designer) (*Designer, error) {
+	_, err := dbMap.Exec("insert into designer (name, bio, font) values ($1, $2, $3) on conflict do update set bio = $2", designer.Name, designer.Bio, font.Name)
 
-	return font.Designers, nil
+	return &designer, err
+}
+
+func deleteDesigner(font *Webfont, designerName string) error {
+	_, err := dbMap.Exec("delete from designer where font = $1 and name = $2", font.Name, designerName)
+
+	return err
 }
 
 func CreateDesigner(name string, designer Designer) (*Designer, error) {
-	font, err := GetFont(name)
+	font, err := Get[Webfont](name)
 	if err != nil {
 		return nil, err
 	}
 
 	if font.GoogleFont {
-		return nil, fmt.Errorf("cannot add designers from a google font")
+		return nil, fmt.Errorf("cannot add designers to a google font")
 	}
 
-	font.Designers = append(font.Designers, designer)
-	err = UpdateFont(font)
-	if err != nil {
-		return nil, err
-	}
-
-	return &designer, err
+	return createDesigner(font, designer)
 }
 
 func DeleteDesigner(name string, designerName string) error {
-	font, err := GetFont(name)
+	font, err := Get[Webfont](name)
 	if err != nil {
 		return err
 	}
@@ -48,9 +43,23 @@ func DeleteDesigner(name string, designerName string) error {
 		return fmt.Errorf("cannot remove designers from a google font")
 	}
 
-	font.Designers = slices.DeleteFunc(font.Designers, func(designer Designer) bool {
-		return designer.Name == designerName
-	})
+	return deleteDesigner(font, designerName)
+}
 
-	return UpdateFont(font)
+func CreateGoogleDesigner(name string, designer Designer) (*Designer, error) {
+	font, err := Get[Webfont](name)
+	if err != nil {
+		return nil, err
+	}
+
+	return createDesigner(font, designer)
+}
+
+func DeleteGoogleDesigner(name string, designerName string) error {
+	font, err := Get[Webfont](name)
+	if err != nil {
+		return err
+	}
+
+	return deleteDesigner(font, designerName)
 }

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/csv"
 	"jinya-fonts/database"
+	"jinya-fonts/storage"
 	"net/http"
 	"net/url"
 	"slices"
@@ -34,13 +35,18 @@ type family struct {
 }
 
 func convertFamilyToTemplateData(fam family, display string) []templateData {
-	webfont, err := database.GetFont(fam.Name)
+	webfont, err := database.Get[database.Webfont](fam.Name)
+	if err != nil {
+		return []templateData{}
+	}
+
+	files, err := storage.GetFontFiles(webfont.Name)
 	if err != nil {
 		return []templateData{}
 	}
 
 	var data []templateData
-	for _, metadata := range webfont.Fonts {
+	for _, metadata := range files {
 		if fam.Italic && metadata.Style != "italic" {
 			continue
 		}
@@ -120,13 +126,19 @@ func getCss2(w http.ResponseWriter, r *http.Request) {
 			if len(splitFamily) == 1 {
 				families = append(families, family{splitFamily[0], false, "400"})
 			} else if len(splitFamily) == 2 && slices.Contains(splitFamily, "all") {
-				font, err := database.GetFont(splitFamily[0])
+				font, err := database.Get[database.Webfont](splitFamily[0])
 				if err != nil {
 					http.NotFound(w, r)
 					return
 				}
 
-				for _, file := range font.Fonts {
+				files, err := storage.GetFontFiles(font.Name)
+				if err != nil {
+					http.NotFound(w, r)
+					return
+				}
+
+				for _, file := range files {
 					families = append(families, family{
 						Name:   font.Name,
 						Italic: file.Style == "italic",

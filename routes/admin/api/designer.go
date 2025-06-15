@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func getFontDesigners(w http.ResponseWriter, r *http.Request) {
+func GetFontDesigners(w http.ResponseWriter, r *http.Request) {
 	fontName := mux.Vars(r)["fontName"]
 	designers, err := database.GetDesigners(fontName)
 

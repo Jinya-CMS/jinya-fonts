@@ -2,19 +2,17 @@ package main
 
 import (
 	"embed"
-	"errors"
 	"github.com/bamzi/jobrunner"
 	"github.com/gorilla/mux"
 	_ "github.com/sakirsensoy/genv/dotenv/autoload"
-	"go.mongodb.org/mongo-driver/mongo"
 	"html/template"
-	"jinya-fonts/admin"
-	"jinya-fonts/api"
 	"jinya-fonts/config"
 	"jinya-fonts/database"
-	"jinya-fonts/fonts"
 	"jinya-fonts/fontsync"
-	"jinya-fonts/frontend"
+	"jinya-fonts/routes/admin"
+	"jinya-fonts/routes/api"
+	"jinya-fonts/routes/fonts"
+	"jinya-fonts/routes/frontend"
 	"log"
 	"net/http"
 	"os"
@@ -88,19 +86,10 @@ func main() {
 		log.Fatalf("Failed with err %v", err)
 	}
 
-	settings, err := database.GetSettings()
-	if errors.Is(err, mongo.ErrNoDocuments) {
-		settings = &database.JinyaFontsSettings{
-			FilterByName: []string{},
-			SyncEnabled:  true,
-			SyncInterval: "0 0 1 * *",
-		}
+	database.SetupDatabase()
 
-		err = database.UpdateSettings(settings)
-		if err != nil {
-			log.Fatalf("Failed with err %v", err)
-		}
-	} else if err != nil {
+	settings, err := database.CreateSettingsIfNotExists()
+	if err != nil {
 		log.Fatalf("Failed with err %v", err)
 	}
 
@@ -139,7 +128,18 @@ func main() {
 			fsPrefixPath: "",
 			templated:    false,
 		})
-		router.PathPrefix("/static/").Handler(http.FileServerFS(static))
+
+		if config.IsDev() {
+			router.PathPrefix("/static/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				w.Header().Set("Service-Worker-Allowed", "/admin")
+				http.FileServerFS(os.DirFS(".")).ServeHTTP(w, r)
+			})
+		} else {
+			router.PathPrefix("/static/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				w.Header().Set("Service-Worker-Allowed", "/admin")
+				http.FileServerFS(static).ServeHTTP(w, r)
+			})
+		}
 
 		if config.LoadedConfiguration.ServeWebsite {
 			frontend.SetupRouter(router)

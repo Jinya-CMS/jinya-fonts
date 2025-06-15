@@ -8,13 +8,12 @@ import (
 	"golang.org/x/text/language"
 	"html/template"
 	"jinya-fonts/database"
+	"jinya-fonts/storage"
+	"jinya-fonts/templates"
 	"net/http"
 	"strings"
 	"time"
 )
-
-//go:embed tmpl
-var tmplFs embed.FS
 
 //go:embed langs
 var langsFs embed.FS
@@ -57,49 +56,58 @@ func translate(w http.ResponseWriter, r *http.Request) func(key string, replacem
 	}
 }
 
-func funcMap(w http.ResponseWriter, r *http.Request) template.FuncMap {
-	return map[string]any{
+func render(w http.ResponseWriter, r *http.Request, name string, data any) {
+	t, err := template.New("layout").Funcs(map[string]any{
 		"year": getYear,
 		"noescape": func(s string) template.HTML {
 			return template.HTML(s)
 		},
 		"translate": translate(w, r),
-	}
-}
-
-func indexPage(w http.ResponseWriter, r *http.Request) {
-	t, err := template.New("layout").Funcs(funcMap(w, r)).ParseFS(tmplFs, "tmpl/layout.gohtml", "tmpl/index.gohtml")
+	}).ParseFS(templates.GetFrontendTemplatesFs(), "frontend/layout.gohtml", fmt.Sprintf("frontend/%s.gohtml", name))
 	if err == nil {
-		t.Execute(w, nil)
+		t.Execute(w, data)
 	} else {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
 
+func indexPage(w http.ResponseWriter, r *http.Request) {
+	render(w, r, "index", nil)
+}
+
 func detailPage(w http.ResponseWriter, r *http.Request) {
-	font, err := database.GetFont(r.URL.Query().Get("font"))
+	font, err := database.Get[database.Webfont](r.URL.Query().Get("font"))
 	if err != nil {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
 
-	designers := make([]string, len(font.Designers))
-	for i, d := range font.Designers {
-		designers[i] = d.Name
+	designers, err := database.GetDesigners(font.Name)
+	if err != nil {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
 	}
 
-	t, err := template.New("layout").Funcs(funcMap(w, r)).ParseFS(tmplFs, "tmpl/layout.gohtml", "tmpl/detail.gohtml")
-	if err == nil {
-		t.Execute(w, struct {
-			Font      *database.Webfont
-			Designers string
-		}{
-			Font:      font,
-			Designers: strings.Join(designers, ", "),
-		})
-	} else {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	files, err := storage.GetFontFiles(font.Name)
+	if err != nil {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
 	}
+
+	font.Fonts = files
+
+	des := make([]string, len(designers))
+	for i, d := range designers {
+		des[i] = d.Name
+	}
+
+	render(w, r, "detail", struct {
+		Font      *database.Webfont
+		Designers string
+	}{
+		Font:      font,
+		Designers: strings.Join(des, ", "),
+	})
 }
 
 func SetupRouter(router *mux.Router) {

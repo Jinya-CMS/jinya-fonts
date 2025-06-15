@@ -1,56 +1,34 @@
 package database
 
 import (
-	"go.mongodb.org/mongo-driver/bson"
+	"strings"
 )
 
-type JinyaFontsSettings struct {
-	FilterByName []string `json:"filterByName" bson:"filterByName"`
-	SyncEnabled  bool     `json:"syncEnabled" bson:"syncEnabled"`
-	SyncInterval string   `json:"syncInterval" bson:"syncInterval"`
+func CreateSettingsIfNotExists() (*JinyaFontsSettings, error) {
+	settings, err := SelectOne[JinyaFontsSettings]("select * from settings limit 1")
+	if err == nil {
+		return &settings, nil
+	}
+
+	settings = JinyaFontsSettings{
+		FilterByNameDb: "",
+		SyncEnabled:    true,
+		SyncInterval:   "0 0 1 * *",
+	}
+
+	err = Insert(settings)
+
+	return &settings, err
 }
 
 func GetSettings() (*JinyaFontsSettings, error) {
-	client, err := openConnection()
-	if err != nil {
-		return nil, err
-	}
+	settings, err := SelectOne[JinyaFontsSettings]("select * from settings limit 1")
 
-	defer closeConnection(client)
-
-	ctx, cancelFunc := getContext()
-	defer cancelFunc()
-
-	settingsCollection := getSettingsCollection(client)
-
-	settings := new(JinyaFontsSettings)
-	err = settingsCollection.FindOne(ctx, bson.D{}).Decode(settings)
-	if err != nil {
-		return nil, err
-	}
-
-	return settings, nil
+	return &settings, err
 }
 
 func UpdateSettings(settings *JinyaFontsSettings) error {
-	client, err := openConnection()
-	if err != nil {
-		return err
-	}
-
-	defer closeConnection(client)
-
-	ctx, cancelFunc := getContext()
-	defer cancelFunc()
-
-	settingsCollection := getSettingsCollection(client)
-	_, err = settingsCollection.DeleteMany(ctx, bson.D{})
-
-	if err != nil {
-		return err
-	}
-
-	_, err = settingsCollection.InsertOne(ctx, settings)
+	_, err := GetDbMap().Exec("update settings set filter_by_name = ?, sync_enabled = ?, sync_interval = ?", strings.Join(settings.FilterByName, ","), settings.SyncEnabled, settings.SyncInterval)
 
 	return err
 }

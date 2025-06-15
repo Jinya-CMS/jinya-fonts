@@ -1,9 +1,16 @@
-package database
+package storage
 
 import (
+	"context"
 	"github.com/redis/go-redis/v9"
 	"jinya-fonts/config"
+	path2 "path"
+	"time"
 )
+
+func getRedisContext() (context.Context, context.CancelFunc) {
+	return context.WithTimeout(context.Background(), 10*time.Second)
+}
 
 func getRedisClient() (*redis.Client, error) {
 	opts, err := redis.ParseURL(config.LoadedConfiguration.RedisUrl)
@@ -14,44 +21,44 @@ func getRedisClient() (*redis.Client, error) {
 	return redis.NewClient(opts), nil
 }
 
-func GetCachedFontFile(path string) ([]byte, error) {
+func getCachedFontFile(path string) ([]byte, error) {
 	client, err := getRedisClient()
 	if err != nil {
 		return nil, err
 	}
 
-	ctx, cancelFunc := getContext()
+	ctx, cancelFunc := getRedisContext()
 	defer cancelFunc()
 
-	return client.Get(ctx, path).Bytes()
+	return client.Get(ctx, path2.Base(path)).Bytes()
 }
 
-func AddCachedFontFile(name, weight, style, fileType string, data []byte, googleFont bool) error {
+func addCachedFontFile(path string, data []byte) error {
 	client, err := getRedisClient()
 	if err != nil {
 		return err
 	}
 
-	ctx, cancelFunc := getContext()
+	ctx, cancelFunc := getRedisContext()
 	defer cancelFunc()
 
-	return client.Set(ctx, GetFontFileName(name, weight, style, fileType, googleFont), data, 0).Err()
+	return client.Set(ctx, path2.Base(path), data, 0).Err()
 }
 
-func RemoveCachedFontFile(name, weight, style, fileType string, googleFont bool) error {
+func removeCachedFontFile(path string) error {
 	client, err := getRedisClient()
 	if err != nil {
 		return err
 	}
 
-	ctx, cancelFunc := getContext()
+	ctx, cancelFunc := getRedisContext()
 	defer cancelFunc()
 
-	return client.Del(ctx, GetFontFileName(name, weight, style, fileType, googleFont)).Err()
+	return client.Del(ctx, path2.Base(path)).Err()
 }
 
 func ClearGoogleFontsCache() {
-	ctx, cancelFunc := getContext()
+	ctx, cancelFunc := getRedisContext()
 	defer cancelFunc()
 
 	client, err := getRedisClient()
@@ -67,7 +74,7 @@ func ClearGoogleFontsCache() {
 }
 
 func CheckRedis() bool {
-	ctx, cancelFunc := getContext()
+	ctx, cancelFunc := getRedisContext()
 	defer cancelFunc()
 
 	client, err := getRedisClient()

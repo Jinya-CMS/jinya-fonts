@@ -32,21 +32,21 @@ func SetupAdminApiRouter(router *mux.Router) {
 
 	mw := middleware.New(authZ)
 
-	router.Methods("GET").Path("/api/admin/font/all").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(getAllFonts))))
+	router.Methods("GET").Path("/api/admin/font/all").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(GetAllFonts))))
 	router.Methods("GET").Path("/api/admin/font/google").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(getGoogleFonts))))
 	router.Methods("POST").Path("/api/admin/font/google").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(syncFonts))))
 	router.Methods("GET").Path("/api/admin/font/custom").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(getCustomFonts))))
 	router.Methods("POST").Path("/api/admin/font").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(createFont))))
-	router.Methods("GET").Path("/api/admin/font/{fontName}").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(getFontByName))))
+	router.Methods("GET").Path("/api/admin/font/{fontName}").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(GetFontByName))))
 	router.Methods("PUT").Path("/api/admin/font/{fontName}").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(updateFont))))
 	router.Methods("DELETE").Path("/api/admin/font/{fontName}").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(deleteFont))))
 
-	router.Methods("GET").Path("/api/admin/font/{fontName}/file").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(getFontFiles))))
+	router.Methods("GET").Path("/api/admin/font/{fontName}/file").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(GetFontFiles))))
 	router.Methods("POST").Path("/api/admin/font/{fontName}/file/{fontWeight}.{fontStyle}.{fontType}").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(createFontFile))))
 	router.Methods("PUT").Path("/api/admin/font/{fontName}/file/{fontWeight}.{fontStyle}.{fontType}").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(updateFontFile))))
 	router.Methods("DELETE").Path("/api/admin/font/{fontName}/file/{fontWeight}.{fontStyle}.{fontType}").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(deleteFontFile))))
 
-	router.Methods("GET").Path("/api/admin/font/{fontName}/designer").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(getFontDesigners))))
+	router.Methods("GET").Path("/api/admin/font/{fontName}/designer").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(GetFontDesigners))))
 	router.Methods("POST").Path("/api/admin/font/{fontName}/designer").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(createFontDesigner))))
 	router.Methods("DELETE").Path("/api/admin/font/{fontName}/designer/{designerName}").Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(deleteFontDesigner))))
 
