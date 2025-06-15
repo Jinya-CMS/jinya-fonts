@@ -20,17 +20,19 @@ func GetFontFiles(name string) ([]database.File, error) {
 }
 
 func GetFontFile(path string) ([]byte, error) {
-	context, cancelFunc := getContext()
-	redisClient, err := getRedisClient()
+	cached, err := getCachedFontFile(path)
 	if err == nil {
-		defer cancelFunc()
-		cachedFile := redisClient.Get(context, path)
-		if bytes, err := cachedFile.Bytes(); err == nil {
-			return bytes, nil
-		}
+		return cached, nil
 	}
 
-	return nil, nil
+	data, err := getPersistentFontFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	go addCachedFontFile(path, data)
+
+	return data, nil
 }
 
 func setFontFile(font *database.Webfont, weight, style, fileType string, data []byte) (*database.File, error) {
@@ -45,15 +47,21 @@ func setFontFile(font *database.Webfont, weight, style, fileType string, data []
 		Font:   font.Name,
 	}
 
-	_ = addCachedFontFile(font.Name, weight, style, fileType, data, font.GoogleFont)
+	err := savePersistentFontFile(path, data, fileType)
+	if err != nil {
+		return nil, err
+	}
 
-	_, err := database.GetDbMap().Exec("insert into file (path, weight, style, type, font) values ($1, $2, $3, $4, $5) on conflict do nothing", path, weight, style, fileType, font.Name)
+	go addCachedFontFile(fileName, data)
+
+	_, err = database.GetDbMap().Exec("insert into file (path, weight, style, type, font) values ($1, $2, $3, $4, $5) on conflict do nothing", path, weight, style, fileType, font.Name)
 
 	return &metadata, err
 }
 
 func removeFontFile(font *database.Webfont, weight, style, fileType string) error {
-	_ = removeCachedFontFile(font.Name, weight, style, fileType, font.GoogleFont)
+	go removePersistentFontFile(GetFontFileName(font.Name, weight, style, fileType, font.GoogleFont))
+	go removeCachedFontFile(font.Name)
 
 	fileName := GetFontFileName(font.Name, weight, style, fileType, font.GoogleFont)
 
