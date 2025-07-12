@@ -11,7 +11,7 @@ require (
 	github.com/gosimple/slug v1.15.0
 	github.com/jackc/pgx/v5 v5.7.5
 	github.com/minio/minio-go/v7 v7.0.94
-	github.com/redis/go-redis/v9 v9.10.0
+	github.com/redis/go-redis/v9 v9.11.0
 	github.com/sakirsensoy/genv v1.0.3
 	github.com/zitadel/zitadel-go/v3 v3.6.1
 	go-simpler.org/env v0.12.0
