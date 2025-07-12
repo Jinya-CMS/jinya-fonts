@@ -38,7 +38,7 @@ func savePersistentFontFile(path string, data []byte, fileType string) error {
 	ctx, cancelFunc := getMinioContext(15)
 	defer cancelFunc()
 
-	_, err = client.PutObject(ctx, config.LoadedConfiguration.S3Bucket, path, reader, int64(size), minio.PutObjectOptions{
+	_, err = client.PutObject(ctx, config.LoadedConfiguration.S3Bucket, strings.TrimPrefix(path, "/"), reader, int64(size), minio.PutObjectOptions{
 		ContentType: fileType,
 	})
 
