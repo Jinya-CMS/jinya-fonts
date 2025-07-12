@@ -1,4 +1,4 @@
-FROM library/alpine:latest
+FROM docker.io/library/alpine:latest
 
 COPY jinya-fonts /app/jinya-fonts
 
