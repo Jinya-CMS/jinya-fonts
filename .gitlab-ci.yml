@@ -43,7 +43,7 @@ docker-build-test:
   stage: deploy
   extends: .base-docker
   script:
-    - buildah build --platform=linux/$ARCH $CI_PROJECT_DIR/$ARCH
+    - buildah build --platform=linux/$ARCH -f $CI_PROJECT_DIR/Dockerfile $CI_PROJECT_DIR/$ARCH
   rules:
     - if: $CI_COMMIT_BRANCH
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -60,7 +60,7 @@ docker-build:
   variables:
     IMG: $CI_REGISTRY_IMAGE/$ARCH:$CI_COMMIT_TAG
   script:
-    - buildah build --platform=linux/$ARCH -t $IMG $CI_PROJECT_DIR/$ARCH
+    - buildah build --platform=linux/$ARCH -f $CI_PROJECT_DIR/Dockerfile -t $IMG $CI_PROJECT_DIR/$ARCH
     - buildah push $IMG
   rules:
     - if: $CI_COMMIT_TAG
