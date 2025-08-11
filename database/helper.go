@@ -1,8 +1,9 @@
 package database
 
 import (
-	"github.com/DerKnerd/gorp"
 	"reflect"
+
+	"github.com/DerKnerd/gorp"
 )
 
 func Get[R any](keys ...any) (*R, error) {

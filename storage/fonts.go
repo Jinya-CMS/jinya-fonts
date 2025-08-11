@@ -2,8 +2,9 @@ package storage
 
 import (
 	"fmt"
-	"github.com/gosimple/slug"
 	"jinya-fonts/database"
+
+	"github.com/gosimple/slug"
 )
 
 func GetFontFileName(name, weight, style, fileType string, googleFont bool) string {

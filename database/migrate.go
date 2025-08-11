@@ -2,10 +2,11 @@ package database
 
 import (
 	"context"
+	"jinya-fonts/config"
+
 	"github.com/DerKnerd/gorp"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/jackc/pgx/v5/stdlib"
-	"jinya-fonts/config"
 )
 
 var dbMap *gorp.DbMap

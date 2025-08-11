@@ -3,11 +3,12 @@ package fonts
 import (
 	"archive/zip"
 	"bytes"
-	"github.com/gosimple/slug"
 	"io"
 	"jinya-fonts/database"
 	"jinya-fonts/storage"
 	"net/http"
+
+	"github.com/gosimple/slug"
 )
 
 func downloadFont(w http.ResponseWriter, r *http.Request) {

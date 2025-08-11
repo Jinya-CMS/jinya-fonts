@@ -2,9 +2,6 @@ package main
 
 import (
 	"embed"
-	"github.com/bamzi/jobrunner"
-	"github.com/gorilla/mux"
-	_ "github.com/sakirsensoy/genv/dotenv/autoload"
 	"html/template"
 	"jinya-fonts/config"
 	"jinya-fonts/database"
@@ -19,6 +16,10 @@ import (
 	"path"
 	"slices"
 	"strings"
+
+	"github.com/bamzi/jobrunner"
+	"github.com/gorilla/mux"
+	_ "github.com/sakirsensoy/genv/dotenv/autoload"
 )
 
 var (

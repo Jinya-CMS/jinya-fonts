@@ -2,11 +2,12 @@ package api
 
 import (
 	"encoding/json"
-	"github.com/bamzi/jobrunner"
 	"jinya-fonts/database"
 	"jinya-fonts/fontsync"
 	"log"
 	"net/http"
+
+	"github.com/bamzi/jobrunner"
 )
 
 func getSettings(w http.ResponseWriter, r *http.Request) {

@@ -2,11 +2,12 @@ package api
 
 import (
 	"encoding/json"
-	"github.com/gorilla/mux"
 	"jinya-fonts/database"
 	"jinya-fonts/fontsync"
 	"jinya-fonts/storage"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type addFontData struct {

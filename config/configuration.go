@@ -2,8 +2,9 @@ package config
 
 import (
 	"fmt"
-	"go-simpler.org/env"
 	"os"
+
+	"go-simpler.org/env"
 )
 
 type Configuration struct {

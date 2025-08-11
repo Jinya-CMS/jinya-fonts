@@ -3,10 +3,11 @@ package api
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/gorilla/mux"
 	"io"
 	"jinya-fonts/storage"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func GetFontFiles(w http.ResponseWriter, r *http.Request) {

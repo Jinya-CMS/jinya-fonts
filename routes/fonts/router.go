@@ -1,8 +1,9 @@
 package fonts
 
 import (
-	"github.com/gorilla/mux"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func SetupFontsRouter(router *mux.Router) {

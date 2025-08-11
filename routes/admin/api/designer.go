@@ -2,9 +2,10 @@ package api
 
 import (
 	"encoding/json"
-	"github.com/gorilla/mux"
 	"jinya-fonts/database"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func GetFontDesigners(w http.ResponseWriter, r *http.Request) {

@@ -2,11 +2,12 @@ package api
 
 import (
 	"encoding/json"
-	"github.com/bamzi/jobrunner"
 	"jinya-fonts/config"
 	"jinya-fonts/storage"
 	"net/http"
 	"time"
+
+	"github.com/bamzi/jobrunner"
 )
 
 type status struct {

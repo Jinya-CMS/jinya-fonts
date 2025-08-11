@@ -4,8 +4,6 @@ import (
 	"embed"
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
-	"golang.org/x/text/language"
 	"html/template"
 	"jinya-fonts/database"
 	"jinya-fonts/storage"
@@ -13,6 +11,9 @@ import (
 	"net/http"
 	"strings"
 	"time"
+
+	"github.com/gorilla/mux"
+	"golang.org/x/text/language"
 )
 
 //go:embed langs

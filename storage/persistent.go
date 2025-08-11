@@ -3,12 +3,13 @@ package storage
 import (
 	"bytes"
 	"context"
-	"github.com/minio/minio-go/v7"
-	"github.com/minio/minio-go/v7/pkg/credentials"
 	"io"
 	"jinya-fonts/config"
 	"strings"
 	"time"
+
+	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 )
 
 func getMinioContext(timeout int) (context.Context, context.CancelFunc) {

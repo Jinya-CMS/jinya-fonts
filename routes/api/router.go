@@ -1,9 +1,10 @@
 package api
 
 import (
-	"github.com/gorilla/mux"
 	"jinya-fonts/routes/admin/api"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func SetupApiRouter(router *mux.Router) {
