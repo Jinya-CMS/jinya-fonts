@@ -13,7 +13,7 @@ require (
 	github.com/minio/minio-go/v7 v7.0.95
 	github.com/redis/go-redis/v9 v9.12.1
 	github.com/sakirsensoy/genv v1.0.3
-	github.com/zitadel/zitadel-go/v3 v3.10.0
+	github.com/zitadel/zitadel-go/v3 v3.11.1
 	go-simpler.org/env v0.12.0
 	golang.org/x/text v0.28.0
 )
