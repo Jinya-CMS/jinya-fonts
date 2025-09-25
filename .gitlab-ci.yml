@@ -14,17 +14,17 @@ stages:
   image: registry.ulbricht.casa/docker-images/buildah:latest
   before_script:
     - echo "$CI_REGISTRY_PASSWORD" | buildah login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
-    - echo "$DOCKERHUB_PASSWORD" | buildah login -u "$DOCKERHUB_USER" --password-stdin docker.io
+    - echo "$CI_JOB_TOKEN" | buildah login -u gitlab-ci-token --password-stdin gitlab.imanuel.dev:443
 
 lint:
-  image: oven/bun:latest
+  image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/oven/bun:latest
   stage: lint
   script:
     - bun install
     - bun run lint
 
 build:
-  image: library/golang:1.24-alpine
+  image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/library/golang:1.25-alpine
   stage: build
   script:
     - go vet .
@@ -43,7 +43,7 @@ docker-build-test:
   stage: deploy
   extends: .base-docker
   script:
-    - buildah build --platform=linux/$ARCH -f $CI_PROJECT_DIR/Dockerfile $CI_PROJECT_DIR/$ARCH
+    - buildah build --platform=linux/$ARCH --build-arg CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX=$CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX -f $CI_PROJECT_DIR/Dockerfile $CI_PROJECT_DIR/$ARCH
   rules:
     - if: $CI_COMMIT_BRANCH
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -60,7 +60,7 @@ docker-build:
   variables:
     IMG: $CI_REGISTRY_IMAGE/$ARCH:$CI_COMMIT_TAG
   script:
-    - buildah build --platform=linux/$ARCH -f $CI_PROJECT_DIR/Dockerfile -t $IMG $CI_PROJECT_DIR/$ARCH
+    - buildah build --platform=linux/$ARCH --build-arg CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX=$CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX -f $CI_PROJECT_DIR/Dockerfile -t $IMG $CI_PROJECT_DIR/$ARCH
     - buildah push $IMG
   rules:
     - if: $CI_COMMIT_TAG
@@ -107,7 +107,7 @@ variables:
 
 pages:
   stage: deploy
-  image: library/ruby:latest
+  image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/library/ruby:latest
   before_script:
     - gem install bundler
     - bundle install
