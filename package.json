@@ -22,13 +22,13 @@
   },
   "type": "module",
   "devDependencies": {
-    "@eslint/js": "^9.29.0",
+    "@eslint/js": "^9.38.0",
     "@types/alpinejs": "^3.13.11",
-    "eslint": "^9.29.0",
-    "eslint-config-prettier": "^10.1.5",
-    "globals": "^16.2.0",
-    "prettier": "^3.5.3",
-    "stylelint": "^16.20.0",
+    "eslint": "^9.38.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^16.4.0",
+    "prettier": "^3.6.2",
+    "stylelint": "^16.25.0",
     "stylelint-config-standard": "^38.0.0"
   }
 }
