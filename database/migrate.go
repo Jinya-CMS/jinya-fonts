@@ -45,33 +45,39 @@ func SetupDatabase() {
 			panic(err)
 		}
 
+		// Introduced in JFWEB-4
 		_, err = conn.Exec(`
-alter table designer
-	drop constraint if exists designer_font_fkey;
+create or replace function add_foreign_key_if_not_exists(from_table text, from_column text, to_table text, to_column text)
+returns void language plpgsql as
+$$
+declare 
+   fk_exists boolean;
+begin
+    fk_exists := case when exists (select true
+	from information_schema.table_constraints tc
+		inner join information_schema.constraint_column_usage ccu
+			using (constraint_catalog, constraint_schema, constraint_name)
+		inner join information_schema.key_column_usage kcu
+			using (constraint_catalog, constraint_schema, constraint_name)
+	where constraint_type = 'FOREIGN KEY'
+	  and ccu.table_name = to_table
+	  and ccu.column_name = to_column
+	  and tc.table_name = from_table
+	  and kcu.column_name = from_column) then true else false end;
+	if not fk_exists then
+		execute format('alter table %s add constraint %s_%s_fkey foreign key (%s) references %s(%s) on delete cascade', from_table, from_table, to_table, from_column, to_table, to_column);
+	end if;
+end
+$$;
 `)
 		if err != nil {
 			panic(err)
 		}
 
+		// Replaced with function from JFWEB-4
 		_, err = conn.Exec(`
-alter table designer
-	add constraint designer_font_fkey foreign key (font) references font(name) on delete cascade;
-`)
-		if err != nil {
-			panic(err)
-		}
-
-		_, err = conn.Exec(`
-alter table file
-	drop constraint if exists file_font_fkey;
-`)
-		if err != nil {
-			panic(err)
-		}
-
-		_, err = conn.Exec(`
-alter table file
-	add constraint file_font_fkey foreign key (font) references font(name) on delete cascade;
+select add_foreign_key_if_not_exists('designer', 'font', 'font', 'name');
+select add_foreign_key_if_not_exists('file', 'font', 'font', 'name');
 `)
 		if err != nil {
 			panic(err)
