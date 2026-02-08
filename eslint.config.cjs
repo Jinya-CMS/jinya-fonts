@@ -1,26 +1,18 @@
-const js = require('@eslint/js');
-const prettier = require('eslint-config-prettier');
-const globals = require('globals');
+const js = require("@eslint/js");
+const prettier = require("eslint-config-prettier");
+const globals = require("globals");
 
 module.exports = [
   {
     ...js.configs.recommended,
     ...prettier,
-    files: [
-      '/public/installer/**/*.js',
-      '/public/designer/js/**/*.js',
-      '/public/designer/lang/**/*.js',
-    ],
-    ignore: [
-      '/vendor',
-      '/themes'
-    ],
+    files: ["/static/admin/js/**/*.js", "/static/frontend/js/**/*.js"],
     languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
+      ecmaVersion: "latest",
+      sourceType: "module",
       globals: {
         ...globals.browser,
-        Jodit: 'readonly',
+        Jodit: "readonly",
       },
     },
   },

@@ -3244,10 +3244,10 @@
             // Duck-typing
             return Boolean(
               object &&
-                (0, jodit_core_helpers_checker__WEBPACK_IMPORTED_MODULE_2__ /* .isString */.Kg)(object.nodeName) &&
-                typeof object.nodeType === 'number' &&
-                object.childNodes &&
-                (0, jodit_core_helpers_checker__WEBPACK_IMPORTED_MODULE_2__ /* .isFunction */.Tn)(object.appendChild),
+              (0, jodit_core_helpers_checker__WEBPACK_IMPORTED_MODULE_2__ /* .isString */.Kg)(object.nodeName) &&
+              typeof object.nodeType === 'number' &&
+              object.childNodes &&
+              (0, jodit_core_helpers_checker__WEBPACK_IMPORTED_MODULE_2__ /* .isFunction */.Tn)(object.appendChild),
             );
           }
           /**
@@ -3520,8 +3520,8 @@
                 !Dom.isEmptyTextNode(n) &&
                 Boolean(
                   !Dom.isText(n) ||
-                    (n.nodeValue?.length &&
-                      (0, jodit_core_helpers_string_trim__WEBPACK_IMPORTED_MODULE_3__ /* .trim */.Bq)(n.nodeValue)),
+                  (n.nodeValue?.length &&
+                    (0, jodit_core_helpers_string_trim__WEBPACK_IMPORTED_MODULE_3__ /* .trim */.Bq)(n.nodeValue)),
                 )
               );
             });
@@ -3536,10 +3536,9 @@
               (n) =>
                 Boolean(
                   n &&
-                    (!(Dom.isText(n) || Dom.isComment(n)) ||
-                      (0, jodit_core_helpers_string_trim__WEBPACK_IMPORTED_MODULE_3__ /* .trim */.Bq)(
-                        n?.nodeValue || '',
-                      ).length),
+                  (!(Dom.isText(n) || Dom.isComment(n)) ||
+                    (0, jodit_core_helpers_string_trim__WEBPACK_IMPORTED_MODULE_3__ /* .trim */.Bq)(n?.nodeValue || '')
+                      .length),
                 ),
               root,
             );
@@ -5672,10 +5671,10 @@
         function isJoditObject(jodit) {
           return Boolean(
             jodit &&
-              jodit instanceof Object &&
-              (0, _is_function__WEBPACK_IMPORTED_MODULE_0__ /* .isFunction */.T)(jodit.constructor) &&
-              // @ts-ignore
-              ((typeof Jodit !== 'undefined' && jodit instanceof Jodit) || jodit.isJodit),
+            jodit instanceof Object &&
+            (0, _is_function__WEBPACK_IMPORTED_MODULE_0__ /* .isFunction */.T)(jodit.constructor) &&
+            // @ts-ignore
+            ((typeof Jodit !== 'undefined' && jodit instanceof Jodit) || jodit.isJodit),
           );
         }
 
@@ -6050,9 +6049,9 @@
         function isViewObject(jodit) {
           return Boolean(
             jodit &&
-              jodit instanceof Object &&
-              (0, _is_function__WEBPACK_IMPORTED_MODULE_0__ /* .isFunction */.T)(jodit.constructor) &&
-              jodit.isView,
+            jodit instanceof Object &&
+            (0, _is_function__WEBPACK_IMPORTED_MODULE_0__ /* .isFunction */.T)(jodit.constructor) &&
+            jodit.isView,
           );
         }
 
@@ -12110,13 +12109,13 @@
             const isSignificant = (elm) =>
               Boolean(
                 elm &&
-                  !jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_2__ /* .Dom */.J.isTag(elm, 'br') &&
-                  !jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_2__ /* .Dom */.J.isEmptyTextNode(elm) &&
-                  !jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_2__ /* .Dom */.J.isTemporary(elm) &&
-                  !(
-                    jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_2__ /* .Dom */.J.isElement(elm) &&
-                    this.j.e.fire('isInvisibleForCursor', elm) === true
-                  ),
+                !jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_2__ /* .Dom */.J.isTag(elm, 'br') &&
+                !jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_2__ /* .Dom */.J.isEmptyTextNode(elm) &&
+                !jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_2__ /* .Dom */.J.isTemporary(elm) &&
+                !(
+                  jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_2__ /* .Dom */.J.isElement(elm) &&
+                  this.j.e.fire('isInvisibleForCursor', elm) === true
+                ),
               );
             // check right offset
             if (jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_2__ /* .Dom */.J.isText(container)) {
@@ -12953,31 +12952,31 @@
         function hasSameStyle(elm, rules) {
           return Boolean(
             !jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_0__ /* .Dom */.J.isTag(elm, 'font') &&
-              jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_0__ /* .Dom */.J.isHTMLElement(elm) &&
-              Object.keys(rules).every((property) => {
-                const value = (0, jodit_core_helpers_utils_css__WEBPACK_IMPORTED_MODULE_2__ /* .css */.A)(
-                  elm,
+            jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_0__ /* .Dom */.J.isHTMLElement(elm) &&
+            Object.keys(rules).every((property) => {
+              const value = (0, jodit_core_helpers_utils_css__WEBPACK_IMPORTED_MODULE_2__ /* .css */.A)(
+                elm,
+                property,
+                true,
+              );
+              if (value === '' && (rules[property] === '' || rules[property] == null)) {
+                return true;
+              }
+              return (
+                !(0, jodit_core_helpers_checker_is_void__WEBPACK_IMPORTED_MODULE_3__ /* .isVoid */.R)(value) &&
+                value !== '' &&
+                !(0, jodit_core_helpers_checker_is_void__WEBPACK_IMPORTED_MODULE_3__ /* .isVoid */.R)(
+                  rules[property],
+                ) &&
+                (0,
+                jodit_core_helpers_normalize_normalize_css_value__WEBPACK_IMPORTED_MODULE_4__ /* .normalizeCssValue */.iy)(
                   property,
-                  true,
-                );
-                if (value === '' && (rules[property] === '' || rules[property] == null)) {
-                  return true;
-                }
-                return (
-                  !(0, jodit_core_helpers_checker_is_void__WEBPACK_IMPORTED_MODULE_3__ /* .isVoid */.R)(value) &&
-                  value !== '' &&
-                  !(0, jodit_core_helpers_checker_is_void__WEBPACK_IMPORTED_MODULE_3__ /* .isVoid */.R)(
-                    rules[property],
-                  ) &&
-                  (0,
-                  jodit_core_helpers_normalize_normalize_css_value__WEBPACK_IMPORTED_MODULE_4__ /* .normalizeCssValue */.iy)(
-                    property,
-                    rules[property],
-                  )
-                    .toString()
-                    .toLowerCase() === value.toString().toLowerCase()
-                );
-              }),
+                  rules[property],
+                )
+                  .toString()
+                  .toLowerCase() === value.toString().toLowerCase()
+              );
+            }),
           );
         }
         const elm = document.createElement('div');
@@ -12991,15 +12990,15 @@
         function hasSameStyleKeys(elm, rules) {
           return Boolean(
             !jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_0__ /* .Dom */.J.isTag(elm, 'font') &&
-              jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_0__ /* .Dom */.J.isHTMLElement(elm) &&
-              Object.keys(rules).every((property) => {
-                const value = (0, jodit_core_helpers_utils_css__WEBPACK_IMPORTED_MODULE_2__ /* .css */.A)(
-                  elm,
-                  property,
-                  true,
-                );
-                return value !== '';
-              }),
+            jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_0__ /* .Dom */.J.isHTMLElement(elm) &&
+            Object.keys(rules).every((property) => {
+              const value = (0, jodit_core_helpers_utils_css__WEBPACK_IMPORTED_MODULE_2__ /* .css */.A)(
+                elm,
+                property,
+                true,
+              );
+              return value !== '';
+            }),
           );
         }
         const elm2 = document.createElement('div');
@@ -13128,9 +13127,9 @@
         function isNormalNode(elm) {
           return Boolean(
             elm &&
-              !jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_0__ /* .Dom */.J.isEmptyTextNode(elm) &&
-              !jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_0__ /* .Dom */.J.isTemporary(elm) &&
-              !(0, jodit_core_helpers_checker_is_marker__WEBPACK_IMPORTED_MODULE_1__ /* .isMarker */.r)(elm),
+            !jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_0__ /* .Dom */.J.isEmptyTextNode(elm) &&
+            !jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_0__ /* .Dom */.J.isTemporary(elm) &&
+            !(0, jodit_core_helpers_checker_is_marker__WEBPACK_IMPORTED_MODULE_1__ /* .isMarker */.r)(elm),
           );
         }
 
@@ -13242,12 +13241,12 @@
           }
           const elmHasSameStyle = Boolean(
             options.attributes?.style &&
-              (strictStyle
-                ? (0, _has_same_style__WEBPACK_IMPORTED_MODULE_1__ /* .hasSameStyle */.g)(elm, options.attributes.style)
-                : (0, _has_same_style__WEBPACK_IMPORTED_MODULE_1__ /* .hasSameStyleKeys */.Y)(
-                    elm,
-                    options.attributes.style,
-                  )),
+            (strictStyle
+              ? (0, _has_same_style__WEBPACK_IMPORTED_MODULE_1__ /* .hasSameStyle */.g)(elm, options.attributes.style)
+              : (0, _has_same_style__WEBPACK_IMPORTED_MODULE_1__ /* .hasSameStyleKeys */.Y)(
+                  elm,
+                  options.attributes.style,
+                )),
           );
           if (elmHasSameStyle && !commitStyle.elementIsList) {
             return true;
@@ -13287,10 +13286,7 @@
           const elmIsSame = elm.nodeName.toLowerCase() === element;
           const elmHasSameStyle = Boolean(
             options.attributes?.style &&
-              (0, _has_same_style__WEBPACK_IMPORTED_MODULE_1__ /* .hasSameStyleKeys */.Y)(
-                elm,
-                options.attributes?.style,
-              ),
+            (0, _has_same_style__WEBPACK_IMPORTED_MODULE_1__ /* .hasSameStyleKeys */.Y)(elm, options.attributes?.style),
           );
           return elmIsSame && elmHasSameStyle;
         }
@@ -14072,7 +14068,7 @@
           get elementIsList() {
             return Boolean(
               this.options.element &&
-                jodit_core_constants__WEBPACK_IMPORTED_MODULE_0__.LIST_TAGS.has(this.options.element),
+              jodit_core_constants__WEBPACK_IMPORTED_MODULE_0__.LIST_TAGS.has(this.options.element),
             );
           }
           get element() {
@@ -14084,7 +14080,7 @@
           get elementIsBlock() {
             return Boolean(
               this.options.element &&
-                jodit_core_constants__WEBPACK_IMPORTED_MODULE_0__.IS_BLOCK.test(this.options.element),
+              jodit_core_constants__WEBPACK_IMPORTED_MODULE_0__.IS_BLOCK.test(this.options.element),
             );
           }
           /**
@@ -14991,10 +14987,7 @@
             const { activeElement } = this.od;
             return Boolean(
               activeElement &&
-                jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_2__ /* .Dom */.J.isOrContains(
-                  this.container,
-                  activeElement,
-                ),
+              jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_2__ /* .Dom */.J.isOrContains(this.container, activeElement),
             );
           }
           /** @override */
@@ -15200,7 +15193,9 @@
          * Copyright (c) 2013-2024 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
          */
 
-        let UIButtonGroup = class UIButtonGroup extends jodit_core_ui_group_group__WEBPACK_IMPORTED_MODULE_2__ /* .UIGroup */.U {
+        let UIButtonGroup = class UIButtonGroup
+          extends jodit_core_ui_group_group__WEBPACK_IMPORTED_MODULE_2__ /* .UIGroup */.U
+        {
           /** @override */
           className() {
             return 'UIButtonGroup';
@@ -16072,7 +16067,9 @@
          * Copyright (c) 2013-2024 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
          */
 
-        let UIFileInput = class UIFileInput extends jodit_core_ui_form_inputs_input_input__WEBPACK_IMPORTED_MODULE_1__ /* .UIInput */.t {
+        let UIFileInput = class UIFileInput
+          extends jodit_core_ui_form_inputs_input_input__WEBPACK_IMPORTED_MODULE_1__ /* .UIInput */.t
+        {
           /** @override */
           className() {
             return 'UIFileInput';
@@ -17032,7 +17029,9 @@
          * @module ui/group
          */
 
-        let UISeparator = class UISeparator extends jodit_core_ui_element__WEBPACK_IMPORTED_MODULE_0__ /* .UIElement */.D {
+        let UISeparator = class UISeparator
+          extends jodit_core_ui_element__WEBPACK_IMPORTED_MODULE_0__ /* .UIElement */.D
+        {
           className() {
             return 'UISeparator';
           }
@@ -19889,7 +19888,9 @@
         /**
          * Module to generate context menu
          */
-        let ContextMenu = class ContextMenu extends jodit_core_ui_popup_popup__WEBPACK_IMPORTED_MODULE_1__ /* .Popup */.z {
+        let ContextMenu = class ContextMenu
+          extends jodit_core_ui_popup_popup__WEBPACK_IMPORTED_MODULE_1__ /* .Popup */.z
+        {
           /** @override */
           className() {
             return 'ContextMenu';
@@ -22185,7 +22186,9 @@
          * Copyright (c) 2013-2024 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
          */
 
-        let FileBrowser = class FileBrowser extends jodit_core_view_view_with_toolbar__WEBPACK_IMPORTED_MODULE_8__ /* .ViewWithToolbar */.T {
+        let FileBrowser = class FileBrowser
+          extends jodit_core_view_view_with_toolbar__WEBPACK_IMPORTED_MODULE_8__ /* .ViewWithToolbar */.T
+        {
           /** @override */
           className() {
             return 'FileBrowser';
@@ -24769,7 +24772,9 @@
         /**
          * Plugin display pop-up messages in the lower right corner of the editor
          */
-        let UIMessages = class UIMessages extends jodit_core_ui_group_group__WEBPACK_IMPORTED_MODULE_0__ /* .UIGroup */.U {
+        let UIMessages = class UIMessages
+          extends jodit_core_ui_group_group__WEBPACK_IMPORTED_MODULE_0__ /* .UIGroup */.U
+        {
           className() {
             return 'UIMessages';
           }
@@ -24908,7 +24913,9 @@
          * Copyright (c) 2013-2024 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
          */
 
-        let StatusBar = class StatusBar extends jodit_core_component__WEBPACK_IMPORTED_MODULE_0__ /* .ViewComponent */.vG {
+        let StatusBar = class StatusBar
+          extends jodit_core_component__WEBPACK_IMPORTED_MODULE_0__ /* .ViewComponent */.vG
+        {
           className() {
             return 'StatusBar';
           }
@@ -25767,7 +25774,9 @@
          * Copyright (c) 2013-2024 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
          */
 
-        let ToolbarButton = class ToolbarButton extends jodit_core_ui_button__WEBPACK_IMPORTED_MODULE_4__ /* .UIButton */.lD {
+        let ToolbarButton = class ToolbarButton
+          extends jodit_core_ui_button__WEBPACK_IMPORTED_MODULE_4__ /* .UIButton */.lD
+        {
           /** @override */
           className() {
             return 'ToolbarButton';
@@ -26232,7 +26241,9 @@
          * Copyright (c) 2013-2024 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
          */
 
-        let ToolbarContent = class ToolbarContent extends jodit_core_ui_button__WEBPACK_IMPORTED_MODULE_3__ /* .UIButton */.lD {
+        let ToolbarContent = class ToolbarContent
+          extends jodit_core_ui_button__WEBPACK_IMPORTED_MODULE_3__ /* .UIButton */.lD
+        {
           /** @override */
           className() {
             return 'ToolbarContent';
@@ -26375,7 +26386,9 @@
          * Copyright (c) 2013-2024 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
          */
 
-        let ToolbarCollection = class ToolbarCollection extends jodit_core_ui__WEBPACK_IMPORTED_MODULE_2__ /* .UIList */.z4 {
+        let ToolbarCollection = class ToolbarCollection
+          extends jodit_core_ui__WEBPACK_IMPORTED_MODULE_2__ /* .UIList */.z4
+        {
           /** @override */
           className() {
             return 'ToolbarCollection';
@@ -26523,7 +26536,9 @@
          * Copyright (c) 2013-2024 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
          */
 
-        let ToolbarEditorCollection = class ToolbarEditorCollection extends _collection__WEBPACK_IMPORTED_MODULE_4__ /* .ToolbarCollection */.Q {
+        let ToolbarEditorCollection = class ToolbarEditorCollection
+          extends _collection__WEBPACK_IMPORTED_MODULE_4__ /* .ToolbarCollection */.Q
+        {
           /** @override */
           className() {
             return 'ToolbarEditorCollection';
@@ -28733,7 +28748,9 @@
          * Copyright (c) 2013-2024 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
          */
 
-        let UiAiAssistant = class UiAiAssistant extends jodit_core_ui_element__WEBPACK_IMPORTED_MODULE_3__ /* .UIElement */.D {
+        let UiAiAssistant = class UiAiAssistant
+          extends jodit_core_ui_element__WEBPACK_IMPORTED_MODULE_3__ /* .UIElement */.D
+        {
           className() {
             return 'UIAiAssistant';
           }
@@ -33792,8 +33809,8 @@
             const normalize = button.control.data?.normalize ?? ((v) => v);
             return Boolean(
               value &&
-                button.control.args &&
-                normalize(button.control.args[0].toString()) === normalize(value.toString()),
+              button.control.args &&
+              normalize(button.control.args[0].toString()) === normalize(value.toString()),
             );
           },
           isActive: (editor, button) => {
@@ -35466,7 +35483,9 @@
          */
 
         /** @private */
-        let UIImagePropertiesForm = class UIImagePropertiesForm extends jodit_core_ui_group_group__WEBPACK_IMPORTED_MODULE_2__ /* .UIGroup */.U {
+        let UIImagePropertiesForm = class UIImagePropertiesForm
+          extends jodit_core_ui_group_group__WEBPACK_IMPORTED_MODULE_2__ /* .UIGroup */.U
+        {
           className() {
             return 'UIImagePropertiesForm';
           }
@@ -35688,7 +35707,9 @@
          */
 
         /** @private */
-        let UIImageMainTab = class UIImageMainTab extends jodit_core_ui_group_group__WEBPACK_IMPORTED_MODULE_3__ /* .UIGroup */.U {
+        let UIImageMainTab = class UIImageMainTab
+          extends jodit_core_ui_group_group__WEBPACK_IMPORTED_MODULE_3__ /* .UIGroup */.U
+        {
           className() {
             return 'UIImageMainTab';
           }
@@ -35947,7 +35968,9 @@
          */
 
         /** @private */
-        let UIImagePositionTab = class UIImagePositionTab extends jodit_core_ui_element__WEBPACK_IMPORTED_MODULE_4__ /* .UIElement */.D {
+        let UIImagePositionTab = class UIImagePositionTab
+          extends jodit_core_ui_element__WEBPACK_IMPORTED_MODULE_4__ /* .UIElement */.D
+        {
           className() {
             return 'UIImagePositionTab';
           }
@@ -38784,7 +38807,7 @@
             const current = editor.s.current();
             return Boolean(
               current &&
-                jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_0__ /* .Dom */.J.closest(current, 'a', editor.editor),
+              jodit_core_dom_dom__WEBPACK_IMPORTED_MODULE_0__ /* .Dom */.J.closest(current, 'a', editor.editor),
             );
           },
           popup: (editor, current, close) => {
@@ -44023,7 +44046,9 @@
          * Copyright (c) 2013-2024 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
          */
 
-        class AceEditor extends jodit_plugins_source_editor_sourceEditor__WEBPACK_IMPORTED_MODULE_2__ /* .SourceEditor */.F {
+        class AceEditor
+          extends jodit_plugins_source_editor_sourceEditor__WEBPACK_IMPORTED_MODULE_2__ /* .SourceEditor */.F
+        {
           constructor() {
             super(...arguments);
             this.className = 'jodit_ace_editor';
@@ -44251,7 +44276,9 @@
          * Copyright (c) 2013-2024 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
          */
 
-        class TextAreaEditor extends jodit_plugins_source_editor_sourceEditor__WEBPACK_IMPORTED_MODULE_1__ /* .SourceEditor */.F {
+        class TextAreaEditor
+          extends jodit_plugins_source_editor_sourceEditor__WEBPACK_IMPORTED_MODULE_1__ /* .SourceEditor */.F
+        {
           constructor() {
             super(...arguments);
             this.autosize = this.j.async.debounce(() => {
@@ -52982,7 +53009,7 @@ PERFORMANCE OF THIS SOFTWARE.
           else
             for (var i = decorators.length - 1; i >= 0; i--)
               if ((d = decorators[i])) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-          return c > 3 && r && Object.defineProperty(target, key, r), r;
+          return (c > 3 && r && Object.defineProperty(target, key, r), r);
         }
 
         function __param(paramIndex, decorator) {
@@ -53351,7 +53378,7 @@ PERFORMANCE OF THIS SOFTWARE.
               o[n] &&
               function (v) {
                 return new Promise(function (resolve, reject) {
-                  (v = o[n](v)), settle(resolve, reject, v.done, v.value);
+                  ((v = o[n](v)), settle(resolve, reject, v.done, v.value));
                 });
               };
           }
@@ -53405,7 +53432,7 @@ PERFORMANCE OF THIS SOFTWARE.
           if (kind === 'a' && !f) throw new TypeError('Private accessor was defined without a setter');
           if (typeof state === 'function' ? receiver !== state || !f : !state.has(receiver))
             throw new TypeError('Cannot write private member to an object whose class did not declare it');
-          return kind === 'a' ? f.call(receiver, value) : f ? (f.value = value) : state.set(receiver, value), value;
+          return (kind === 'a' ? f.call(receiver, value) : f ? (f.value = value) : state.set(receiver, value), value);
         }
 
         function __classPrivateFieldIn(state, receiver) {
@@ -53439,7 +53466,7 @@ PERFORMANCE OF THIS SOFTWARE.
             ? SuppressedError
             : function (error, suppressed, message) {
                 var e = new Error(message);
-                return (e.name = 'SuppressedError'), (e.error = error), (e.suppressed = suppressed), e;
+                return ((e.name = 'SuppressedError'), (e.error = error), (e.suppressed = suppressed), e);
               };
 
         function __disposeResources(env) {

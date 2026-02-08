@@ -40,10 +40,9 @@
 
         <script src="/static/admin/lib/ui/loader.js"></script>
         <script>
-          window.jinyaConfig = {
-            openIdClientId: '{{ .OidcFrontendClientId }}',
-            openIdUrl: 'https://{{ .OidcDomain }}',
-            openIdCallbackUrl: `${location.origin}/admin/login/callback`,
+          window.jinyaOpenIdConfig = {
+            authority: 'https://{{ .OidcDomain }}',
+            client_id: '{{ .OidcFrontendClientId }}',
           };
         </script>
     </head>

@@ -11,9 +11,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     defaultPage: 'page',
     baseScriptPath: '/static/admin/js/',
     routerBasePath: '/admin',
-    openIdClientId: window.jinyaConfig.openIdClientId,
-    openIdUrl: window.jinyaConfig.openIdUrl,
-    openIdCallbackUrl: window.jinyaConfig.openIdCallbackUrl,
+    storagePrefix: '/jinya/fonts',
+    openIdConfig: jinyaOpenIdConfig,
     languages: { de: MessagesDe, en: MessagesEn },
     afterSetup() {
       Alpine.store('syncProgress', {
