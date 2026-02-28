@@ -13,6 +13,7 @@ stages:
 .base-docker:
   image: registry.ulbricht.casa/docker-images/buildah:latest
   before_script:
+    - echo "$DOCKERHUB_PASSWORD" | buildah login -u "$DOCKERHUB_USER" --password-stdin docker.io
     - echo "$CI_REGISTRY_PASSWORD" | buildah login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
     - echo "$CI_JOB_TOKEN" | buildah login -u gitlab-ci-token --password-stdin gitlab.imanuel.dev:443
 
