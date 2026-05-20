@@ -29,7 +29,7 @@ plugins:
 
 logo: docs/assets/favicon-512x512.png
 
-remote_theme: BDHU/minimalist
+remote_theme: DerKnerd/minimalist
 
 favicon: true
 

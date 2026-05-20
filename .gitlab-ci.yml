@@ -108,9 +108,8 @@ variables:
 
 pages:
   stage: deploy
-  image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/library/ruby:latest
+  image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/library/ruby:3
   before_script:
-    - gem install bundler
     - bundle install
   script:
   - bundle exec jekyll build -d public
