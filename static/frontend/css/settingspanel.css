@@ -1,12 +1,4 @@
 .jinya-settings-panel {
-  position: sticky;
-  top: 0;
-  background: var(--white);
-  border-bottom-right-radius: 0.25rem;
-  border-top-right-radius: 0.25rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  background: var(--white);
   display: none;
   z-index: 1;
 
@@ -26,9 +18,9 @@
   display: none;
 
   @media screen and (min-width: 786px) {
-    padding-bottom: 1rem;
     display: flex;
     align-items: center;
+    padding: 0 1rem;
   }
 }
 
@@ -46,8 +38,8 @@
   &::after,
   &::before {
     transition:
-      border-color var(--transition-duration),
-      background-color var(--transition-duration);
+            border-color var(--transition-duration),
+            background-color var(--transition-duration);
   }
 
   &::before {
@@ -93,9 +85,11 @@
   --range-border-color: var(--control-border-color);
   --range-thumb-color: var(--control-border-color);
 
+  background-color: var(--modal-background-lighter);
+  border-top-right-radius: var(--border-radius);
+  backdrop-filter: blur(24px);
   appearance: none;
   width: 100%;
-  background: transparent;
   border: 0.0625rem solid var(--range-border-color);
   margin: 0;
   box-sizing: border-box;
@@ -178,11 +172,11 @@
 .jinya-preview__text,
 .jinya-preview__size-text {
   display: none;
+  background-color: var(--modal-background-lighter);
+  backdrop-filter: blur(24px);
   border: 0.0625rem solid var(--control-border-color);
   font-size: 1rem;
   font-family: var(--font-family-default);
-  border-radius: 0;
-  background: var(--white);
   box-sizing: border-box;
   width: 100%;
   padding: 0.5rem 1rem;
@@ -203,18 +197,18 @@
 
 .jinya-search-box {
   display: none;
+  background-color: var(--modal-background-lighter);
+  border-top-left-radius: var(--border-radius);
+  backdrop-filter: blur(24px);
   border: 0.0625rem solid var(--control-border-color);
   font-size: 1rem;
   font-family: var(--font-family-default);
-  border-radius: 0.25rem 0 0 0.25rem;
-  background: var(--white);
   box-sizing: border-box;
   width: 100%;
   padding: 0.5rem 1rem;
   height: 2.5rem;
   align-items: center;
   color: var(--text-color);
-  background: var(--white);
 
   &:focus {
     border-color: var(--primary-color);
