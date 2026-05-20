@@ -1,11 +1,11 @@
 {{define "content"}}
-    <div x-data="detailData">
+    <div class="jinya-font-details" x-data="detailData">
         <h1 class="jinya-font-details__title">{{ .Font.Name }}</h1>
         <span class="jinya-font-details__designers-hint">{{ translate "detail-designed-by" .Designers }}</span>
         <h2 class="jinya-font-details__title jinya-font-details__title--about">{{ translate "detail-about" .Font.Name }}</h2>
         <div class="jinya-font-details__about-paragraphs">{{ noescape .Font.Description }}</div>
         <h3 class="jinya-font-details__title jinya-font-details__title--license">{{ translate "license" }}</h3>
-        <p>
+        <p class="jinya-font-details__license">
             {{ if eq .Font.License "apache2" }}
                 <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>
             {{ else if eq .Font.License "ofl" }}
@@ -31,7 +31,6 @@
                     {{ translate "download-button" }}
                 </a>
             </div>
-            <hr>
         </div>
         <div class="jinya-settings-panel jinya-settings-panel--details">
             <select aria-label="Preview type" id="previewtype" class="jinya-preview__type" x-model="previewType">
