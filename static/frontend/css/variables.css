@@ -1,114 +1,95 @@
 :root {
+  --primary-hue: 211;
+  --primary-saturation: 50%;
+  --primary-lightness-base: 20%;
 
-    --primary-hue: 211;
-    --primary-saturation: 50%;
-    --primary-lightness-base: 20%;
+  --gray-hue: 0;
+  --gray-saturation: 0%;
+  --gray-lightness-base: 80%;
 
-    --gray-hue: 0;
-    --gray-saturation: 0%;
-    --gray-lightness-base: 80%;
+  --light-step: 10%;
+  --lighter-step: 20%;
 
-    --light-step: 10%;
-    --lighter-step: 20%;
+  --dark-step: -10%;
+  --darker-step: -20%;
 
-    --dark-step: -10%;
-    --darker-step: -20%;
+  --white-base: 255;
+  --black-base: 51;
 
-    --white-base: 255;
-    --black-base: 51;
+  --border-radius: 0.5rem;
 
-    --border-radius: 0.5rem;
+  --font-size: 1.25rem;
+  --font-weight-bold: bold;
+  --font-weight-normal: normal;
+  --font-weight-light: 300;
+  --font-family: 'Albert Sans', sans-serif;
 
-    --font-size: 1.25rem;
-    --font-weight-bold: bold;
-    --font-weight-normal: normal;
-    --font-weight-light: 300;
-    --font-family: 'Albert Sans', sans-serif;
+  --font-family-heading: Urbanist, sans-serif;
+  --font-weight-heading: 200;
 
-    --font-family-heading: Urbanist, sans-serif;
-    --font-weight-heading: 200;
+  --font-family-code: 'Oxygen Mono', monospace;
 
-    --font-family-code: 'Oxygen Mono', monospace;
+  --line-height: 1.1875;
 
-    --line-height: 1.1875;
+  --transition-duration: 0.3s;
 
-    --transition-duration: 0.3s;
+  --control-height: 1.875rem;
 
-    --control-height: 1.875rem;
+  --gradient-multiplier: 4;
 
-    --gradient-multiplier: 4;
+  --primary-color: hsl(var(--primary-hue) var(--primary-saturation) var(--primary-lightness-base));
+  --primary-color-light: hsl(
+    var(--primary-hue) var(--primary-saturation) calc(var(--primary-lightness-base) + var(--light-step))
+  );
+  --primary-color-lighter: hsl(
+    var(--primary-hue) var(--primary-saturation) calc(var(--primary-lightness-base) + var(--lighter-step))
+  );
+  --primary-color-dark: hsl(
+    var(--primary-hue) var(--primary-saturation) calc(var(--primary-lightness-base) + var(--dark-step))
+  );
+  --primary-color-darker: hsl(
+    var(--primary-hue) var(--primary-saturation) calc(var(--primary-lightness-base) + var(--darker-step))
+  );
+  --primary-color-alpha-05: hsl(var(--primary-hue) var(--primary-saturation) var(--primary-lightness-base) / 15%);
+  --primary-color-alpha-25: hsl(var(--primary-hue) var(--primary-saturation) var(--primary-lightness-base) / 25%);
+  --primary-color-alpha-50: hsl(var(--primary-hue) var(--primary-saturation) var(--primary-lightness-base) / 50%);
+  --primary-color-alpha-75: hsl(var(--primary-hue) var(--primary-saturation) var(--primary-lightness-base) / 75%);
+  --primary-color-alpha-90: hsl(var(--primary-hue) var(--primary-saturation) var(--primary-lightness-base) / 90%);
 
-    --primary-color: hsl(var(--primary-hue) var(--primary-saturation) var(--primary-lightness-base));
-    --primary-color-light: hsl(
-            var(--primary-hue) var(--primary-saturation) calc(var(--primary-lightness-base) + var(--light-step))
-    );
-    --primary-color-lighter: hsl(
-            var(--primary-hue) var(--primary-saturation) calc(var(--primary-lightness-base) + var(--lighter-step))
-    );
-    --primary-color-dark: hsl(
-            var(--primary-hue) var(--primary-saturation) calc(var(--primary-lightness-base) + var(--dark-step))
-    );
-    --primary-color-darker: hsl(
-            var(--primary-hue) var(--primary-saturation) calc(var(--primary-lightness-base) + var(--darker-step))
-    );
-    --primary-color-alpha-05: hsl(
-            var(--primary-hue) var(--primary-saturation) var(--primary-lightness-base) / 15%
-    );
-    --primary-color-alpha-25: hsl(
-            var(--primary-hue) var(--primary-saturation) var(--primary-lightness-base) / 25%
-    );
-    --primary-color-alpha-50: hsl(
-            var(--primary-hue) var(--primary-saturation) var(--primary-lightness-base) / 50%
-    );
-    --primary-color-alpha-75: hsl(
-            var(--primary-hue) var(--primary-saturation) var(--primary-lightness-base) / 75%
-    );
-    --primary-color-alpha-90: hsl(
-            var(--primary-hue) var(--primary-saturation) var(--primary-lightness-base) / 90%
-    );
+  --gray: hsl(var(--gray-hue), var(--gray-saturation), var(--gray-lightness-base));
+  --gray-light: hsl(var(--gray-hue) var(--gray-saturation) calc(var(--gray-lightness-base) + var(--light-step)));
+  --gray-lighter: hsl(var(--gray-hue) var(--gray-saturation) calc(var(--gray-lightness-base) + var(--lighter-step)));
+  --gray-dark: hsl(var(--gray-hue) var(--gray-saturation) calc(var(--gray-lightness-base) + var(--dark-step)));
+  --gray-darker: hsl(var(--gray-hue) var(--gray-saturation) calc(var(--gray-lightness-base) + var(--darker-step)));
 
-    --gray: hsl(var(--gray-hue), var(--gray-saturation), var(--gray-lightness-base));
-    --gray-light: hsl(
-            var(--gray-hue) var(--gray-saturation) calc(var(--gray-lightness-base) + var(--light-step))
-    );
-    --gray-lighter: hsl(
-            var(--gray-hue) var(--gray-saturation) calc(var(--gray-lightness-base) + var(--lighter-step))
-    );
-    --gray-dark: hsl(
-            var(--gray-hue) var(--gray-saturation) calc(var(--gray-lightness-base) + var(--dark-step))
-    );
-    --gray-darker: hsl(
-            var(--gray-hue) var(--gray-saturation) calc(var(--gray-lightness-base) + var(--darker-step))
-    );
+  --white: rgb(var(--white-base) var(--white-base) var(--white-base));
+  --black: rgb(var(--black-base) var(--black-base) var(--black-base));
 
-    --white: rgb(var(--white-base) var(--white-base) var(--white-base));
-    --black: rgb(var(--black-base) var(--black-base) var(--black-base));
+  --modal-background: rgba(var(--white-base) var(--white-base) var(--white-base) / 50%);
+  --modal-background-lighter: rgba(var(--white-base) var(--white-base) var(--white-base) / 25%);
+  --text-color: var(--black);
+  --control-border-color: var(--gray-dark);
+  --code-color: #fafafa;
+  --border-color: var(--primary-color);
+  --checkmark-color: var(--white);
+  --no-match-color: var(--primary-color);
 
-    --modal-background: rgba(var(--white-base) var(--white-base) var(--white-base) / 50%);
-    --modal-background-lighter: rgba(var(--white-base) var(--white-base) var(--white-base) / 25%);
-    --text-color: var(--black);
-    --control-border-color: var(--gray-dark);
-    --code-color: #fafafa;
-    --border-color: var(--primary-color);
-    --checkmark-color: var(--white);
-    --no-match-color: var(--primary-color);
+  --checkbox-size: 1rem;
+  --checkbox-mark-longarm: 0.5rem;
+  --checkbox-mark-shortarm: 0.125rem;
+  --checkbox-mark-stroke-width: 0.0625rem;
 
-    --checkbox-size: 1rem;
-    --checkbox-mark-longarm: 0.5rem;
-    --checkbox-mark-shortarm: 0.125rem;
-    --checkbox-mark-stroke-width: 0.0625rem;
+  --input-border-width: 0.0625rem;
 
-    --input-border-width: 0.0625rem;
+  --font-family-default: 'Albert Sans', sans-serif;
+  --font-family-display: Urbanist, display;
+  --font-family-monospace: 'Oxygen Mono', monospace;
 
-    --font-family-default: 'Albert Sans', sans-serif;
-    --font-family-display: Urbanist, display;
-    --font-family-monospace: 'Oxygen Mono', monospace;
-
-    --font-weight-button: 200;
-    --font-weight-title: 200;
-    --font-weight-hint: 300;
-    --font-weight-card-title: 300;
-    --font-weight-style-title: 200;
-    --font-weight-designer-name: 400;
-    --font-weight-default: 300;
+  --font-weight-button: 200;
+  --font-weight-title: 200;
+  --font-weight-hint: 300;
+  --font-weight-card-title: 300;
+  --font-weight-style-title: 200;
+  --font-weight-designer-name: 400;
+  --font-weight-default: 300;
 }

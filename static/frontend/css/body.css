@@ -5,7 +5,7 @@ body {
   font-family: var(--font-family-default);
   color: var(--text-color);
   font-weight: var(--font-weight-default);
-  background: url("/static/img/background.webp");
+  background: url('/static/img/background.webp');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
