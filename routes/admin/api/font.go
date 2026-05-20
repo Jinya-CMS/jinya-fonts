@@ -140,7 +140,7 @@ func combineFontFilesAndDesigners(fonts []database.Webfont, designers map[string
 }
 
 func getApiFontList(google bool) ([]apiFont, error) {
-	fonts, err := database.Select[database.Webfont]("select * from font where google_font = $1", google)
+	fonts, err := database.Select[database.Webfont]("select * from font where google_font = $1 order by name", google)
 	if err != nil {
 		return nil, err
 	}
@@ -154,7 +154,7 @@ func getApiFontList(google bool) ([]apiFont, error) {
 }
 
 func getFullApiFontList() ([]apiFont, error) {
-	fonts, err := database.Select[database.Webfont]("select * from font")
+	fonts, err := database.Select[database.Webfont]("select * from font order by name")
 	if err != nil {
 		return nil, err
 	}
