@@ -55,7 +55,7 @@ func downloadFont(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		zipFontFileWriter, err := zipWriter.Create(fileName)
+		zipFontFileWriter, err := zipWriter.Create("fonts/" + fileName)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return

@@ -1,9 +1,12 @@
 .jinya-page {
-  padding: 0;
+  padding: 1rem;
+  box-sizing: border-box;
   margin: 0 1%;
   min-height: 100vh;
+  max-height: 100vh;
   display: grid;
   grid-template-rows: [header] auto [body] 1fr [footer] auto;
+  gap: 1rem;
 
   @media screen and (min-width: 768px) {
     margin: 0 10%;
@@ -11,10 +14,12 @@
 }
 
 .jinya-title {
+  background-color: var(--modal-background);
+  border-radius: var(--border-radius);
+  backdrop-filter: blur(24px);
+  box-sizing: border-box;
   font-size: 2rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 0.0625rem solid var(--border-color);
+  padding: 1rem;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -23,19 +28,27 @@
   color: var(--text-color);
 }
 
+.jinya-index {
+  background-color: var(--modal-background);
+  border-radius: var(--border-radius);
+  backdrop-filter: blur(24px);
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 1rem;
+  max-height: 100%;
+  overflow: hidden;
+}
+
 .jinya-footer {
-  border-top: 0.0625rem solid var(--border-color);
-  padding-top: 0.5rem;
+  padding: 0.5rem 1rem;
   background: var(--white);
   grid-row: footer;
+  background-color: var(--modal-background);
+  border-radius: var(--border-radius);
+  backdrop-filter: blur(24px);
 
   p {
-    padding-bottom: 0.5rem;
+    padding-bottom: 0;
     margin: 0;
-  }
-
-  @media screen and (min-width: 768px) {
-    position: sticky;
-    bottom: 0;
   }
 }

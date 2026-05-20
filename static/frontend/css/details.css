@@ -1,3 +1,11 @@
+.jinya-font-details {
+  height: 100%;
+  overflow: auto;
+  background-color: var(--modal-background);
+  border-radius: var(--border-radius);
+  backdrop-filter: blur(24px);
+}
+
 .jinya-font-details__style-preview {
   max-width: 80vw;
   display: block;
@@ -7,6 +15,8 @@
   text-overflow: ellipsis;
   background: var(--code-color);
   box-sizing: border-box;
+  background-color: var(--modal-background-lighter);
+  backdrop-filter: blur(24px);
 
   @media screen and (max-width: 768px) {
     max-width: 98vw;
@@ -15,7 +25,7 @@
 
 .jinya-font-details__title {
   margin: 0;
-  padding-top: 1rem;
+  padding: 1rem;
   font-size: 2rem;
   font-weight: var(--font-weight-title);
   font-family: var(--font-family-display);
@@ -31,14 +41,21 @@
 
 .jinya-font-details__title--license {
   font-size: 1.25rem;
+  padding: 0 1rem;
+}
+
+.jinya-font-details__license {
+  padding: 0 1rem;
 }
 
 .jinya-font-details__designers-hint {
   font-size: 1.25rem;
   font-weight: var(--font-weight-hint);
+  padding: 0 1rem;
 }
 
 .jinya-font-details__about-paragraphs {
+  padding: 0 1rem;
   @media screen and (min-width: 768px) {
     width: 50%;
   }
@@ -55,6 +72,7 @@
   display: flex;
   justify-content: space-between;
   align-items: end;
+  padding: 0 1rem;
 }
 
 .jinya-font-details__designer-name {
@@ -106,7 +124,8 @@
       border-color 0.3s,
       color 0.3s;
     font-weight: var(--font-weight-button);
-    background: var(--white);
+    background-color: var;
+    backdrop-filter: blur(24px);
     color: var(--text-color);
     font-family: var(--font-family-display);
   }
@@ -120,6 +139,7 @@
     background-color 0.3s,
     border-color 0.3s,
     color 0.3s;
+  margin: 0 1rem 1rem;
 }
 
 .jinya-font-links__download {
@@ -140,10 +160,8 @@
 
 .jinya-font-links__code {
   flex: 0 0 100%;
-}
-
-.jinya-font-links__code {
-  background: var(--code-color);
+  background-color: var(--modal-background-lighter);
+  backdrop-filter: blur(24px);
   padding: 1rem;
   font-size: 1rem;
   font-family: var(--font-family-monospace);
@@ -160,9 +178,6 @@
 }
 
 .jinya-settings-panel--details {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  background: var(--white);
   grid-template-columns: 15rem 1fr 6rem 0.75fr;
 
   @media screen and (max-width: 768px) {
@@ -173,5 +188,6 @@
 hr {
   border: none;
   border-bottom: 1px solid var(--primary-color);
-  width: 100%;
+  width: calc(100% - 2rem);
+  margin: 0 1rem;
 }
