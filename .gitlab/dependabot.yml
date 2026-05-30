@@ -4,8 +4,11 @@ updates:
     directory: "/"
     schedule:
       interval: daily
-      time: "04:00"
-  - package-ecosystem: npm
+  - package-ecosystem: bun
+    directory: "/"
+    schedule:
+      interval: daily
+  - package-ecosystem: bundler
     directory: "/"
     schedule:
       interval: daily
