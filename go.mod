@@ -13,7 +13,7 @@ require (
 	github.com/sakirsensoy/genv v1.2.0
 	github.com/zitadel/zitadel-go/v3 v3.29.1
 	go-simpler.org/env v0.12.0
-	golang.org/x/text v0.38.0
+	golang.org/x/text v0.39.0
 )
 
 require (
