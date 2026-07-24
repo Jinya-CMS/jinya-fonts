@@ -25,7 +25,7 @@ lint:
     - bun run lint
 
 build:
-  image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/library/golang:1.25-alpine
+  image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/library/golang:alpine
   stage: build
   script:
     - go vet .
