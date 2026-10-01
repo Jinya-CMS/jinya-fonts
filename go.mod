@@ -11,7 +11,7 @@ require (
 	github.com/minio/minio-go/v7 v7.3.0
 	github.com/redis/go-redis/v9 v9.22.0
 	github.com/sakirsensoy/genv v1.2.0
-	github.com/zitadel/zitadel-go/v3 v3.29.5
+	github.com/zitadel/zitadel-go/v3 v3.30.0
 	go-simpler.org/env v0.12.0
 	golang.org/x/text v0.42.0
 )

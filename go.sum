@@ -218,8 +218,8 @@ github.com/zitadel/oidc/v3 v3.49.6 h1:FMoasVXsHK3xvA1bcDrjGsc5ppJ1MQ4eW51j4oj+58
 github.com/zitadel/oidc/v3 v3.49.6/go.mod h1:KQmYte+zOePAeVwR3LM153dxWBC9orWZAIa4w9r1ZhU=
 github.com/zitadel/schema v1.3.2 h1:gfJvt7dOMfTmxzhscZ9KkapKo3Nei3B6cAxjav+lyjI=
 github.com/zitadel/schema v1.3.2/go.mod h1:IZmdfF9Wu62Zu6tJJTH3UsArevs3Y4smfJIj3L8fzxw=
-github.com/zitadel/zitadel-go/v3 v3.29.5 h1:1GHv0dyNmEtxbgPCWuxvi4Np9QZzReWxpq5Z4ugaDLY=
-github.com/zitadel/zitadel-go/v3 v3.29.5/go.mod h1:4R+aki0JFMwIPsr4CIVLYq5DRTVEAfLbehJpFNhFKQw=
+github.com/zitadel/zitadel-go/v3 v3.30.0 h1:yk/surQ+atLS/ocGaaJdHD/R6VbveFScihxJhIkGZ3Q=
+github.com/zitadel/zitadel-go/v3 v3.30.0/go.mod h1:4R+aki0JFMwIPsr4CIVLYq5DRTVEAfLbehJpFNhFKQw=
 go-simpler.org/env v0.12.0 h1:kt/lBts0J1kjWJAnB740goNdvwNxt5emhYngL0Fzufs=
 go-simpler.org/env v0.12.0/go.mod h1:cc/5Md9JCUM7LVLtN0HYjPTDcI3Q8TDaPlNTAlDU+WI=
 go.etcd.io/bbolt v1.3.2/go.mod h1:IbVyRI1SCnLcuJnV2u8VeU0CEYM7e686BmAb1XKL+uU=
