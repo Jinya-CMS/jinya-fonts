@@ -35,7 +35,7 @@ type family struct {
 }
 
 func convertFamilyToTemplateData(fam family, display string) []templateData {
-	webfont, err := database.Get[database.Webfont](fam.Name)
+	webfont, err := database.GetDbMap().GetType[database.Webfont](fam.Name)
 	if err != nil {
 		return []templateData{}
 	}
@@ -126,7 +126,7 @@ func getCss2(w http.ResponseWriter, r *http.Request) {
 			if len(splitFamily) == 1 {
 				families = append(families, family{splitFamily[0], false, "400"})
 			} else if len(splitFamily) == 2 && slices.Contains(splitFamily, "all") {
-				font, err := database.Get[database.Webfont](splitFamily[0])
+				font, err := database.GetDbMap().GetType[database.Webfont](splitFamily[0])
 				if err != nil {
 					http.NotFound(w, r)
 					return

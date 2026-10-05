@@ -34,7 +34,7 @@ type apiFont struct {
 }
 
 func getWebFont(name string) (*database.Webfont, []database.Designer, []database.File, error) {
-	font, err := database.Get[database.Webfont](name)
+	font, err := database.GetDbMap().GetType[database.Webfont](name)
 	if err != nil {
 		return nil, nil, nil, err
 	}
@@ -79,12 +79,12 @@ func groupFilesAndDesignersByFont(dbFiles []database.File, dbDesigners []databas
 }
 
 func getWebFontsDetails(google bool) (map[string][]database.Designer, map[string][]database.File, error) {
-	designers, err := database.Select[database.Designer]("select d.* from designer d join font f on f.name = d.font where f.google_font = $1", google)
+	designers, err := database.GetDbMap().SelectType[database.Designer]("select d.* from designer d join font f on f.name = d.font where f.google_font = $1", google)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	files, err := database.Select[database.File]("select d.* from file d join font f on f.name = d.font where f.google_font = $1", google)
+	files, err := database.GetDbMap().SelectType[database.File]("select d.* from file d join font f on f.name = d.font where f.google_font = $1", google)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -93,12 +93,12 @@ func getWebFontsDetails(google bool) (map[string][]database.Designer, map[string
 }
 
 func getWebFontDetails(name string) ([]database.Designer, []database.File, error) {
-	designers, err := database.Select[database.Designer]("select * from designer where font = $1", name)
+	designers, err := database.GetDbMap().SelectType[database.Designer]("select * from designer where font = $1", name)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	files, err := database.Select[database.File]("select * from file where font = $1", name)
+	files, err := database.GetDbMap().SelectType[database.File]("select * from file where font = $1", name)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -107,12 +107,12 @@ func getWebFontDetails(name string) ([]database.Designer, []database.File, error
 }
 
 func getAllWebFontDetails() (map[string][]database.Designer, map[string][]database.File, error) {
-	designers, err := database.Select[database.Designer]("select * from designer")
+	designers, err := database.GetDbMap().SelectType[database.Designer]("select * from designer")
 	if err != nil {
 		return nil, nil, err
 	}
 
-	files, err := database.Select[database.File]("select * from file")
+	files, err := database.GetDbMap().SelectType[database.File]("select * from file")
 	if err != nil {
 		return nil, nil, err
 	}
@@ -140,7 +140,7 @@ func combineFontFilesAndDesigners(fonts []database.Webfont, designers map[string
 }
 
 func getApiFontList(google bool) ([]apiFont, error) {
-	fonts, err := database.Select[database.Webfont]("select * from font where google_font = $1 order by name", google)
+	fonts, err := database.GetDbMap().SelectType[database.Webfont]("select * from font where google_font = $1 order by name", google)
 	if err != nil {
 		return nil, err
 	}
@@ -154,7 +154,7 @@ func getApiFontList(google bool) ([]apiFont, error) {
 }
 
 func getFullApiFontList() ([]apiFont, error) {
-	fonts, err := database.Select[database.Webfont]("select * from font order by name")
+	fonts, err := database.GetDbMap().SelectType[database.Webfont]("select * from font order by name")
 	if err != nil {
 		return nil, err
 	}
@@ -208,7 +208,7 @@ func getCustomFonts(w http.ResponseWriter, r *http.Request) {
 
 func GetFontByName(w http.ResponseWriter, r *http.Request) {
 	fontName := mux.Vars(r)["fontName"]
-	font, err := database.Get[database.Webfont](fontName)
+	font, err := database.GetDbMap().GetType[database.Webfont](fontName)
 	if err != nil {
 		http.NotFound(w, r)
 		return
@@ -239,7 +239,7 @@ func createFont(w http.ResponseWriter, r *http.Request) {
 		GoogleFont:  false,
 	}
 
-	err = database.Insert(font)
+	err = database.GetDbMap().Insert(font)
 	if err != nil {
 		http.Error(w, "Failed to create font", http.StatusInternalServerError)
 		return
@@ -256,7 +256,7 @@ func createFont(w http.ResponseWriter, r *http.Request) {
 
 func updateFont(w http.ResponseWriter, r *http.Request) {
 	fontName := mux.Vars(r)["fontName"]
-	font, err := database.Get[database.Webfont](fontName)
+	font, err := database.GetDbMap().GetType[database.Webfont](fontName)
 	if err != nil {
 		http.NotFound(w, r)
 		return
@@ -275,7 +275,7 @@ func updateFont(w http.ResponseWriter, r *http.Request) {
 	font.License = body.License
 	font.Category = body.Category
 
-	rows, err := database.Update(font)
+	rows, err := database.GetDbMap().Update(font)
 	if err != nil {
 		http.Error(w, "Failed to update font", http.StatusInternalServerError)
 		return

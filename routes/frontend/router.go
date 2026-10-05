@@ -77,7 +77,7 @@ func indexPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func detailPage(w http.ResponseWriter, r *http.Request) {
-	font, err := database.Get[database.Webfont](r.URL.Query().Get("font"))
+	font, err := database.GetDbMap().GetType[database.Webfont](r.URL.Query().Get("font"))
 	if err != nil {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return

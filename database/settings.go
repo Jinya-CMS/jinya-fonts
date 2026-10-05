@@ -5,26 +5,26 @@ import (
 )
 
 func CreateSettingsIfNotExists() (*JinyaFontsSettings, error) {
-	settings, err := SelectOne[JinyaFontsSettings]("select * from settings limit 1")
+	settings, err := dbMap.SelectOneType[JinyaFontsSettings]("select * from settings limit 1")
 	if err == nil {
-		return &settings, nil
+		return settings, nil
 	}
 
-	settings = JinyaFontsSettings{
+	settings = &JinyaFontsSettings{
 		FilterByNameDb: "",
 		SyncEnabled:    true,
 		SyncInterval:   "0 0 1 * *",
 	}
 
-	err = Insert(settings)
+	err = dbMap.Insert(settings)
 
-	return &settings, err
+	return settings, err
 }
 
 func GetSettings() (*JinyaFontsSettings, error) {
-	settings, err := SelectOne[JinyaFontsSettings]("select * from settings limit 1")
+	settings, err := dbMap.SelectOneType[JinyaFontsSettings]("select * from settings limit 1")
 
-	return &settings, err
+	return settings, err
 }
 
 func UpdateSettings(settings *JinyaFontsSettings) error {

@@ -5,7 +5,7 @@ import (
 )
 
 func GetDesigners(name string) ([]Designer, error) {
-	return Select[Designer]("select * from designer where font = $1", name)
+	return dbMap.SelectType[Designer]("select * from designer where font = $1", name)
 }
 
 func createDesigner(font *Webfont, designer Designer) (*Designer, error) {
@@ -21,7 +21,7 @@ func deleteDesigner(font *Webfont, designerName string) error {
 }
 
 func CreateDesigner(name string, designer Designer) (*Designer, error) {
-	font, err := Get[Webfont](name)
+	font, err := dbMap.GetType[Webfont](name)
 	if err != nil {
 		return nil, err
 	}
@@ -34,31 +34,13 @@ func CreateDesigner(name string, designer Designer) (*Designer, error) {
 }
 
 func DeleteDesigner(name string, designerName string) error {
-	font, err := Get[Webfont](name)
+	font, err := dbMap.GetType[Webfont](name)
 	if err != nil {
 		return err
 	}
 
 	if font.GoogleFont {
 		return fmt.Errorf("cannot remove designers from a google font")
-	}
-
-	return deleteDesigner(font, designerName)
-}
-
-func CreateGoogleDesigner(name string, designer Designer) (*Designer, error) {
-	font, err := Get[Webfont](name)
-	if err != nil {
-		return nil, err
-	}
-
-	return createDesigner(font, designer)
-}
-
-func DeleteGoogleDesigner(name string, designerName string) error {
-	font, err := Get[Webfont](name)
-	if err != nil {
-		return err
 	}
 
 	return deleteDesigner(font, designerName)

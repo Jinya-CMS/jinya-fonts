@@ -19,7 +19,7 @@ func downloadFont(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	webfont, err := database.Get[database.Webfont](font)
+	webfont, err := database.GetDbMap().GetType[database.Webfont](font)
 	if err != nil {
 		http.NotFound(w, r)
 		return

@@ -136,7 +136,7 @@ func handleWebfont(channel chan GoogleWebfont, wg *sync.WaitGroup, cpu int) {
 			GoogleFont:  true,
 		}
 
-		err = database.Insert(fontFile)
+		err = database.GetDbMap().Insert(fontFile)
 		if err != nil {
 			logWithCpu(cpu, "Failed to create new font: %s", err.Error())
 			continue
@@ -144,7 +144,7 @@ func handleWebfont(channel chan GoogleWebfont, wg *sync.WaitGroup, cpu int) {
 
 		for _, designer := range webfontMetadata.Designers {
 			designer.Font = font.Family
-			err = database.Insert(designer)
+			err = database.GetDbMap().Insert(designer)
 			if err != nil {
 				logWithCpu(cpu, "Failed to create new font: %s", err.Error())
 			}

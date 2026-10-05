@@ -4,7 +4,7 @@ import (
 	"context"
 	"jinya-fonts/config"
 
-	"github.com/DerKnerd/gorp"
+	"github.com/DerKnerd/gorp/v4"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/jackc/pgx/v5/stdlib"
 )
@@ -29,16 +29,16 @@ func SetupDatabase() {
 		dbMap = &gorp.DbMap{Db: conn, Dialect: dialect}
 
 		dbMap.
-			AddTableWithName(Webfont{}, "font")
+			AddTableWithName[Webfont]("font")
 		designer := dbMap.
-			AddTableWithName(Designer{}, "designer")
+			AddTableWithName[Designer]("designer")
 		designer.
 			SetKeys(false, "name", "font")
 
 		dbMap.
-			AddTableWithName(File{}, "file")
+			AddTableWithName[File]("file")
 		dbMap.
-			AddTableWithName(JinyaFontsSettings{}, "settings")
+			AddTableWithName[JinyaFontsSettings]("settings")
 
 		err = dbMap.CreateTablesIfNotExists()
 		if err != nil {

@@ -17,7 +17,7 @@ func GetFontFileName(name, weight, style, fileType string, googleFont bool) stri
 }
 
 func GetFontFiles(name string) ([]database.File, error) {
-	return database.Select[database.File]("select * from file where font = $1 order by weight, style, type", name)
+	return database.GetDbMap().SelectType[database.File]("select * from file where font = $1 order by weight, style, type", name)
 }
 
 func GetFontFile(path string) ([]byte, error) {
@@ -72,7 +72,7 @@ func removeFontFile(font *database.Webfont, weight, style, fileType string) erro
 }
 
 func SetFontFile(name, weight, style, fileType string, data []byte) (*database.File, error) {
-	font, err := database.Get[database.Webfont](name)
+	font, err := database.GetDbMap().GetType[database.Webfont](name)
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +85,7 @@ func SetFontFile(name, weight, style, fileType string, data []byte) (*database.F
 }
 
 func RemoveFontFile(name, weight, style, fileType string) error {
-	font, err := database.Get[database.Webfont](name)
+	font, err := database.GetDbMap().GetType[database.Webfont](name)
 	if err != nil {
 		return err
 	}
@@ -98,7 +98,7 @@ func RemoveFontFile(name, weight, style, fileType string) error {
 }
 
 func SetGoogleFontFile(name, weight, style, fileType string, data []byte) (*database.File, error) {
-	font, err := database.Get[database.Webfont](name)
+	font, err := database.GetDbMap().GetType[database.Webfont](name)
 	if err != nil {
 		return nil, err
 	}
@@ -107,7 +107,7 @@ func SetGoogleFontFile(name, weight, style, fileType string, data []byte) (*data
 }
 
 func RemoveGoogleFontFile(name, weight, style, fileType string) error {
-	font, err := database.Get[database.Webfont](name)
+	font, err := database.GetDbMap().GetType[database.Webfont](name)
 	if err != nil {
 		return err
 	}
