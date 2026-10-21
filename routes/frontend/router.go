@@ -112,6 +112,12 @@ func detailPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func SetupRouter(router *mux.Router) {
-	router.Methods(http.MethodGet).Path("/font").HandlerFunc(detailPage)
-	router.Methods(http.MethodGet).PathPrefix("/").HandlerFunc(indexPage)
+	router.
+		Methods(http.MethodGet).
+		Path("/font").
+		HandlerFunc(detailPage)
+	router.
+		Methods(http.MethodGet).
+		PathPrefix("/").
+		HandlerFunc(indexPage)
 }

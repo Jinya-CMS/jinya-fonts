@@ -57,6 +57,8 @@ func downloadWoff2FontList() ([]GoogleWebfont, error) {
 		return nil, err
 	}
 
+	defer res.Body.Close()
+
 	if res.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("failed to fetch list")
 	}
@@ -99,6 +101,8 @@ func downloadFontFiles(ttf bool, font GoogleWebfont, cpu int) {
 			logWithCpu(cpu, "Failed to load font file from Google server: %s", err.Error())
 			continue
 		}
+
+		defer response.Body.Close()
 
 		if response.StatusCode != http.StatusOK {
 			logWithCpu(cpu, "Failed to load font file from Google server: %s", response.Status)

@@ -59,8 +59,7 @@ func removeCachedFontFile(path string) error {
 }
 
 func ClearGoogleFontsCache() {
-	ctx, cancelFunc := getRedisContext()
-	defer cancelFunc()
+	ctx := context.Background()
 
 	client, err := getRedisClient()
 	if err != nil {

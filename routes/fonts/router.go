@@ -7,7 +7,13 @@ import (
 )
 
 func SetupFontsRouter(router *mux.Router) {
-	router.PathPrefix("/fonts/").Handler(http.StripPrefix("/fonts", fileHandler{}))
-	router.Methods("GET").Path("/css2").HandlerFunc(getCss2)
-	router.HandleFunc("/download", downloadFont)
+	router.
+		PathPrefix("/fonts/").
+		Handler(http.StripPrefix("/fonts", fileHandler{}))
+	router.
+		Methods(http.MethodGet).
+		Path("/css2").
+		HandlerFunc(getCss2)
+	router.
+		HandleFunc("/download", downloadFont)
 }

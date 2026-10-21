@@ -5,6 +5,10 @@ import (
 )
 
 func SetupRouter(router *mux.Router) {
-	router.PathPrefix("/admin/").HandlerFunc(IndexPage)
-	router.Path("/admin").HandlerFunc(IndexPage)
+	router.
+		PathPrefix("/admin/").
+		HandlerFunc(IndexPage)
+	router.
+		Path("/admin").
+		HandlerFunc(IndexPage)
 }

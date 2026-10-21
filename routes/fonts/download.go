@@ -35,6 +35,8 @@ func downloadFont(w http.ResponseWriter, r *http.Request) {
 	zipWriter := zip.NewWriter(buffer)
 	css := ""
 
+	defer zipWriter.Close()
+
 	for _, item := range files {
 		convertedCss, err := convertTemplateDataToCss(templateData{
 			File:        &item,
