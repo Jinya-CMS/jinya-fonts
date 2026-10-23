@@ -1,19 +1,19 @@
 :root {
-  --background: url('/static/img/background.webp');
+  --background: url('/static/admin/img/background.webp');
 }
 
 @media screen and (prefers-color-scheme: dark) {
   :root {
-    --background: url('/static/img/background-dark.webp');
+    --background: url('/static/admin/img/background-dark.webp');
   }
 }
 
 .is--dark {
-  --background: url('/static/img/background-dark.webp');
+  --background: url('/static/admin/img/background-dark.webp');
 }
 
 .is--light {
-  --background: url('/static/img/background.webp');
+  --background: url('/static/admin/img/background.webp');
 }
 
 body {

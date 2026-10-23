@@ -33,82 +33,88 @@ func SetupAdminApiRouter(router *mux.Router) {
 
 	mw := middleware.New(authZ)
 
-	router.
+	adminRouter := router.
+		PathPrefix("/api/admin").
+		Subrouter()
+
+	adminRouter.
 		Methods(http.MethodGet).
-		Path("/api/admin/font/all").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(GetAllFonts))))
-	router.
+		Path("/font/all").
+		Handler(http.HandlerFunc(GetAllFonts))
+	adminRouter.
 		Methods(http.MethodGet).
-		Path("/api/admin/font/google").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(getGoogleFonts))))
-	router.
+		Path("/font/google").
+		Handler(http.HandlerFunc(getGoogleFonts))
+	adminRouter.
 		Methods(http.MethodPost).
-		Path("/api/admin/font/google").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(syncFonts))))
-	router.
+		Path("/font/google").
+		Handler(http.HandlerFunc(syncFonts))
+	adminRouter.
 		Methods(http.MethodGet).
-		Path("/api/admin/font/custom").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(getCustomFonts))))
-	router.
+		Path("/font/custom").
+		Handler(http.HandlerFunc(getCustomFonts))
+	adminRouter.
 		Methods(http.MethodPost).
-		Path("/api/admin/font").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(createFont))))
-	router.
+		Path("/font").
+		Handler(http.HandlerFunc(createFont))
+	adminRouter.
 		Methods(http.MethodGet).
-		Path("/api/admin/font/{fontName}").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(GetFontByName))))
-	router.
+		Path("/font/{fontName}").
+		Handler(http.HandlerFunc(GetFontByName))
+	adminRouter.
 		Methods(http.MethodPut).
-		Path("/api/admin/font/{fontName}").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(updateFont))))
-	router.
+		Path("/font/{fontName}").
+		Handler(http.HandlerFunc(updateFont))
+	adminRouter.
 		Methods(http.MethodDelete).
-		Path("/api/admin/font/{fontName}").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(deleteFont))))
+		Path("/font/{fontName}").
+		Handler(http.HandlerFunc(deleteFont))
 
-	router.
+	adminRouter.
 		Methods(http.MethodGet).
-		Path("/api/admin/font/{fontName}/file").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(GetFontFiles))))
-	router.
+		Path("/font/{fontName}/file").
+		Handler(http.HandlerFunc(GetFontFiles))
+	adminRouter.
 		Methods(http.MethodPost).
-		Path("/api/admin/font/{fontName}/file/{fontWeight}.{fontStyle}.{fontType}").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(createFontFile))))
-	router.
+		Path("/font/{fontName}/file/{fontWeight}.{fontStyle}.{fontType}").
+		Handler(http.HandlerFunc(createFontFile))
+	adminRouter.
 		Methods(http.MethodPut).
-		Path("/api/admin/font/{fontName}/file/{fontWeight}.{fontStyle}.{fontType}").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(updateFontFile))))
-	router.
+		Path("/font/{fontName}/file/{fontWeight}.{fontStyle}.{fontType}").
+		Handler(http.HandlerFunc(updateFontFile))
+	adminRouter.
 		Methods(http.MethodDelete).
-		Path("/api/admin/font/{fontName}/file/{fontWeight}.{fontStyle}.{fontType}").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(deleteFontFile))))
+		Path("/font/{fontName}/file/{fontWeight}.{fontStyle}.{fontType}").
+		Handler(http.HandlerFunc(deleteFontFile))
 
-	router.
+	adminRouter.
 		Methods(http.MethodGet).
-		Path("/api/admin/font/{fontName}/designer").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(GetFontDesigners))))
-	router.
+		Path("/font/{fontName}/designer").
+		Handler(http.HandlerFunc(GetFontDesigners))
+	adminRouter.
 		Methods(http.MethodPost).
-		Path("/api/admin/font/{fontName}/designer").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(createFontDesigner))))
-	router.
+		Path("/font/{fontName}/designer").
+		Handler(http.HandlerFunc(createFontDesigner))
+	adminRouter.
 		Methods(http.MethodDelete).
-		Path("/api/admin/font/{fontName}/designer/{designerName}").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(deleteFontDesigner))))
+		Path("/font/{fontName}/designer/{designerName}").
+		Handler(http.HandlerFunc(deleteFontDesigner))
 
-	router.
+	adminRouter.
 		Methods(http.MethodGet).
-		Path("/api/admin/settings").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(getSettings))))
-	router.
+		Path("/settings").
+		Handler(http.HandlerFunc(getSettings))
+	adminRouter.
 		Methods(http.MethodPut).
-		Path("/api/admin/settings").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(updateSettings))))
+		Path("/settings").
+		Handler(http.HandlerFunc(updateSettings))
 
-	router.
+	adminRouter.
 		Methods(http.MethodGet).
-		Path("/api/admin/status").
-		Handler(mw.RequireAuthorization()(contentTypeJson()(http.HandlerFunc(getStatus))))
+		Path("/status").
+		Handler(http.HandlerFunc(getStatus))
+
+	adminRouter.Use(mw.RequireAuthorization(), contentTypeJson())
 
 	router.
 		Methods(http.MethodGet).
