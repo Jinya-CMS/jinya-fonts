@@ -132,7 +132,7 @@ func handleWebfont(channel chan GoogleWebfont, wg *sync.WaitGroup, cpu int) {
 			continue
 		}
 
-		fontFile := database.Webfont{
+		fontFile := &database.Webfont{
 			Name:        font.Family,
 			Description: webfontMetadata.Description,
 			License:     webfontMetadata.License,
@@ -148,7 +148,7 @@ func handleWebfont(channel chan GoogleWebfont, wg *sync.WaitGroup, cpu int) {
 
 		for _, designer := range webfontMetadata.Designers {
 			designer.Font = font.Family
-			err = database.GetDbMap().Insert(designer)
+			err = database.GetDbMap().Insert(&designer)
 			if err != nil {
 				logWithCpu(cpu, "Failed to create new font: %s", err.Error())
 			}
